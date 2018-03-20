@@ -64,10 +64,9 @@ void cache_print(Cache *c, int level)
     for(i=0; i<c->nbrblocks; i++) {
       printf(" adr %p used %d \n",c->blocks[i],c->used[i]);
       //printf("%zu\n", sizeof(c->blocks[i]));
+    }
   }
-  printf(" number of blocks used %d \n",count_used);
-  
-  
+   
 }
 
 
@@ -103,7 +102,7 @@ static unsigned int cache_hashkey(char *key, int len, int siz){
 
 int my_cache_hashkey(void *adr, Cache* c){
 
-    int code = (long long int)(adr)  % (c->nbrblocks+1) - 1;
+    int code = (long long int)(adr)   % (c->nbrblocks+1) - 1;
     if(code <0) code = 0;
     return code;
 }
@@ -199,9 +198,8 @@ void cache_dotprod_block(int n, Cache *c, int blocksize)
   data_randominit(n, B);
   
   for(i=0; i<n; i++) {
-    int index = i/num_double_in_block;
-    cache_fetchmemory(c, (void *) &(A[index]));
-    cache_fetchmemory(c, (void *) &(B[index]));
+    cache_fetchmemory(c, (void *) &(A[i]));
+    cache_fetchmemory(c, (void *) &(B[i]));
     dot = dot + A[i]*B[i];
   }
   printf(" dot = %lg hits %d misses %d \n",dot,c->hits, c->misses);  
@@ -266,8 +264,8 @@ void cache_test()
 {
 
   int size      = 256;
-  //int strategy  = CACHE_FULLYASSOCIATIVE;
-  int strategy  = CACHE_DIRECT_MAPPING;
+  int strategy  = CACHE_FULLYASSOCIATIVE;
+  //int strategy  = CACHE_DIRECT_MAPPING;
   
   Cache * c = cache_init(size, strategy);
   
@@ -276,7 +274,7 @@ void cache_test()
   cache_reset(c);
   
   cache_matvec ( 512 ,c);
-  cache_print(c, 0);
+  cache_print(c, 1);
   
   cache_reset(c); 
   
