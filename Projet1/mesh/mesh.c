@@ -167,7 +167,7 @@ int    msh_reorder(Mesh *msh)
 {
 
   int iTet, iTri, iVer;
-
+  int i;    
   if ( ! msh            ) return 0;
   if ( msh->NbrVer <= 0 ) return 0;
 
@@ -191,7 +191,8 @@ int    msh_reorder(Mesh *msh)
 
 //http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
     icrit_temp = 0;
-    for (int i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
+    
+    for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
       icrit_temp |= ((x_index & ((unsigned long long int)1 << i)) << 2*i) | ((y_index & ((unsigned long long int)1 << i)) << (2*i + 1)) | ((z_index & ((unsigned long long int)1 << i)) << (2*i + 2));
     }
 
@@ -222,17 +223,19 @@ int    msh_reorder(Mesh *msh)
   double x_index_d = 0;
   double y_index_d = 0;
   double z_index_d = 0;
+  int ver_index=0;
   /* sort triangles */
+  int j;Vertex vertex;
   for(iTri=1; iTri<=msh->NbrTri; iTri++) {
 
     ver_index = 0;
-
-    for(int j = 0; j < 3; j++){
-      ver_index = msh->Tri[iTri].ver[j];
+    
+    for(j = 0; j < 3; j++){
+      ver_index = msh->Tri[iTri].Ver[j];
       vertex = msh->Ver[ver_index];
-      x_index_d += vertex->Crd[0];
-      y_index_d += vertex->Crd[1];
-      z_index_d += vertex->Crd[2];
+      x_index_d += vertex.Crd[0];
+      y_index_d += vertex.Crd[1];
+      z_index_d += vertex.Crd[2];
     }
     x_index = x_index_d / 3.0;
     y_index = y_index_d / 3.0;
@@ -249,7 +252,7 @@ int    msh_reorder(Mesh *msh)
 
 //http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
     icrit_temp = 0;
-    for (int i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
+    for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
       icrit_temp |= ((x_index & ((unsigned long long int)1 << i)) << 2*i) | ((y_index & ((unsigned long long int)1 << i)) << (2*i + 1)) | ((z_index & ((unsigned long long int)1 << i)) << (2*i + 2));
     }
 
@@ -259,6 +262,7 @@ int    msh_reorder(Mesh *msh)
   qsort(&msh->Tri[1],msh->NbrTri,sizeof(Triangle), compar_triangle);
 
   /* sort tetrahedra */
+  
   for(iTet=1; iTet<=msh->NbrTet; iTet++) {
     msh->Tet[iTet].icrit  = rand();
     x_index_d = 0.0;
@@ -266,12 +270,12 @@ int    msh_reorder(Mesh *msh)
     z_index_d = 0.0;
     ver_index = 0;
 
-    for(int j = 0; j < 4; j++){
-      ver_index = msh->Tet[iTet].ver[j];
-      vertex = msh->Tet[ver_index];
-      x_index_d += vertex->Crd[0];
-      y_index_d += vertex->Crd[1];
-      z_index_d += vertex->Crd[2];
+    for(j = 0; j < 4; j++){
+      ver_index = msh->Tet[iTet].Ver[j];
+      vertex = msh->Ver[ver_index];
+      x_index_d += vertex.Crd[0];
+      y_index_d += vertex.Crd[1];
+      z_index_d += vertex.Crd[2];
     }
     x_index = x_index_d / 3.0;
     y_index = y_index_d / 3.0;
@@ -288,7 +292,7 @@ int    msh_reorder(Mesh *msh)
 
 //http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
     icrit_temp = 0;
-    for (int i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
+    for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
       icrit_temp |= ((x_index & ((unsigned long long int)1 << i)) << 2*i) | ((y_index & ((unsigned long long int)1 << i)) << (2*i + 1)) | ((z_index & ((unsigned long long int)1 << i)) << (2*i + 2));
     }
 
