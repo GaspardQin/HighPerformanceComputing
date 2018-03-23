@@ -196,11 +196,13 @@ void cache_dotprod_block(int n, Cache *c, int blocksize)
   
   data_randominit(n, A);
   data_randominit(n, B);
-  
+  int bloc_cached_index ;
   for(i=0; i<n; i++) {
-    cache_fetchmemory(c, (void *) &(A[i]));
-    cache_fetchmemory(c, (void *) &(B[i]));
+    bloc_cached_index = i/num_double_in_block;
+    cache_fetchmemory(c, (void *) &(A[bloc_cached_index]));
+    cache_fetchmemory(c, (void *) &(B[bloc_cached_index]));
     dot = dot + A[i]*B[i];
+    printf(" dot = %lg hits %d misses %d \n",dot,c->hits, c->misses);  
   }
   printf(" dot = %lg hits %d misses %d \n",dot,c->hits, c->misses);  
 }  
@@ -237,8 +239,6 @@ void cache_matvec(int n, Cache *c)
   data_randominit(n*n, (double *) A);
   data_randominit(n, B);
   data_zeroinit(  n, AB);
-  
-  
   for(i=0; i<n; i++) {
     for(j=0; j<n; j++) {
       cache_fetchmemory(c, (void *) &(A[i][j]));
@@ -248,7 +248,29 @@ void cache_matvec(int n, Cache *c)
   }
   printf("  hits %d misses %d \n",c->hits, c->misses);  
 }
-
+void cache_matvec_block(int n, Cache *c, int blocksize)
+{
+  int i,j;
+  double A[n][n];
+  double B[n];
+  double AB[n];
+  
+  if ( ! cache_isvalid(c) ) return;
+  int num_double_in_block = blocksize / 8;
+  data_randominit(n*n, (double *) A);
+  data_randominit(n, B);
+  data_zeroinit(  n, AB);
+  int bloc_cached_index;
+  for(i=0; i<n; i++) {
+    for(j=0; j<n; j++) {
+      bloc_cached_index = j/num_double_in_block;
+      cache_fetchmemory(c, (void *) &(A[i][bloc_cached_index]));
+      cache_fetchmemory(c, (void *) &(B[bloc_cached_index]));
+      AB[i] = AB[i] + A[i][j]*B[j];
+    }
+  }
+  printf("  hits %d misses %d \n",c->hits, c->misses);  
+}
 
 void cache_matmat(int n, Cache *c)
 {
@@ -273,7 +295,8 @@ void cache_test()
   cache_print(c, 1);
   cache_reset(c);
   
-  cache_matvec ( 512 ,c);
+  //cache_matvec ( 512 ,c);
+  cache_matvec_block(512,c, 32);
   cache_print(c, 1);
   
   cache_reset(c); 

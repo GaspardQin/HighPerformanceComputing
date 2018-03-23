@@ -56,5 +56,6 @@ void cache_dotprod(int n, Cache *c);
 void cache_matvec( int n, Cache *c);
 void cache_matmat( int n, Cache *c);
 void cache_dotprod_block(int n, Cache *c, int blocksize);
+void cache_matvec_block(int n, Cache *c, int blocksize);
 void cache_test(void);   /* main functions of tests */
 
