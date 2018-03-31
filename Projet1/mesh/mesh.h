@@ -59,7 +59,7 @@ typedef struct mesh_triangle
   int Ver[3]; /* index of the 3-vertex  */
   int Voi[3]; /* neigbhoring structures */
   int Ref;
-
+  int idxOld;
   unsigned long long int icrit; /* sorting creteria, to be used with qsort  */
 
 } Triangle;
@@ -69,7 +69,7 @@ typedef struct mesh_tetrahedron
   int Ver[4]; /* vertices indices */
   int Voi[4]; /* id of the neigbhoring faces */
   int Ref;
-
+  int idxOld;
   unsigned long long int icrit; /* sorting creteria, to be used with qsort  */
 
 } Tetrahedron;
