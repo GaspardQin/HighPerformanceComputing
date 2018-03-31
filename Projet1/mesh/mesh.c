@@ -162,7 +162,33 @@ int compar_tetrahedron(const void *a, const void *b)
   return ( vb->icrit - va->icrit );
 }
 
+int double_compare( const void* a, const void* b)
+{
+     double _a = * ( (double*) a );
+     double _b = * ( (double*) b );
 
+     if ( _a == _b ) return 0;
+     else if ( _a < _b ) return -1;
+     else return 1;
+}
+int quick_find( double * array,int start, int end, double value){
+  int middle_index = (start + end) /2;
+
+  if(array[middle_index] > value){
+    quick_find(array, start, middle_index - 1, value);
+  }
+  else{
+    if(array[middle_index] < value)
+      quick_find(array, middle_index + 1, end, value);
+    else{
+      if (array[middle_index] == value)
+        return middle_index;
+      else
+        printf("can't find index\n" );
+    }
+  }
+
+}
 int    msh_reorder(Mesh *msh)
 {
 
@@ -177,12 +203,18 @@ int    msh_reorder(Mesh *msh)
   double porp = 1;
   double max_var[3]={0};
   double min_var[3]={0};
+  double *x_list, *y_list, *z_list;
+  x_list = calloc(msh->NbrVer, sizeof(double));
+  y_list = calloc(msh->NbrVer, sizeof(double));
+  z_list = calloc(msh->NbrVer, sizeof(double));
   for(iVer=1; iVer<=msh->NbrVer; iVer++) {
     /* todo msh->bb : used to compute the Z-curve index */
-    x_index = (msh->Ver[iVer].Crd[0] - msh->bb[0])/porp;
-    y_index = (msh->Ver[iVer].Crd[1] - msh->bb[2])/porp;
-    z_index = (msh->Ver[iVer].Crd[2] - msh->bb[4])/porp;
+    x_list[iVer-1] = msh->Ver[iVer].Crd[0];
+    y_list[iVer-1] = msh->Ver[iVer].Crd[1];
+    z_list[iVer-1] = msh->Ver[iVer].Crd[2];
+
     for(i = 0; i < 3; i++){
+
       if(msh->Ver[iVer].Crd[i] > max_var[i])
         max_var[i] = msh->Ver[iVer].Crd[i];
 
@@ -190,6 +222,10 @@ int    msh_reorder(Mesh *msh)
         min_var[i] = msh->Ver[iVer].Crd[i];
     }
   }
+  qsort(x_list, msh->NbrVer, sizeof(double), double_compare);
+  qsort(y_list, msh->NbrVer, sizeof(double), double_compare);
+  qsort(z_list, msh->NbrVer, sizeof(double), double_compare);
+
   msh->bb[0] = min_var[0];
   msh->bb[1] = max_var[0];
   msh->bb[2] = min_var[1];
@@ -200,28 +236,7 @@ int    msh_reorder(Mesh *msh)
   for(i=0;i<6;i++){
     printf("bb %f\n", msh->bb[i]);
   }
-  while(1){
-    x_index = (unsigned int)((msh->bb[1] - msh->bb[0])/porp);
-    y_index = (unsigned int)((msh->bb[3] - msh->bb[2])/porp);
-    z_index = (unsigned int)((msh->bb[5] - msh->bb[4])/porp);
-    printf("x is %f\n", (msh->bb[1] - msh->bb[0])/porp);
-    printf("y is %u\n", y_index);
-    printf("z is %u\n", z_index);
-    if (((x_index | y_index | z_index) >> 21) > 0)
-      porp *= 2;
-    else {
-      if(((x_index | y_index | z_index) >> 18) <= 0)
-          porp /= 2.0;
-      else{
-        printf("porp is %f\n", porp);
-        printf("x is %u\n", x_index);
-        printf("y is %u\n", y_index);
-        printf("z is %u\n", z_index);
-        //return;
-        break;
-      }
-    }
-  }
+
 
   int* x_index_debug, *y_index_debug, *z_index_debug;
   x_index_debug = calloc((msh->NbrVer), sizeof(int)  );
@@ -229,10 +244,10 @@ int    msh_reorder(Mesh *msh)
   z_index_debug = calloc((msh->NbrVer), sizeof(int)  );
   for(iVer=1; iVer<=msh->NbrVer; iVer++) {
     /* todo msh->bb : used to compute the Z-curve index */
-    x_index = (unsigned int)((msh->Ver[iVer].Crd[0] - msh->bb[0])/porp);
-    y_index = (unsigned int)((msh->Ver[iVer].Crd[1] - msh->bb[2])/porp);
-    z_index = (unsigned int)((msh->Ver[iVer].Crd[2] - msh->bb[4])/porp);
-    printf("x_prop, y_prop, z_prop : %d, %d, %d\n",x_index,y_index,z_index );
+    x_index = quick_find(x_list, 0, msh->NbrVer, msh->Ver[iVer].Crd[0]);
+    y_index = quick_find(y_list, 0, msh->NbrVer, msh->Ver[iVer].Crd[1]);
+    z_index = quick_find(z_list, 0, msh->NbrVer, msh->Ver[iVer].Crd[2]);
+
     x_index_debug[iVer-1] = x_index;
     y_index_debug[iVer-1] = y_index;
     z_index_debug[iVer-1] = z_index;
@@ -262,7 +277,7 @@ int    msh_reorder(Mesh *msh)
     msh->Ver[iVer].idxOld = iVer;
   }
   */
-  /*
+
   int int_compare( const void* a, const void* b)
   {
        int int_a = * ( (int*) a );
@@ -275,7 +290,7 @@ int    msh_reorder(Mesh *msh)
   qsort(x_index_debug,msh->NbrVer,sizeof(int),int_compare);
   qsort(y_index_debug,msh->NbrVer,sizeof(int),int_compare);
   qsort(z_index_debug,msh->NbrVer,sizeof(int),int_compare);
-  */
+
   for(iVer = 0;iVer < msh->NbrVer; iVer++){
     printf("x_index: %d, y_index: %d, z_index: %d\n", x_index_debug[iVer],y_index_debug[iVer],z_index_debug[iVer] );
   }
