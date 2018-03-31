@@ -223,13 +223,19 @@ int    msh_reorder(Mesh *msh)
     }
   }
 
-
+  int* x_index_debug, *y_index_debug, *z_index_debug;
+  x_index_debug = calloc((msh->NbrVer), sizeof(int)  );
+  y_index_debug = calloc((msh->NbrVer), sizeof(int)  );
+  z_index_debug = calloc((msh->NbrVer), sizeof(int)  );
   for(iVer=1; iVer<=msh->NbrVer; iVer++) {
     /* todo msh->bb : used to compute the Z-curve index */
     x_index = (unsigned int)((msh->Ver[iVer].Crd[0] - msh->bb[0])/porp);
     y_index = (unsigned int)((msh->Ver[iVer].Crd[1] - msh->bb[2])/porp);
     z_index = (unsigned int)((msh->Ver[iVer].Crd[2] - msh->bb[4])/porp);
-
+    printf("x_prop, y_prop, z_prop : %d, %d, %d\n",x_index,y_index,z_index );
+    x_index_debug[iVer-1] = x_index;
+    y_index_debug[iVer-1] = y_index;
+    z_index_debug[iVer-1] = z_index;
     if ((x_index >> 21) > 0)
         printf("x out of index vertical\n");
 
@@ -248,7 +254,7 @@ int    msh_reorder(Mesh *msh)
 
     msh->Ver[iVer].icrit  = icrit_temp;
     msh->Ver[iVer].idxOld = iVer;
-    }
+  }
   /*
   for(iVer=1; iVer<=msh->NbrVer; iVer++) {
     msh->Ver[iVer].icrit  = rand();   // change the randon  by Z  order
@@ -256,105 +262,55 @@ int    msh_reorder(Mesh *msh)
     msh->Ver[iVer].idxOld = iVer;
   }
   */
+  /*
+  int int_compare( const void* a, const void* b)
+  {
+       int int_a = * ( (int*) a );
+       int int_b = * ( (int*) b );
 
-
+       if ( int_a == int_b ) return 0;
+       else if ( int_a < int_b ) return -1;
+       else return 1;
+  }
+  qsort(x_index_debug,msh->NbrVer,sizeof(int),int_compare);
+  qsort(y_index_debug,msh->NbrVer,sizeof(int),int_compare);
+  qsort(z_index_debug,msh->NbrVer,sizeof(int),int_compare);
+  */
+  for(iVer = 0;iVer < msh->NbrVer; iVer++){
+    printf("x_index: %d, y_index: %d, z_index: %d\n", x_index_debug[iVer],y_index_debug[iVer],z_index_debug[iVer] );
+  }
 
   qsort(&msh->Ver[1],msh->NbrVer,sizeof(Vertex), compar_vertex);
 
+  int *newIndex;
+  newIndex = calloc( (msh->NbrVer+1), sizeof(int));
 
   /* update idxNew for vertices */
   for(iVer=1; iVer<=msh->NbrVer; iVer++) {
     msh->Ver[iVer].idxNew = iVer;
-
+    newIndex[msh->Ver[iVer].idxOld] = iVer;
   }
 
   /* re-assign triangles and tets ids */
 
-  double x_index_d = 0;
-  double y_index_d = 0;
-  double z_index_d = 0;
-  int ver_index=0;
   /* sort triangles */
-  int j;Vertex vertex;
+  int j; int temp_index;
+
   for(iTri=1; iTri<=msh->NbrTri; iTri++) {
-
-    ver_index = 0;
-    x_index_d = 0;
-    y_index_d = 0;
-    z_index_d = 0;
-    for(j = 0; j < 3; j++){
-      ver_index = msh->Tri[iTri].Ver[j];
-      vertex = msh->Ver[ver_index];
-      x_index_d += (vertex.Crd[0] - msh->bb[0]);
-      y_index_d += (vertex.Crd[1] - msh->bb[2]);
-      z_index_d += (vertex.Crd[2] - msh->bb[4]);
+    for(j =0; j < 3; j++){
+      temp_index = msh->Tri[iTri].Ver[j];
+      msh->Tri[iTri].Ver[j] = newIndex[temp_index];
     }
-    x_index = (unsigned long long int)((x_index_d / 3.0)/porp);
-    y_index = (unsigned long long int)((y_index_d / 3.0)/porp);
-    z_index = (unsigned long long int)((z_index_d / 3.0)/porp);
-
-    if ((x_index >> 21) > 0){
-      printf("x out of index %lld triangles \n",x_index >> 21);
-
-    }
-
-    if ((y_index >> 21) > 0)
-        printf("y out of index triangles \n");
-
-    if ((z_index >> 21) > 0)
-        printf("z out of index triangles \n");
-
-//http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
-    icrit_temp = 0;
-    for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
-      icrit_temp |= ((x_index & ((unsigned long long int)1 << i)) << 2*i) | ((y_index & ((unsigned long long int)1 << i)) << (2*i + 1)) | ((z_index & ((unsigned long long int)1 << i)) << (2*i + 2));
-    }
-
-    msh->Tri[iVer].icrit  = icrit_temp;
-
   }
-  qsort(&msh->Tri[1],msh->NbrTri,sizeof(Triangle), compar_triangle);
 
   /* sort tetrahedra */
 
   for(iTet=1; iTet<=msh->NbrTet; iTet++) {
-    //msh->Tet[iTet].icrit  = rand();
-    x_index_d = 0.0;
-    y_index_d = 0.0;
-    z_index_d = 0.0;
-    ver_index = 0;
-
-
-    for(j = 0; j < 4; j++){
-      ver_index = msh->Tet[iTet].Ver[j];
-      vertex = msh->Ver[ver_index];
-      x_index_d += (vertex.Crd[0] - msh->bb[0]);
-      y_index_d += (vertex.Crd[1] - msh->bb[2]);
-      z_index_d += (vertex.Crd[2] - msh->bb[4]);
+    for(j =0; j < 4; j++){
+      temp_index = msh->Tet[iTet].Ver[j];
+      msh->Tet[iTet].Ver[j] = newIndex[temp_index];
     }
-    x_index = (unsigned long long int)((x_index_d / 4.0)/porp);
-    y_index = (unsigned long long int)((y_index_d / 4.0)/porp);
-    z_index = (unsigned long long int)((z_index_d / 4.0)/porp);
-
-    if ((x_index >> 21) > 0)
-        printf("x out of index tetrahedra \n");
-
-    if ((y_index >> 21) > 0)
-        printf("y out of index tetrahedra \n");
-
-    if ((z_index >> 21) > 0)
-        printf("z out of index tetrahedra \n");
-
-//http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
-    icrit_temp = 0;
-    for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
-      icrit_temp |= ((x_index & ((unsigned long long int)1 << i)) << 2*i) | ((y_index & ((unsigned long long int)1 << i)) << (2*i + 1)) | ((z_index & ((unsigned long long int)1 << i)) << (2*i + 2));
-    }
-
-    msh->Tet[iVer].icrit  = icrit_temp;
   }
-  qsort(&msh->Tet[1],msh->NbrTet,sizeof(Tetrahedron), compar_tetrahedron);
-
   return 1;
 }
 
