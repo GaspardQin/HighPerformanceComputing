@@ -761,8 +761,8 @@ int  msh_neighbors(Mesh *msh)
   int research[4][3] = {{0,1,2},{1,2,3},{2,3,0},{3,0,1}};
   for(iTet=1; iTet<=msh->NbrTet; iTet++) {
     //printf("progress: %d\n",iTet );
-    if(iTet%debug_porp ==0)
-      printf("progress: %f, current iTet: %d\n",(double)iTet/(double)msh->NbrTet , iTet);
+    //if(iTet%debug_porp ==0)
+    //  printf("progress: %f, current iTet: %d\n",(double)iTet/(double)msh->NbrTet , iTet);
     for(iFac = 0; iFac < 4; iFac++){
     //  printf("iTet: %d, iFac: %d\n", iTet, iFac);
       ip1 = msh->Tet[iTet].Ver[research[iFac][0]];
