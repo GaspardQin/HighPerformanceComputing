@@ -1,7 +1,90 @@
 #include <mesh.h>
-
+#include <math.h>
 
 int lnofa[4][3] = {{1,2,3},{2,3,0},{3,0,1},{0,1,2}};
+HashTable* hash_init(int SizeHead, int NbrMaxObj){
+  HashTable* ht = (HashTable*)calloc(1,sizeof(HashTable));
+  ht->SizeHead = SizeHead;
+  ht->NbrMaxObj = NbrMaxObj;
+  //ht->Head = (int*)calloc(SizeHead,sizeof(int));
+  ht->LstObj = (int*)calloc(NbrMaxObj, sizeof(int6));
+  ht->NbrObj = ht->SizeHead;
+  int i=0;
+  return ht;
+}
+
+int is_equal(int *a, int b1, int b2, int b3){
+  //a[0:2]
+  int i =0;
+  int count =0;
+  for(i=0;i<3;i++){
+    if(b1 == a[i]) count++;
+    if(b2 == a[i]) count++;
+    if(b3 == a[i]) count++;
+  }
+  if(count == 3) return 1;
+  else return 0;
+}
+
+int hash_find(HashTable *hsh, int ip1, int ip2, int ip3, int iTet, int debug_switch){
+  //return the id found (in LstObj ), if -1 the object is not in the list
+  int key = (3*ip1 + 5*ip2 + 7*ip3);
+  //printf("key: %d\n", key);
+  int head = key%hsh->SizeHead;
+  int old_head;
+  while(1){
+    if(is_equal(hsh->LstObj[head],ip1,ip2,ip3)){
+      if(iTet >=0)
+         hsh->LstObj[head][4] = iTet;
+      return head;
+    }
+
+    else{
+      old_head = head;
+      head = hsh->LstObj[head][5];
+      if(head == 0 ) break;
+    //  if(old_head > head)
+        //printf("detect loop ! head: %d\n", head);
+      if(debug_switch==1)
+        printf("head: %d\n", head);
+    }
+
+  }
+  return -1;
+
+}
+void hash_add(HashTable *hsh, int ip1, int ip2, int ip3, int iTet1) //===> add this entry in the hash tab
+{
+  /* LstObj[id][0:2] = ip1-ip2-ip3, the 3 points defining the face  */
+  /* LstObj[id][3:4] = iTet1,iTet2, the Two neighboring tets having ip1-ip2-ip3 as points */
+  /* LstObj[id][5]   = idnxt the link to the next element in collision, if = 0 last element of the list */
+
+  int key = (3*ip1 + 5*ip2 + 7*ip3) ;
+  int head = key%hsh->SizeHead;
+  int write_index;
+  if(hsh->LstObj[head][0] <=0){
+    write_index = head;
+  }
+  else{
+    while(hsh->LstObj[head][5]>0)
+      head = hsh->LstObj[head][5];
+
+    hsh->LstObj[head][5] = hsh->NbrObj+1;
+    if(head>hsh->NbrObj){
+      printf("write loop, head: %d\n", head);
+      exit(0);
+    }
+    write_index = hsh->NbrObj+1;
+    hsh->NbrObj ++;
+  }
+  //printf("NbrObj: %d, NbrMaxObj: %d\n", hsh->NbrObj, hsh->NbrMaxObj);
+
+
+  hsh->LstObj[write_index][0] = ip1;
+  hsh->LstObj[write_index][1] = ip2;
+  hsh->LstObj[write_index][2] = ip3;
+  hsh->LstObj[write_index][3] = iTet1;
+}
 
 
 Mesh * msh_init()
@@ -474,34 +557,143 @@ int    msh_write(Mesh *msh, char *file)
    return 1;
 
 }
+/*
+typedef struct trianges_tet_for_each_vert
+{
+  int Tri[4];
+  char count;
+  TriTetVert* add_on; //used when more than 4 triangles/tets in a single vertical;
+} TriTetVert;
+
+int insert_TriTetVert(TriTetVert* ttv, int index){
+
+  while(ttv->count > 4){
+    ttv->count ++;
+    ttv= ttv->add_on;
+  }
+  if(ttv->count == 4){
+    ttv->add_on = (TriTetVert*)malloc(sizeof(TriTetVert));
+    ttv->count ++;
+    ttv = ttv->add_on;
+  }
+  ttv->Tri[ttv->count] = index;
+  ttv->count ++;
+
+}
+int getIndexTriTetVert(TriTetVert* ttv, int index, )
+int is_not_in_voi_tri(Triangle* tri){
+  if(!tri)
+    printf("wrong address of tri\n" );
+  if(tri->Voi[0] == 0)
+    return 0;
+  if(tri->Voi[1] == 0)
+    return 1;
+  if(tri->Voi[2] == 0)
+    return 2;
+  else
+    return -1;
+}
+int is_neighbor_tri(Triangle* tri1, Tringle* tri2){
+  int iTri, jTri; int iEdge, jEdge;
+  int lnofe[3][2] = {{0,1},{1,2},{2,0}};
+    for(iEdge=0; iEdge<3; iEdge++) {
+      ip1 = msh->Tri[iTri].Ver[lnofe[iEdge][0]];
+      ip2 = msh->Tri[iTri].Ver[lnofe[iEdge][1]];
+      // find the Tet different from iTet that has ip1, ip2, ip2 as vertices
+      for(jEdge=0; jEdge<3; jFac++) {
+        jp1 = msh->Tri[jTri].Ver[lnofe[jEdge][0]];
+        jp2 = msh->Tri[jTri].Ver[lnofe[jEdge][1]];
+
+        // compare the 4 points
+        if(ip1 == jp1 && ip2 == jp2){
+          printf("find tri neighbors of %d : %d\n", iTri, jTri);
+          msh->Tri[iTri].Voi[iEdge] = jTri;
+          break_flag = 1;
+          return 1;
+        }
+      }
+    }
+  return -1;
+}
+
+int msh_better_neighborsQ2(Mesh *msh)
+{
+  //use more memories to save time
+  int iTri,iTet, iVer,i,j,jj, insert_place, insert_index;
+  TriVert* ver_index_list; //save the iTri for each vertical
+  ver_index_list = (TriVert*)malloc(sizeof(TriVert) * (msh->NbrVer+1));
+  memset(ver_index_list, 0, sizeof(TriVert));
+  TriVert* temp_TriVert; Triangle* temp_Tri;
+  for(iTri = 1; iTri<= msh->NbrTri; iTri ++){
+    temp_Tri = msh->Tri + iTri;
+    printf("scanning %d of %d\n", iTri,msh->NbrTri);
+    for(i = 0; i<3; i++){
+      temp_TriVert = ver_index_list + temp_Tri->Ver[i];
+      if(temp_TriVert->count < 3)
+        temp_TriVert->Tri[temp_TriVert->count] = iTri;
+      else{
+        if(temp_TriVert)
+      }
+      temp_TriVert->count ++;
+    }
+
+  }
+  printf("number of vertical: %d\n", msh->NbrVer);
+  int insert_table[3][2] = {{1,2},{0,2},{0,1}};
+  for(iVer = 1; iVer<= msh->NbrVer; iVer ++){
+    temp_TriVert = ver_index_list + iVer;
+    printf("finding neigbhors %d of %d\n", iVer,msh->NbrVer);
+    for(i = 0; i<3; i++){
+      temp_Tri = msh->Tri + temp_TriVert->Tri[i];
+      printf("debug 0\n" );
+      for(j = 0; j<2; j++){
+        // find is in the voi of temp_tri
+        insert_index = temp_TriVert->Tri[insert_table[i][j]];
+        printf("voins: %d, %d, %d\n", temp_TriVert->Tri[0],temp_TriVert->Tri[1],temp_TriVert->Tri[2]);
+        printf("debug 1, insert_index: %d\n",insert_index);
+        insert_place = is_not_in_voi_tri(temp_Tri);
+        printf("debug 2\n");
+        if( insert_place >=0)
+          temp_Tri->Voi[insert_place] = insert_index;
+          printf("%d tri is the neighbor of %d tri\n", insert_index ,temp_TriVert->Tri[i]);
+      }
+    }
+  }
+
+}
 
 
-
-
-
+*/
 
 int  msh_neighborsQ2(Mesh *msh)
 {
   int iTet, iFac, jTet, jFac, ip1, ip2 ,ip3 , jp1, jp2, jp3;
   int break_flag = 0;
-  int j;
+  int ii,j,temp;
   int is_find_tri;
   int is_find_tet;
+  double dstep = (msh->bb[1] - msh->bb[0])/(pow(msh->NbrVer,0.333));
+  double x_ave_i, y_ave_i, z_ave_i, x_ave_j, y_ave_j, z_ave_j;
+  dstep *= 30;
   if ( ! msh ) return 0;
 //int lnofa[4][3] = {{1,2,3},{2,3,0},{3,0,1},{0,1,2}};
   for(iTet=1; iTet<=msh->NbrTet; iTet++) {
+
     for(iFac=0; iFac<4; iFac++) {
       ip1 = msh->Tet[iTet].Ver[lnofa[iFac][0]];
       ip2 = msh->Tet[iTet].Ver[lnofa[iFac][1]];
       ip3 = msh->Tet[iTet].Ver[lnofa[iFac][2]];
+
       /* find the Tet different from iTet that has ip1, ip2, ip2 as vertices */
       break_flag = 0;
+      //printf("debug 0\n");
 
-      for(j=1; j<=msh->NbrTet + 40; j++) {
-        if( j <= 40 )
-          jTet = iTet - 20 + j;
-        else
-            jTet = j - 40;
+      for(jTet=1; jTet<=msh->NbrTet;jTet++) {
+
+        if(msh->Tet[iTet].Ver[0]){
+          continue;
+        }
+
         if ( iTet == jTet ) continue;
         if (break_flag == 1) break;
         for(jFac=0; jFac<4; jFac++) {
@@ -558,20 +750,65 @@ for(iTri=1; iTri<=msh->NbrTri; iTri++) {
 int  msh_neighbors(Mesh *msh)
 {
   int iTet, iFac, ip1, ip2 ,ip3 ;
-
+  int head, another_tet;
   if ( ! msh ) return 0;
-
+  int i_insert, j_insert;
   /* initialize HashTable */
-
+  int debug_porp = 100000;
+  int debug_pos = 9084500;
+  int debug_switch = 0;
+  HashTable* hsh = hash_init(9999991,msh->NbrTet*4);
+  int research[4][3] = {{0,1,2},{1,2,3},{2,3,0},{3,0,1}};
   for(iTet=1; iTet<=msh->NbrTet; iTet++) {
-    for(iFac=0; iFac<4; iFac++) {
-      ip1 = msh->Tet[iTet].Ver[lnofa[iFac][0]];
-      ip2 = msh->Tet[iTet].Ver[lnofa[iFac][1]];
-      ip3 = msh->Tet[iTet].Ver[lnofa[iFac][2]];
+    //printf("progress: %d\n",iTet );
+    if(iTet%debug_porp ==0)
+      printf("progress: %f, current iTet: %d\n",(double)iTet/(double)msh->NbrTet , iTet);
+    for(iFac = 0; iFac < 4; iFac++){
+    //  printf("iTet: %d, iFac: %d\n", iTet, iFac);
+      ip1 = msh->Tet[iTet].Ver[research[iFac][0]];
+      ip2 = msh->Tet[iTet].Ver[research[iFac][1]];
+      ip3 = msh->Tet[iTet].Ver[research[iFac][2]];
       /* compute the key : ip1+ip2+ip3   */
       /* do we have objects as that key   hash_find () */
       /*  if yes ===> look among objects and potentially update Voi */
       /*  if no  ===> add to hash table.  hash_add()   */
+      if(iTet > debug_pos && debug_switch == 1)
+        printf("start to find hash\n" );
+      head = hash_find(hsh,ip1,ip2,ip3,iTet,iTet > debug_pos && debug_switch == 1); // if exist, add iTet
+      if(iTet > debug_pos && debug_switch == 1)
+        printf("head: %d\n", head);
+      if(head>=0)
+      {
+        i_insert = 0; j_insert = 0;
+
+        while(i_insert < 4){
+        //  printf("i_insert %d\n", i_insert);
+          if(msh->Tet[iTet].Voi[i_insert] == 0)
+            break;
+          i_insert++;
+        }
+        another_tet = hsh->LstObj[head][3];
+        while(j_insert < 4){
+        //  printf("j_insert %d\n", j_insert);
+          if(msh->Tet[another_tet].Voi[j_insert] == 0)
+            break;
+          j_insert++;
+        }
+        msh->Tet[iTet].Voi[i_insert] = another_tet;
+        msh->Tet[another_tet].Voi[j_insert] = iTet;
+        if(iTet > debug_pos && debug_switch ==1){
+          printf("find neighors tet: %d and %d\n",iTet, another_tet );
+        }
+
+      }
+      else{
+        if(iTet >  debug_pos && debug_switch ==1)
+          printf("add to hashtable: vert:%d,\t\t%d,\t\t%d,\t\ttet:%d\n",ip1, ip2, ip3, iTet);
+        hash_add(hsh, ip1, ip2, ip3, iTet);
+        if(iTet > debug_pos && debug_switch == 1)
+          printf("finished add\n");
+      }
+
     }
   }
   return 1;

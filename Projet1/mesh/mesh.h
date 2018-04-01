@@ -109,7 +109,7 @@ typedef int int6[6];
 
 typedef struct mesh_hash_table
 {
-  int  SizHead;   /* Maxmimum entries, the key is in [0,SizHead-1]*/
+  int  SizeHead;   /* Maxmimum entries, the key is in [0,SizHead-1]*/
   int  NbrObj;    /* Number of object in the hash tables */
   int  NbrMaxObj; /* Maximum of object that can be store in the hash tab */
   int  *Head ;  /* Head[key%(SizHead)] = link to the first object having this key  in the LstObj list */
@@ -123,5 +123,3 @@ typedef struct mesh_hash_table
 
 /* Implementing the following function should be necessart */
 /* HasTable * hash_init(int SizHead, int NbrMaxObj); ==> allocate Head, LstObj */
-/* int hash_find(HashTable *hsh, int ip1, int ip2, int ip3);  return the id found (in LstObj ), if 0 the object is not in the list */
-/* int hash_add(HashTable, *hsh, int ip1, int ip2m int ip3, int iTet) ===> add this entry in the hash tab */
