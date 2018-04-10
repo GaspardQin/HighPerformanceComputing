@@ -1,0 +1,65 @@
+// g++ citiesPlot.py
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
+
+#include "lectureVilles.h"
+
+int main() {
+
+//-----------------------------------------------------------------
+//--- LECTURE des villes
+//-----------------------------------------------------------------
+
+  int popMin;
+  cout << "Population minimale ? ";
+  cin >> popMin;
+
+  string* villesNom; // Nom
+  int*    villesPop; // Population
+  float*  villesLon; // Longitude
+  float*  villesLat; // Latitude
+  int     N;         // Nombre de villes
+  lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
+
+  // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
+  for(int i=0; i<N; i++)
+    cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
+
+//-----------------------------------------------------------------
+//--- CALCUL du graphe
+//-----------------------------------------------------------------
+
+  // Début du CHRONO
+  high_resolution_clock::time_point timeStart = high_resolution_clock::now();
+
+
+  // [...]
+
+
+  // Fin du CHRONO
+  high_resolution_clock::time_point timeEnd = high_resolution_clock::now();
+  duration<double> timeSpan = duration_cast<duration<double>>(timeEnd-timeStart);
+  double timeTotal = timeSpan.count();
+
+  // Écriture du graphe (chaque ligne correspond à une arête)
+  // !!! Ci-dessous, on écrit le graphe complet pour l'exemple
+  // !!! Vous devez modifier cette commande pour écrire le graphe obtenu avec Prim
+  ofstream fileOut("resuGraphe.dat");
+  for(int i=0; i<N; i++)
+    for(int j=0; j<i; j++)
+      fileOut << i << " " << j << "\n";
+  fileOut.close();
+
+//-----------------------------------------------------------------
+//--- DESALLOCATION des tableaux
+//-----------------------------------------------------------------
+
+  return 0;
+}
