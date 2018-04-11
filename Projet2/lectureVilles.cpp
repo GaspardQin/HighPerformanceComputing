@@ -15,7 +15,7 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
 
   cout << "== Lecture des villes de min. " << popMin << " habitants à partir de 'listeVilles.csv' ==" << endl;
 
-  ifstream inputFile("listeVilles.csv");
+  ifstream inputFile("../listeVilles.csv");
   if (inputFile.is_open()) {
 
     // Compte le nombre de villes avec une population supérieure à 'popMin'

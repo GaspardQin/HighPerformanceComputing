@@ -1,4 +1,4 @@
-#include <cache.h>
+ #include <cache.h>
 
 /* initialization functions of vector/matrices with random and zero values */
 static void data_randominit(int n, double *A);
@@ -368,30 +368,30 @@ void cache_matmat_block(int n, Cache *c, int blocksize, int mat_block_coeffi)
 }
 
 
-void cache_test()
+void cache_test(int nbr_block, int strategy, int block_size, int vec_size, int mat_bloc_prop)
 {
 
-  int size      = 256;
+  //int size      = nbr_block; //128
   //int strategy  = CACHE_FULLYASSOCIATIVE;
   //int strategy  = CACHE_DIRECT_MAPPING;
   //int strategy  = CACHE_2WAYASSOCIATIVE;
-  int strategy = CACHE_4WAYASSOCIATIVE;
-  Cache * c = cache_init(size, strategy);
+  //int strategy = CACHE_4WAYASSOCIATIVE;
+  Cache * c = cache_init(nbr_block, strategy);
 
 
   //cache_dotprod(1024 ,c);
-  cache_dotprod_block(1024 ,c,32);
+  cache_dotprod_block(vec_size ,c,block_size);
   cache_print(c, 0);
   cache_reset(c);
 
   //cache_matvec ( 512 ,c);
-  cache_matvec_block(512,c, 32);
+  cache_matvec_block(vec_size,c, block_size);
   cache_print(c, 0);
   cache_reset(c);
 
   //mat matrix
 
-  cache_matmat_block(512, c, 32, 2);
+  cache_matmat_block(vec_size, c, block_size,mat_bloc_prop);
   cache_print(c, 0);
   cache_reset(c);
 

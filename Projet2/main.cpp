@@ -10,6 +10,7 @@ using namespace std;
 using namespace std::chrono;
 
 #include "lectureVilles.h"
+#include "prim.h"
 
 int main() {
 
@@ -41,20 +42,29 @@ int main() {
 
 
   // [...]
+  int * graphe;
+  float ** distance;
+  prim(villesLon, villesLat, N, graphe, distance);
 
 
   // Fin du CHRONO
   high_resolution_clock::time_point timeEnd = high_resolution_clock::now();
   duration<double> timeSpan = duration_cast<duration<double>>(timeEnd-timeStart);
   double timeTotal = timeSpan.count();
-
+  #ifdef SHOW_ALL
+  showAllDistance(villesLon, villesLat, N, graphe, distance);
+  #endif
   // Écriture du graphe (chaque ligne correspond à une arête)
   // !!! Ci-dessous, on écrit le graphe complet pour l'exemple
   // !!! Vous devez modifier cette commande pour écrire le graphe obtenu avec Prim
   ofstream fileOut("resuGraphe.dat");
-  for(int i=0; i<N; i++)
-    for(int j=0; j<i; j++)
-      fileOut << i << " " << j << "\n";
+  //for(int i=0; i<N; i++)
+  //  for(int j=0; j<i; j++)
+  //    fileOut << i << " " << j << "\n";
+  for(int i =0; i < N; i++)
+  {
+    fileOut << graphe[i] << " "<< i <<" "<< distance[i][graphe[i]]<< "\n";
+  }
   fileOut.close();
 
 //-----------------------------------------------------------------

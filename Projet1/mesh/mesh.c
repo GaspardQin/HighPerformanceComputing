@@ -352,36 +352,10 @@ int    msh_reorder(Mesh *msh)
     msh->Ver[iVer].icrit  = icrit_temp;
     msh->Ver[iVer].idxOld = iVer;
   }
-  /*
-  for(iVer=1; iVer<=msh->NbrVer; iVer++) {
-    msh->Ver[iVer].icrit  = rand();   // change the randon  by Z  order
-    msh->Ver[iVer].idxNew = iVer;
-    msh->Ver[iVer].idxOld = iVer;
-  }
-  */
-/*
-  int int_compare( const void* a, const void* b)
-  {
-       int int_a = * ( (int*) a );
-       int int_b = * ( (int*) b );
 
-       if ( int_a == int_b ) return 0;
-       else if ( int_a < int_b ) return -1;
-       else return 1;
-  }
-
-  qsort(x_index_debug,msh->NbrVer,sizeof(int),int_compare);
-  qsort(y_index_debug,msh->NbrVer,sizeof(int),int_compare);
-  qsort(z_index_debug,msh->NbrVer,sizeof(int),int_compare);
-*/
 
   qsort(&msh->Ver[1],msh->NbrVer,sizeof(Vertex), compar_vertex);
-  /*
-  for(iVer = 1;iVer < msh->NbrVer; iVer++){
-    printf("x_index: %d, y_index: %d, z_index: %d\n", x_index_debug[iVer],y_index_debug[iVer],z_index_debug[iVer] );
-    printf("icrit: %llu\n", msh->Ver[iVer].icrit );
-  }
-*/
+
   int *newIndex;
   newIndex = calloc( (msh->NbrVer+1), sizeof(int));
 
@@ -427,7 +401,6 @@ int    msh_reorder(Mesh *msh)
     if ((z_index >> 21) > 0)
         printf("triangles: z out of index vertical\n");
 
-//http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
     icrit_temp = 0;
 
     for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/3; ++i) {
@@ -485,8 +458,6 @@ int    msh_reorder(Mesh *msh)
     if ((z_index >> 21) > 0)
         printf("Tetrahedron: z out of index %d \n", z_index);
 
-
-//http://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/
     icrit_temp = 0;
 
     for (i = 0; i < (sizeof(unsigned long long int)* CHAR_BIT)/2; ++i) {
@@ -557,113 +528,7 @@ int    msh_write(Mesh *msh, char *file)
    return 1;
 
 }
-/*
-typedef struct trianges_tet_for_each_vert
-{
-  int Tri[4];
-  char count;
-  TriTetVert* add_on; //used when more than 4 triangles/tets in a single vertical;
-} TriTetVert;
 
-int insert_TriTetVert(TriTetVert* ttv, int index){
-
-  while(ttv->count > 4){
-    ttv->count ++;
-    ttv= ttv->add_on;
-  }
-  if(ttv->count == 4){
-    ttv->add_on = (TriTetVert*)malloc(sizeof(TriTetVert));
-    ttv->count ++;
-    ttv = ttv->add_on;
-  }
-  ttv->Tri[ttv->count] = index;
-  ttv->count ++;
-
-}
-int getIndexTriTetVert(TriTetVert* ttv, int index, )
-int is_not_in_voi_tri(Triangle* tri){
-  if(!tri)
-    printf("wrong address of tri\n" );
-  if(tri->Voi[0] == 0)
-    return 0;
-  if(tri->Voi[1] == 0)
-    return 1;
-  if(tri->Voi[2] == 0)
-    return 2;
-  else
-    return -1;
-}
-int is_neighbor_tri(Triangle* tri1, Tringle* tri2){
-  int iTri, jTri; int iEdge, jEdge;
-  int lnofe[3][2] = {{0,1},{1,2},{2,0}};
-    for(iEdge=0; iEdge<3; iEdge++) {
-      ip1 = msh->Tri[iTri].Ver[lnofe[iEdge][0]];
-      ip2 = msh->Tri[iTri].Ver[lnofe[iEdge][1]];
-      // find the Tet different from iTet that has ip1, ip2, ip2 as vertices
-      for(jEdge=0; jEdge<3; jFac++) {
-        jp1 = msh->Tri[jTri].Ver[lnofe[jEdge][0]];
-        jp2 = msh->Tri[jTri].Ver[lnofe[jEdge][1]];
-
-        // compare the 4 points
-        if(ip1 == jp1 && ip2 == jp2){
-          printf("find tri neighbors of %d : %d\n", iTri, jTri);
-          msh->Tri[iTri].Voi[iEdge] = jTri;
-          break_flag = 1;
-          return 1;
-        }
-      }
-    }
-  return -1;
-}
-
-int msh_better_neighborsQ2(Mesh *msh)
-{
-  //use more memories to save time
-  int iTri,iTet, iVer,i,j,jj, insert_place, insert_index;
-  TriVert* ver_index_list; //save the iTri for each vertical
-  ver_index_list = (TriVert*)malloc(sizeof(TriVert) * (msh->NbrVer+1));
-  memset(ver_index_list, 0, sizeof(TriVert));
-  TriVert* temp_TriVert; Triangle* temp_Tri;
-  for(iTri = 1; iTri<= msh->NbrTri; iTri ++){
-    temp_Tri = msh->Tri + iTri;
-    printf("scanning %d of %d\n", iTri,msh->NbrTri);
-    for(i = 0; i<3; i++){
-      temp_TriVert = ver_index_list + temp_Tri->Ver[i];
-      if(temp_TriVert->count < 3)
-        temp_TriVert->Tri[temp_TriVert->count] = iTri;
-      else{
-        if(temp_TriVert)
-      }
-      temp_TriVert->count ++;
-    }
-
-  }
-  printf("number of vertical: %d\n", msh->NbrVer);
-  int insert_table[3][2] = {{1,2},{0,2},{0,1}};
-  for(iVer = 1; iVer<= msh->NbrVer; iVer ++){
-    temp_TriVert = ver_index_list + iVer;
-    printf("finding neigbhors %d of %d\n", iVer,msh->NbrVer);
-    for(i = 0; i<3; i++){
-      temp_Tri = msh->Tri + temp_TriVert->Tri[i];
-      printf("debug 0\n" );
-      for(j = 0; j<2; j++){
-        // find is in the voi of temp_tri
-        insert_index = temp_TriVert->Tri[insert_table[i][j]];
-        printf("voins: %d, %d, %d\n", temp_TriVert->Tri[0],temp_TriVert->Tri[1],temp_TriVert->Tri[2]);
-        printf("debug 1, insert_index: %d\n",insert_index);
-        insert_place = is_not_in_voi_tri(temp_Tri);
-        printf("debug 2\n");
-        if( insert_place >=0)
-          temp_Tri->Voi[insert_place] = insert_index;
-          printf("%d tri is the neighbor of %d tri\n", insert_index ,temp_TriVert->Tri[i]);
-      }
-    }
-  }
-
-}
-
-
-*/
 
 int  msh_neighborsQ2(Mesh *msh)
 {
