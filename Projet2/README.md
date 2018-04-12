@@ -16,11 +16,19 @@
 - Using command:
   - visualize in the `SHOW_EVERY_STEPS` mode
     ```
-    python visualisation.py ./steps/ ./resuVilles.dat
+    python visualisation.py ./steps/ ./resuVilles.dat 0
     ```
     Considering the performance, picture display function is disabled. However, all of the pictures created are saved in the folder `./step_anim`
 
   - visualize in the other mode
     ```
-    python visualisation.py ./resuGraphe.dat ./resuVilles.dat
+    python visualisation.py ./resuGraphe.dat ./resuVilles.dat 0
+    ```
+  - Show weight
+    ```
+    python visualisation.py ./steps/ ./resuVilles.dat 1
+    ```
+    or
+    ```
+    python visualisation.py ./resuGraphe.dat ./resuVilles.dat 1 
     ```

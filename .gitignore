@@ -2,4 +2,11 @@
 *.meshb
 *.o
 *.out
+./Projet1/.ipynb_checkpoints/*
+./Projet1/cache
+./Projet1/data.ods
+./Projet1/figures/*
+*.h.gch
+*.dat
+*.png
 

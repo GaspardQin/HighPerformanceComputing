@@ -22,12 +22,12 @@ void computeDistance(float* &villesLon, float* &villesLat, int &nbVilles, float*
 	{
 		distance[i] = new float[nbVilles];
 	}
-	cout<< "test point 0.0 "<<endl;
+	//cout<< "test point 0.0 "<<endl;
 	// compute distance
 	for(i = 0; i < nbVilles; i++)
 	{
 		distance[i][i] = 0;
-		cout<< "test point 0.1 "<<endl;
+		//cout<< "test point 0.1 "<<endl;
 		for( j = i+1; j <  nbVilles; j++){
 			dist_temp =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
 			distance[i][j] = dist_temp;
@@ -41,14 +41,14 @@ void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,floa
 {
 	// parent[i] = j means j is the parent node of i
 
-	cout<< "test point 0" << endl;
+	//cout<< "test point 0" << endl;
 	computeDistance(villesLon, villesLat, nbVilles, distance);
 
 	// define variables
 	bool* inS = new bool [nbVilles];
 	float* min_dist = new float [nbVilles];
 	parent = new int [nbVilles];
-	cout<< "test point 1" << endl;
+	//cout<< "test point 1" << endl;
 	int i, j;
 	// init Prime
 	inS[0] = true;
@@ -60,7 +60,7 @@ void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,floa
 		min_dist[i] = distance[0][i];
 		parent[i] = 0;
 	}
-	cout<< "test point 2" << endl;
+	//cout<< "test point 2" << endl;
 
 
         #ifdef SHOW_EVERY_STEPS
@@ -72,7 +72,7 @@ void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,floa
         // create files steps files to store data
         string save_name_base = "./steps/resuGraphe_";
         string save_name = save_name_base + "0.dat";
-        cout<<"steps: "<< 0<<endl;
+        //cout<<"steps: "<< 0<<endl;
         ofstream fileOut(save_name);
         for(int i =0; i < nbVilles; i++)
         {
@@ -85,7 +85,7 @@ void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,floa
 	int k;
 	int min_min_dist_index;
 	float min_min_dist = FLT_MAX;
-	cout<< "test point 2.1" <<endl;
+	//cout<< "test point 2.1" <<endl;
 	for(k = 0; k < nbVilles -1 ; k++)
 	{
 		//cout<< "test point 2.2.x" <<endl;
@@ -95,26 +95,26 @@ void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,floa
 		{
 				if(inS[i] == false && min_min_dist > min_dist[i])
 				{
-					cout<< "test point 2.3.x" <<endl;
+					//cout<< "test point 2.3.x" <<endl;
 					min_min_dist = min_dist[i];
 					min_min_dist_index = i;
 				}
 		}
-		cout<< "test point 3" << endl;
+		//cout<< "test point 3" << endl;
 		inS[min_min_dist_index] = true;
-		cout<< "test point 3.1" << endl;
+		//cout<< "test point 3.1" << endl;
 		//update the min_dist
 		for(j = 0; j < nbVilles; j++)
 		{
 			if(inS[j] == false && min_dist[j] > distance[min_min_dist_index][j])
 			{
-				cout<< "test point 3.2" << endl;
+				//cout<< "test point 3.2" << endl;
 				min_dist[j] = distance[min_min_dist_index][j];
-				cout<< "test point 3.3" << endl;
+				//cout<< "test point 3.3" << endl;
 				parent[j] = min_min_dist_index;
 			}
 		}
-		cout<< "test point 4" << endl;
+		//cout<< "test point 4" << endl;
 
 		#ifdef SHOW_EVERY_STEPS
                 // create files steps files to store data

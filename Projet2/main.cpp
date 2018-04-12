@@ -51,6 +51,8 @@ int main() {
   high_resolution_clock::time_point timeEnd = high_resolution_clock::now();
   duration<double> timeSpan = duration_cast<duration<double>>(timeEnd-timeStart);
   double timeTotal = timeSpan.count();
+  cout<< endl;
+  cout<< "Total time: " << timeTotal << endl;
   #ifdef SHOW_ALL
   showAllDistance(villesLon, villesLat, N, graphe, distance);
   #endif
