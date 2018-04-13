@@ -11,25 +11,36 @@ float cos_deg(float a){
         return (cos(a/180*pi));
 }
 
-void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance)
+void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
 {
 	int i, j;
 	float dist_temp;
 
 	// inital
 	distance = new float* [nbVilles];
+  float* sin_lat = new float[nbVilles];
+  float* cos_lat = new float[nbVilles];
+
+  //#pragma omp parallel for simd num_threads(4) schedule(dynamic,4)
+
 	for(i = 0; i < nbVilles; i++)
 	{
 		distance[i] = new float[i+1];
+
 	}
+  #pragma ivdep
+  for(i = 0; i < nbVilles; i++){
+    sin_lat[i] = sin_deg(villesLat[i]);
+    cos_lat[i] = cos_deg(villesLat[i]);
+  }
 	// compute distance
-  #pragma omp parallel for num_threads(4) schedule(dynamic,4)
+  #pragma omp parallel for num_threads(4) schedule(dynamic,1)
 	for(i = 0; i < nbVilles; i++)
 	{
 		distance[i][i] = 0;
     #pragma ivdep
 		for( j = 0; j <  i; j++){
-			distance[i][j] =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
+			distance[i][j] =  R * acos( sin_lat[i] * sin_lat[j]  + cos_deg(villesLon[i]-villesLon[j]) * cos_lat[i]* cos_lat[j]);
 
 		}
 	}
