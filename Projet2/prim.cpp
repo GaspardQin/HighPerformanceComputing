@@ -20,21 +20,26 @@ void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float**
 	distance = new float* [nbVilles];
 	for(i = 0; i < nbVilles; i++)
 	{
-		distance[i] = new float[nbVilles];
+		distance[i] = new float[i+1];
 	}
 	// compute distance
 	for(i = 0; i < nbVilles; i++)
 	{
 		distance[i][i] = 0;
-		for( j = i+1; j <  nbVilles; j++){
-			dist_temp =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
-			distance[i][j] = dist_temp;
-			distance[j][i] = dist_temp;
+		for( j = 0; j <  i; j++){
+			distance[i][j] =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
+			
 		}
 	}
 
 }
+float getDistance(int i, int j, float** &distance){
+        if(j <= i)
+                return distance[i][j];
+        else
+                return distance[j][i];      
 
+}
 void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
 {
 	// parent[i] = j means j is the parent node of i
@@ -52,7 +57,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	for(i = 1; i < nbVilles; i++)
 	{
 		inS[i] = false;
-		min_dist[i] = distance[0][i];
+		min_dist[i] = distance[i][0];
 		parent[i] = 0;
 	}
 
@@ -69,7 +74,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
         ofstream fileOut(save_name);
         for(int i =0; i < nbVilles; i++)
         {
-        fileOut << parent[i] << " "<< i <<" "<< distance[i][parent[i]]<< " " << int(inS[i]) <<"\n";
+        fileOut << parent[i] << " "<< i <<" "<< getDistance(i,parent[i],distance)<< " " << int(inS[i]) <<"\n";
         }
         fileOut.close();
         #endif // SHOW_EVERY_STEPS
@@ -94,9 +99,9 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		//update the min_dist
 		for(j = 0; j < nbVilles; j++)
 		{
-			if(inS[j] == false && min_dist[j] > distance[min_min_dist_index][j])
+			if(inS[j] == false && min_dist[j] > getDistance(min_min_dist_index,j,distance))
 			{
-				min_dist[j] = distance[min_min_dist_index][j];
+				min_dist[j] = getDistance(min_min_dist_index,j,distance);
 				parent[j] = min_min_dist_index;
 			}
 		}
@@ -108,7 +113,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
                 ofstream fileOut(save_name);
                 for(int i =0; i < nbVilles; i++)
                 {
-                        fileOut << parent[i] << " "<< i <<" "<< distance[i][parent[i]]<< " " << int(inS[i]) <<"\n";
+                        fileOut << parent[i] << " "<< i <<" "<< getDistance(i,parent[i],distance)<< " " << int(inS[i]) <<"\n";
                 }
                 fileOut.close();
 		#endif
@@ -126,7 +131,7 @@ void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&
 	for(int i =0; i < nbVilles; i++)
 	{
 		for(int j = i + 1; j < nbVilles; j++){
-			fileOut << i << " "<< j <<" "<< distance[i][j]<< "\n";
+			fileOut << i << " "<< j <<" "<< getDistance(i,j,distance)<< "\n";
 		}
 	}
 	fileOut.close();

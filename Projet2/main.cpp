@@ -19,9 +19,13 @@ int main() {
 //-----------------------------------------------------------------
 
   int popMin;
-  //cout << "Population minimale ? ";
-  //cin >> popMin;
+  #ifdef ADVIXE
   popMin = 1000;
+
+  #else
+  cout << "Population minimale ? ";
+  cin >> popMin;
+  #endif
   string* villesNom; // Nom
   int*    villesPop; // Population
   float*  villesLon; // Longitude
