@@ -12,7 +12,6 @@
 #include <sys/stat.h>
 #include <string>
 
-
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
 
