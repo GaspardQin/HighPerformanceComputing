@@ -14,8 +14,9 @@
 
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
-#define ADVIXE
+//#define ADVIXE
 void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
 void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance);
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+float getDistance(int i, int j, float** &distance);
 #endif

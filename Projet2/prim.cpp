@@ -28,7 +28,7 @@ void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float**
 		distance[i][i] = 0;
 		for( j = 0; j <  i; j++){
 			distance[i][j] =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
-			
+
 		}
 	}
 
@@ -37,7 +37,7 @@ float getDistance(int i, int j, float** &distance){
         if(j <= i)
                 return distance[i][j];
         else
-                return distance[j][i];      
+                return distance[j][i];
 
 }
 void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)

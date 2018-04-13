@@ -69,7 +69,7 @@ int main() {
   //    fileOut << i << " " << j << "\n";
   for(int i =0; i < N; i++)
   {
-    fileOut << graphe[i] << " "<< i <<" "<< distance[i][graphe[i]]<< "\n";
+    fileOut << graphe[i] << " "<< i <<" "<<getDistance(i,graphe[i],distance)<< "\n";
   }
   fileOut.close();
 
