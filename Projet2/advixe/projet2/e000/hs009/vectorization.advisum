@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="" 
+                             kind="DATAKIND_SURVEY_EX" >
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="95"
+           routine="prim"
+           is_vectorized="0"
+           self_time="1.239726E-01"
+           total_time="1.239726E-01"
+           trip_counts=""
+           func_instance="79"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="29"
+           routine="computeDistance"
+           is_vectorized="0"
+           self_time="2.801002E-01"
+           total_time="2.539992E+00"
+           trip_counts=""
+           func_instance="71"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp"
+           line_no="52"
+           routine="lectureVilles"
+           is_vectorized="0"
+           self_time="2.396531E-02"
+           total_time="2.396531E-02"
+           trip_counts=""
+           func_instance="51"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="85"
+           routine="prim"
+           is_vectorized="0"
+           self_time="5.602168E-02"
+           total_time="5.602168E-02"
+           trip_counts=""
+           func_instance="81"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp"
+           line_no="53"
+           routine="lectureVilles"
+           is_vectorized="0"
+           self_time="1.602813E-02"
+           total_time="2.802788E-02"
+           trip_counts=""
+           func_instance="53"
+           priority="0"/>
+</IntelParallelAdvisorSummary >

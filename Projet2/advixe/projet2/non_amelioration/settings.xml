@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<bag xmlns:boolean="http://www.w3.org/2001/XMLSchema#boolean" xmlns:int="http://www.w3.org/2001/XMLSchema#int" int:version="1">
+ <SurveyView>
+  <TopDownGrid>
+   <ColumnStructure>
+    <Visibility>
+     <boolean:fdFunctionName>true</boolean:fdFunctionName>
+     <boolean:fdTotalTimePercent>true</boolean:fdTotalTimePercent>
+     <boolean:fdTotalTime>true</boolean:fdTotalTime>
+     <boolean:fdSelfTime>true</boolean:fdSelfTime>
+     <boolean:fdCompilerOptInfoVectLoopTypeSplitting>true</boolean:fdCompilerOptInfoVectLoopTypeSplitting>
+     <boolean:fdCompilerOptInfoVectMsg>true</boolean:fdCompilerOptInfoVectMsg>
+     <boolean:fdVectInfo>true</boolean:fdVectInfo>
+     <boolean:fdVectInfoInstSetAnalysis>true</boolean:fdVectInfoInstSetAnalysis>
+     <boolean:fdCompilerOptDetails>true</boolean:fdCompilerOptDetails>
+     <boolean:fdLocation>true</boolean:fdLocation>
+    </Visibility>
+   </ColumnStructure>
+  </TopDownGrid>
+  <BottomUpGrid>
+   <ColumnStructure>
+    <Visibility>
+     <boolean:fdFunctionName>true</boolean:fdFunctionName>
+     <boolean:fdRecommendationPresence>true</boolean:fdRecommendationPresence>
+     <boolean:fdSelfTime>true</boolean:fdSelfTime>
+     <boolean:fdTotalTime>true</boolean:fdTotalTime>
+     <boolean:fdNestingLevelLoop>true</boolean:fdNestingLevelLoop>
+     <boolean:fdCompilerOptInfoVectLoopTypeSplitting>true</boolean:fdCompilerOptInfoVectLoopTypeSplitting>
+     <boolean:fdCompilerOptInfoVectMsg>true</boolean:fdCompilerOptInfoVectMsg>
+     <boolean:fdVectInfoInstSets>true</boolean:fdVectInfoInstSets>
+     <boolean:fdVectorGain>true</boolean:fdVectorGain>
+     <boolean:fdVectorLength>true</boolean:fdVectorLength>
+     <boolean:fdSelfGFLOPS>true</boolean:fdSelfGFLOPS>
+     <boolean:fdTripCount>true</boolean:fdTripCount>
+     <boolean:fdVectInfoInstClasses>true</boolean:fdVectInfoInstClasses>
+     <boolean:fdLocation>true</boolean:fdLocation>
+    </Visibility>
+   </ColumnStructure>
+  </BottomUpGrid>
+ </SurveyView>
+ <FilterView boolean:VectorizedButtonChecked="true" boolean:NotVectorizedButtonChecked="true" boolean:FakeLoopButtonChecked="false" boolean:LibrariesButtonChecked="false" LoopsAndFunctionsFilterValue="Loops And Functions"/>
+</bag>

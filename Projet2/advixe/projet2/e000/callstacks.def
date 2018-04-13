@@ -1,0 +1,367 @@
+# callstacks file version: 4
+#    rowid	    parent	       rva	 loop	 system	                                function	binary	instance start rva	instance size	instance end rva	finst rowid	roi
+         1	        -1	      9600	    0	      0	                                  _start	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9600	44	0	20	0
+         2	        -1	      9640	    0	      0	                                  _start	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9600	44	0	20	0
+         3	       345	    126636	    1	      1	 [Loop at line 112 in __libc_start_main]	/lib/x86_64-linux-gnu/libc.so.6	126457	382		105	0
+         4	         3	      9972	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+         5	       202	     11964	    0	      0	std::getline<char, std::char_traits<char>, std::allocator<char>>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11910	88	0	32	0
+         6	       359	    502021	    1	      1	[Loop@0x7a7d0 in std::getline<char, std::char_traits<char>, std::allocator<char>>]	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	501712	296		1	0
+         7	         6	    751695	    0	      1	std::basic_filebuf<char, std::char_traits<char>>::underflow	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	750880	1321	0	3	0
+         8	       361	    525127	    1	      1	[Loop@0x80333 in std::__basic_file<char>::xsgetn]	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	525107	40		4	0
+         9	       363	   2562767	    1	      1	  [Loop@0x271aa9 in tpss_read_mod1_ver0]	/opt/intel/advisor_2018.1.1.535164/lib64/libtpsstool.so	2562729	167		12	0
+        10	         9	    860096	    0	      1	                                    read	/lib/x86_64-linux-gnu/libc.so.6	860080	94	0	107	0
+        11	       206	     22392	    1	      0	      [Loop at line 27 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	13473	124	13530	35	0
+        12	       211	     13211	    0	      0	                   std::istream::istream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	13139	53	0	36	0
+        13	        12	    528679	    0	      1	std::basic_ios<char, std::char_traits<char>>::init	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	528640	105	0	6	0
+        14	        13	    528554	    0	      1	std::basic_ios<char, std::char_traits<char>>::_M_cache_locale	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	528496	139	0	7	0
+        15	        14	    571162	    0	      1	std::use_facet<std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	571104	76	0	8	0
+        16	        15	    402492	    0	      1	                          __dynamic_cast	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	402368	278	0	9	0
+        17	        16	    411453	    0	      1	__cxxabiv1::__si_class_type_info::__do_dyncast	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	411216	353	0	10	0
+        18	       217	     16833	    0	      0	__gnu_cxx::__stoa<float, float, char, <>>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	16812	79	0	40	0
+        19	       347	    233478	    1	      1	[Loop at line 740 in *__GI_____strtof_l_internal]	/lib/x86_64-linux-gnu/libc.so.6	232247	3738		108	0
+        20	       225	     14921	    0	      0	        std::string::_S_construct<char*>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	14877	155	0	44	0
+        21	        20	    784715	    0	      1	            std::string::_Rep::_S_create	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	784704	114	0	11	0
+        22	       230	     12847	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12419	631	0	50	0
+        23	        22	    528664	    0	      1	std::basic_ios<char, std::char_traits<char>>::init	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	528640	105	0	6	0
+        24	        23	    471125	    0	      1	                  std::ios_base::_M_init	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	471072	68	0	14	0
+        25	        24	    473432	    0	      1	                  std::locale::operator=	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	473424	119	0	15	0
+        26	       234	     12985	    1	      0	      [Loop at line 53 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	331	13024	53	0
+        27	       234	     20188	    1	      0	      [Loop at line 53 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	331	13024	53	0
+        28	        27	    630638	    0	      1	 std::operator<<<std::char_traits<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	630624	29	0	16	0
+        29	       240	     12937	    0	      0	         std::string::_Rep::_M_is_leaked	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	6	0	54	0
+        30	       244	     12665	    0	      0	                   std::ostream::ostream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12620	46	0	57	0
+        31	        30	    528679	    0	      1	std::basic_ios<char, std::char_traits<char>>::init	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	528640	105	0	6	0
+        32	        31	    528527	    0	      1	std::basic_ios<char, std::char_traits<char>>::_M_cache_locale	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	528496	139	0	7	0
+        33	        32	    568490	    0	      1	        std::use_facet<std::ctype<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	568432	76	0	17	0
+        34	        33	    402492	    0	      1	                          __dynamic_cast	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	402368	278	0	9	0
+        35	        34	    414990	    0	      1	__cxxabiv1::__vmi_class_type_info::__do_dyncast	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	413936	1414	0	18	0
+        36	       247	     12331	    0	      0	std::getline<char, std::char_traits<char>, std::allocator<char>>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12277	93	0	59	0
+        37	        36	    501595	    0	      1	std::getline<char, std::char_traits<char>, std::allocator<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	501472	783	0	2	0
+        38	       254	     17270	    0	      0	                  std::istream::~istream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	17270	42	0	60	0
+        39	       257	     14040	    1	      0	      [Loop at line 92 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	13944	122	14066	65	0
+        40	        39	    633990	    0	      1	         std::ostream::_M_insert<double>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	633840	540	0	19	0
+        41	        40	    616975	    0	      1	std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>::do_put	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	616960	25	0	21	0
+        42	        41	    616359	    0	      1	std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>::_M_insert_float<double>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	616192	760	0	23	0
+        43	        42	    560957	    0	      1	                            func@0x88e90	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	560784	226	0	24	0
+        44	        43	    439505	    0	      1	                           _IO_vsnprintf	/lib/x86_64-linux-gnu/libc.so.6	439344	225	0	110	0
+        45	        44	    286314	    0	      1	                   _IO_vfprintf_internal	/lib/x86_64-linux-gnu/libc.so.6	275248	22050	0	111	0
+        46	       349	    302581	    1	      1	      [Loop at line 965 in ___printf_fp]	/lib/x86_64-linux-gnu/libc.so.6	302528	99		112	0
+        47	        46	    298141	    0	      1	                        hack_digit.15957	/lib/x86_64-linux-gnu/libc.so.6	298064	361	0	114	0
+        48	       351	    211798	    1	      1	       [Loop at line 83 in __mpn_divrem]	/lib/x86_64-linux-gnu/libc.so.6	211784	27		115	0
+        49	       259	     10131	    1	      0	               [Loop at line 33 in main]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9995	161	10156	66	0
+        50	        49	    629081	    0	      1	 std::endl<char, std::char_traits<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	629024	109	0	25	0
+        51	        50	    628514	    0	      1	                       std::ostream::put	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	628320	344	0	26	0
+        52	        51	    437942	    0	      1	                                _IO_putc	/lib/x86_64-linux-gnu/libc.so.6	437760	253	0	117	0
+        53	        52	    468382	    0	      1	                   _IO_new_file_overflow	/lib/x86_64-linux-gnu/libc.so.6	468048	565	0	118	0
+        54	        53	    465972	    0	      1	                        _IO_new_do_write	/lib/x86_64-linux-gnu/libc.so.6	465952	38	0	119	0
+        55	        54	    465161	    0	      1	                            new_do_write	/lib/x86_64-linux-gnu/libc.so.6	465088	305	0	120	0
+        56	       353	    466066	    1	      1	[Loop at line 1271 in _IO_new_file_write]	/lib/x86_64-linux-gnu/libc.so.6	466032	60		121	0
+        57	        56	    860192	    0	      1	                                 __write	/lib/x86_64-linux-gnu/libc.so.6	860176	94	0	123	0
+        58	       259	     10028	    1	      0	               [Loop at line 33 in main]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9995	161	10156	66	0
+        59	        58	    630574	    0	      1	 std::operator<<<std::char_traits<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	630528	92	0	27	0
+        60	        59	    629675	    0	      1	std::__ostream_insert<char, std::char_traits<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	629520	994	0	28	0
+        61	        49	    626701	    0	      1	                     std::ostream::flush	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	626672	164	0	29	0
+        62	        61	    421536	    0	      1	                              _IO_fflush	/lib/x86_64-linux-gnu/libc.so.6	421536	247	0	124	0
+        63	       355	    437893	    0	      1	                    _IO_acquire_lock_fct	/lib/x86_64-linux-gnu/libc.so.6	437872	54	0	125	0
+        64	       259	     10118	    1	      0	               [Loop at line 33 in main]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9995	161	10156	66	0
+        65	        64	    633990	    0	      1	         std::ostream::_M_insert<double>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	633840	540	0	19	0
+        66	        65	    616975	    0	      1	std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>::do_put	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	616960	25	0	21	0
+        67	        66	    616359	    0	      1	std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>::_M_insert_float<double>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	616192	760	0	23	0
+        68	        67	    560957	    0	      1	                            func@0x88e90	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	560784	226	0	24	0
+        69	        68	    439505	    0	      1	                           _IO_vsnprintf	/lib/x86_64-linux-gnu/libc.so.6	439344	225	0	110	0
+        70	        69	    286314	    0	      1	                   _IO_vfprintf_internal	/lib/x86_64-linux-gnu/libc.so.6	275248	22050	0	111	0
+        71	       357	    300765	    1	      1	      [Loop at line 523 in ___printf_fp]	/lib/x86_64-linux-gnu/libc.so.6	300672	317		126	0
+        72	       259	     10083	    1	      0	               [Loop at line 33 in main]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9995	161	10156	66	0
+        73	        72	    633990	    0	      1	         std::ostream::_M_insert<double>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	633840	540	0	19	0
+        74	        73	    616975	    0	      1	std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>::do_put	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	616960	25	0	21	0
+        75	        74	    616359	    0	      1	std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char>>>::_M_insert_float<double>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	616192	760	0	23	0
+        76	        75	    560957	    0	      1	                            func@0x88e90	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	560784	226	0	24	0
+        77	        76	    439505	    0	      1	                           _IO_vsnprintf	/lib/x86_64-linux-gnu/libc.so.6	439344	225	0	110	0
+        78	        77	    286057	    0	      1	                   _IO_vfprintf_internal	/lib/x86_64-linux-gnu/libc.so.6	275248	22050	0	111	0
+        79	         3	     10208	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+        80	       265	     24437	    1	      0	    [Loop at line 21 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24430	24	24454	67	0
+        81	        80	    409976	    0	      1	                          operator new[]	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	409968	33	0	30	0
+        82	        81	    409724	    0	      1	                            operator new	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	409696	144	0	31	0
+        83	        82	    502335	    0	      1	                     *__GI___libc_malloc	/lib/x86_64-linux-gnu/libc.so.6	502224	599	0	127	0
+        84	        83	    495272	    0	      1	                             _int_malloc	/lib/x86_64-linux-gnu/libc.so.6	491904	5103	0	128	0
+        85	       271	     24787	    0	      0	                               std::acos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24720	68	0	70	0
+        86	        85	     44282	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+        87	       276	     24673	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+        88	        87	     27729	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+        89	        85	     44404	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+        90	       280	     24719	    0	      0	                                 cos_deg	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24680	34	0	75	0
+        91	        90	     45695	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+        92	       276	     24633	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+        93	        92	     27901	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+        94	       276	     24822	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+        95	        85	     44391	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+        96	        92	     27778	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+        97	       276	     24828	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+        98	       276	     24811	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+        99	        90	     45585	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       100	        90	     45527	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       101	        90	     45650	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       102	        85	     44246	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       103	        87	     28000	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       104	        85	     44197	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       105	        85	     44319	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       106	        85	     44148	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       107	        90	     45544	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       108	        92	     27942	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       109	        85	     44264	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       110	        90	     45672	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       111	        92	     27958	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       112	        92	     27656	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       113	        85	     44307	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       114	       271	     24780	    0	      0	                               std::acos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24720	68	0	70	0
+       115	        90	     45691	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       116	       271	     24744	    0	      0	                               std::acos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24720	68	0	70	0
+       117	        87	     27889	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       118	        92	     28008	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       119	        87	     27996	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       120	       276	     24634	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       121	        87	     27847	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       122	        90	     27620	    0	      0	                                     cos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27616	16	0	77	0
+       123	        87	     27752	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       124	       276	     24604	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       125	        85	     44130	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       126	        87	     28012	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       127	        92	     27868	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       128	        87	     28020	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       129	        92	     28012	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       130	        90	     45395	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       131	        85	     27604	    0	      0	                                   acosf	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27600	16	0	78	0
+       132	        85	     44400	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       133	        87	     27988	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       134	        90	     45609	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       135	        85	     44168	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       136	        90	     45726	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       137	        92	     27737	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       138	        90	     45380	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       139	        90	     45720	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       140	        92	     28020	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       141	        85	     44238	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       142	        85	     44336	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       143	        92	     27925	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       144	        85	     44174	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       145	        92	     27713	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       146	        87	     27975	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       147	        87	     27667	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       148	       276	     24800	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       149	       276	     24804	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       150	        90	     45732	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       151	        87	     28016	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       152	        87	     27929	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       153	        87	     27831	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       154	        92	     27966	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       155	       271	     24736	    0	      0	                               std::acos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24720	68	0	70	0
+       156	        92	     27835	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       157	        87	     27794	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       158	        90	     45629	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       159	        87	     27971	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       160	        87	     27954	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       161	        85	     44359	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       162	       271	     24772	    0	      0	                               std::acos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24720	68	0	70	0
+       163	        87	     27872	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       164	        92	     27992	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       165	       280	     24690	    0	      0	                                 cos_deg	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24680	34	0	75	0
+       166	        85	     44209	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       167	        92	     27815	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       168	        90	     45590	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       169	        92	     27671	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       170	        87	     27855	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       171	        85	     44299	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       172	        87	     28008	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       173	        90	     45364	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       174	        87	     27909	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       175	        87	     28004	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       176	        92	     28004	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       177	        92	     27885	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       178	        87	     27811	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       179	       276	     24669	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       180	       276	     24653	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       181	        90	     45563	    0	      0	                           __libm_cos_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	45360	432	0	76	0
+       182	        87	     27656	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       183	       276	     24674	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       184	        85	     44100	    0	      0	                         __libm_acosf_l9	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	44096	816	0	73	0
+       185	        92	     27798	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       186	        92	     27954	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       187	       271	     24764	    0	      0	                               std::acos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24720	68	0	70	0
+       188	        87	     27798	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       189	       280	     24709	    0	      0	                                 cos_deg	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24680	34	0	75	0
+       190	        87	     27713	    0	      0	                      __libm_sse2_sincos	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	27648	896	0	74	0
+       191	       332	     25704	    1	      0	               [Loop at line 95 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25704	94	25798	79	0
+       192	       335	     25570	    1	      0	               [Loop at line 85 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25548	97	25645	81	0
+       193	       332	     25718	    1	      0	               [Loop at line 95 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25704	94	25798	79	0
+       194	       332	     25775	    1	      0	               [Loop at line 95 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25704	94	25798	79	0
+       195	       332	     25734	    1	      0	               [Loop at line 95 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25704	94	25798	79	0
+       196	       332	     25761	    1	      0	               [Loop at line 95 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25704	94	25798	79	0
+       197	       335	     25614	    1	      0	               [Loop at line 85 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25548	97	25645	81	0
+       198	       335	     25567	    1	      0	               [Loop at line 85 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25548	97	25645	81	0
+       199	       335	     25548	    1	      0	               [Loop at line 85 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25548	97	25645	81	0
+       200	       335	     25601	    1	      0	               [Loop at line 85 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25548	97	25645	81	0
+       201	         4	     11905	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       202	       201	     11910	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       203	       201	     11964	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       204	         4	     11964	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       205	         4	     11905	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       206	       205	     13473	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       207	         4	     22392	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       208	       201	     13038	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       209	       208	     13038	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	13038	356	0	39	0
+       210	       209	     13139	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	13038	356	0	38	0
+       211	       210	     13139	    0	      0	                 std::iostream::iostream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	13139	165	0	37	0
+       212	       201	     13211	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       213	         4	     13211	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       214	       201	     12272	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       215	       214	     16804	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       216	       215	     16812	    1	      0	      [Loop at line 68 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	16804	120	16857	41	0
+       217	       216	     16812	    0	      0	                               std::stof	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	16812	79	0	42	0
+       218	       215	     16833	    1	      0	      [Loop at line 68 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	16804	120	16857	41	0
+       219	         4	     16833	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       220	       214	     14821	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       221	       220	     14821	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::str	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	14821	821	0	49	0
+       222	       221	     14877	    0	      0	std::basic_stringbuf<char, std::char_traits<char>, std::allocator<char>>::str	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	14821	821	0	48	0
+       223	       222	     14877	    0	      0	              std::string::string<char*>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	14877	172	0	47	0
+       224	       223	     14877	    0	      0	        std::string::_S_construct<char*>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	14877	172	0	46	0
+       225	       224	     14877	    0	      0	    std::string::_S_construct_aux<char*>	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	14877	172	0	45	0
+       226	       214	     14921	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       227	         4	     14921	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       228	       214	     12460	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       229	       228	     12419	    1	      0	      [Loop at line 52 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12460	415	12875	51	0
+       230	       229	     12419	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12419	631	0	52	0
+       231	       228	     12847	    1	      0	      [Loop at line 52 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12460	415	12875	51	0
+       232	         4	     12847	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       233	       205	     12272	    1	      0	      [Loop at line 24 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11905	6846	12351,19195,18797,22071	33	0
+       234	       233	     12937	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       235	         4	     12985	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       236	         4	     20188	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       237	       214	     12937	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       238	       237	     12937	    1	      0	      [Loop at line 53 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	331	13024	53	0
+       239	       238	     12937	    0	      0	                 std::string::operator[]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	19	0	56	0
+       240	       239	     12937	    0	      0	                    std::string::_M_leak	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	19	0	55	0
+       241	       237	     12937	    1	      0	      [Loop at line 53 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12937	331	13024	53	0
+       242	         4	     12937	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       243	       230	     12554	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12419	631	0	50	0
+       244	       243	     12620	    0	      0	                 std::iostream::iostream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12554	197	0	58	0
+       245	       228	     12665	    1	      0	      [Loop at line 52 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12460	415	12875	51	0
+       246	         4	     12665	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       247	       214	     12277	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       248	       214	     12331	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       249	         4	     12331	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       250	       214	     17074	    1	      0	      [Loop at line 49 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	12272	4790	20752,12351,19195,18797	43	0
+       251	       250	     17074	    1	      0	      [Loop at line 77 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	17074	406	17377	61	0
+       252	       251	     17074	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::~basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	17074	346	0	64	0
+       253	       252	     17208	    0	      0	std::basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::~basic_stringstream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	17074	346	0	63	0
+       254	       253	     17270	    0	      0	                std::iostream::~iostream	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	17208	101	0	62	0
+       255	       250	     17270	    1	      0	      [Loop at line 77 in lectureVilles]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	17074	406	17377	61	0
+       256	         4	     17270	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       257	         4	     13944	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       258	         4	     14040	    0	      0	                           lectureVilles	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	11488	12192	0	34	0
+       259	         3	      9995	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+       260	         3	     10131	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+       261	         3	     10028	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+       262	         3	     10118	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+       263	         3	     10083	    0	      0	                                    main	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	9872	1520	0	22	0
+       264	        79	     24369	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       265	       264	     24430	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       266	       264	     24437	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       267	        79	     24437	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       268	        79	     24527	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       269	       268	     24369	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       270	       269	     24604	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       271	       270	     24720	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       272	       270	     24787	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       273	       270	     24787	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       274	        79	     24527	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       275	       274	     24369	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       276	       275	     24604	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       277	       275	     24673	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       278	       276	     24673	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       279	        79	     24673	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       280	       270	     24680	    1	      0	    [Loop at line 29 in computeDistance]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24604	235	24839	71	0
+       281	       270	     24719	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       282	       270	     24719	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       283	       275	     24633	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       284	       276	     24633	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       285	        79	     24633	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       286	       275	     24822	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       287	       276	     24822	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       288	        79	     24822	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       289	       275	     24828	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       290	       276	     24828	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       291	        79	     24828	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       292	       275	     24811	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       293	       276	     24811	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       294	        79	     24811	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       295	       270	     24780	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       296	       270	     24780	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       297	       270	     24744	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       298	       270	     24744	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       299	       275	     24634	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       300	       276	     24634	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       301	        79	     24634	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       302	       275	     24604	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       303	       276	     24604	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       304	        79	     24604	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       305	       275	     24800	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       306	       276	     24800	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       307	        79	     24800	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       308	       275	     24804	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       309	       276	     24804	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       310	        79	     24804	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       311	       270	     24736	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       312	       270	     24736	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       313	       270	     24772	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       314	       270	     24772	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       315	       270	     24690	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       316	       270	     24690	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       317	       275	     24669	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       318	       276	     24669	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       319	        79	     24669	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       320	       275	     24653	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       321	       276	     24653	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       322	        79	     24653	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       323	       275	     24674	    0	      0	                         computeDistance	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24369	508	0	68	0
+       324	       276	     24674	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       325	        79	     24674	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       326	       270	     24764	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       327	       270	     24764	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       328	       270	     24709	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       329	       270	     24709	    1	      0	               [Loop at line 41 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24527	358	24885	72	0
+       330	        79	     25529	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       331	       330	     25704	    1	      0	               [Loop at line 81 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25529	357	25522,25517,25869	132	0
+       332	       331	     25704	    1	      0	               [Loop at line 81 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25529	340	25869	80	0
+       333	        79	     25704	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       334	       330	     25548	    1	      0	               [Loop at line 81 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25529	357	25522,25517,25869	132	0
+       335	       334	     25548	    1	      0	               [Loop at line 81 in prim]	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	25529	340	25869	80	0
+       336	        79	     25570	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       337	        79	     25718	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       338	        79	     25775	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       339	        79	     25734	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       340	        79	     25761	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       341	        79	     25614	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       342	        79	     25567	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       343	        79	     25548	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       344	        79	     25601	    0	      0	                                    prim	/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out	24352	1552	0	69	0
+       345	         2	    126457	    0	      1	                       __libc_start_main	/lib/x86_64-linux-gnu/libc.so.6	126384	455	0	106	0
+       346	         2	    126636	    0	      1	                       __libc_start_main	/lib/x86_64-linux-gnu/libc.so.6	126384	455	0	106	0
+       347	        18	    232247	    0	      1	             *__GI_____strtof_l_internal	/lib/x86_64-linux-gnu/libc.so.6	231808	8508	0	109	0
+       348	        18	    233478	    0	      1	             *__GI_____strtof_l_internal	/lib/x86_64-linux-gnu/libc.so.6	231808	8508	0	109	0
+       349	        45	    302528	    0	      1	                            ___printf_fp	/lib/x86_64-linux-gnu/libc.so.6	299008	10084	0	113	0
+       350	        45	    302581	    0	      1	                            ___printf_fp	/lib/x86_64-linux-gnu/libc.so.6	299008	10084	0	113	0
+       351	        47	    211784	    0	      1	                            __mpn_divrem	/lib/x86_64-linux-gnu/libc.so.6	210912	1200	0	116	0
+       352	        47	    211798	    0	      1	                            __mpn_divrem	/lib/x86_64-linux-gnu/libc.so.6	210912	1200	0	116	0
+       353	        55	    466032	    0	      1	                      _IO_new_file_write	/lib/x86_64-linux-gnu/libc.so.6	466000	156	0	122	0
+       354	        55	    466066	    0	      1	                      _IO_new_file_write	/lib/x86_64-linux-gnu/libc.so.6	466000	156	0	122	0
+       355	        51	    437872	    0	      1	                                _IO_putc	/lib/x86_64-linux-gnu/libc.so.6	437760	253	0	117	0
+       356	        51	    437893	    0	      1	                                _IO_putc	/lib/x86_64-linux-gnu/libc.so.6	437760	253	0	117	0
+       357	        70	    300672	    0	      1	                            ___printf_fp	/lib/x86_64-linux-gnu/libc.so.6	299008	10084	0	113	0
+       358	        70	    300765	    0	      1	                            ___printf_fp	/lib/x86_64-linux-gnu/libc.so.6	299008	10084	0	113	0
+       359	         5	    501712	    0	      1	std::getline<char, std::char_traits<char>, std::allocator<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	501472	783	0	2	0
+       360	         5	    502021	    0	      1	std::getline<char, std::char_traits<char>, std::allocator<char>>	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	501472	783	0	2	0
+       361	         7	    525107	    0	      1	         std::__basic_file<char>::xsgetn	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	525088	88	0	5	0
+       362	         7	    525127	    0	      1	         std::__basic_file<char>::xsgetn	/usr/lib/x86_64-linux-gnu/libstdc++.so.6	525088	88	0	5	0
+       363	         8	   2562729	    0	      1	                     tpss_read_mod1_ver0	/opt/intel/advisor_2018.1.1.535164/lib64/libtpsstool.so	2561760	2811	0	13	0
+       364	         8	   2562767	    0	      1	                     tpss_read_mod1_ver0	/opt/intel/advisor_2018.1.1.535164/lib64/libtpsstool.so	2561760	2811	0	13	0
+       365	        -1	         0	    0	      0	                [Unknown stack frame(s)]	n/a	0	1	0	134	0

@@ -32,3 +32,24 @@
     ```
     python visualisation.py ./resuGraphe.dat ./resuVilles.dat 1 
     ```
+    
+### Compile with icpc
+  - find icpc
+    ```
+     source /usr/ensta/bin/intel.sh
+    ```
+  - compile icpc
+    ```
+    icpc -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -o a.out
+    ```
+    -g is for debug
+    
+### Bottleneck
+  - Version non_amelioration (compiler en o3, minPop = 1000)
+    - Problem
+      - computeDistance() use 86.9% of total time.
+      - iteration in computeDistance() is not vectorized because of accessing `distance[i][j]` and `distance[j][i]` in the same inter-loop.
+      - computing `sin` or `cos` consumes 34.1% of total time
+      - all of the loop in prim.cpp are not vectorized, because "loop was not vectorized: vectorization possible but seems inefficient."
+    - Solution
+      - store only a triangle matrix.

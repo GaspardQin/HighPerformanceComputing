@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <rdmgr>
+  <timestamp type="u64_t">1523607157</timestamp>
+  <hostname type="string">morpheus02</hostname>
+  <os type="string">linux</os>
+  <product type="string">Intel® Advisor 2018 Update 1</product>
+  <buildNumber type="s32_t">535164</buildNumber>
+  <logicalCPUCount type="s32_t">4</logicalCPUCount>
+  <CPUFrequency type="s64_t">800000000</CPUFrequency>
+  <CPUFamily type="s32_t">6</CPUFamily>
+  <CPUModel type="s32_t">94</CPUModel>
+  <CPUStepping type="s32_t">3</CPUStepping>
+  <CPUBrandName type="string">Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz</CPUBrandName>
+  <isa type="string">avx</isa>
+ </rdmgr>
+</root>

@@ -11,7 +11,7 @@ float cos_deg(float a){
         return (cos(a/180*pi));
 }
 
-void computeDistance(float* &villesLon, float* &villesLat, int &nbVilles, float** &distance)
+void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance)
 {
 	int i, j;
 	float dist_temp;
@@ -35,7 +35,7 @@ void computeDistance(float* &villesLon, float* &villesLat, int &nbVilles, float*
 
 }
 
-void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,float** &distance)
+void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
 {
 	// parent[i] = j means j is the parent node of i
 	computeDistance(villesLon, villesLat, nbVilles, distance);

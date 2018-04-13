@@ -1,0 +1,8 @@
+
+=== Start: [2018/04/13 10:22:56] === 
+Analysis started...
+Result file: /home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/advixe/projet2/e000/trc000/trc000.advixe 
+Application exit code: 0 
+Result file: /home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/advixe/projet2/e000/trc000/trc000.advixe 
+Analysis completed
+=== End: [2018/04/13 10:23:09] === 

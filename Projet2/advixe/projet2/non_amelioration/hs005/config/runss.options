@@ -1,0 +1,16 @@
+-r
+/home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/advixe/projet2/e000/hs005
+-type
+cpu:stack
+--mrte-mode=auto
+--follow-child
+--return-app-exitcode
+--strategy=ld-linux.so.2:notrace:notrace,ld-linux-x86-64.so.2:notrace:notrace
+--interval=10
+--data-limit-mb=500
+--stack-stitching
+--stackwalk=offline
+--mrte-type=java,python
+--bandwidth-config=dram,mcdram,cpu_cache,flop_peak
+--
+/home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out

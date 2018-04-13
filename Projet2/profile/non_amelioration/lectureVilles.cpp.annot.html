@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Annotated source listing for\/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp</title>
+<style>
+*{margin:0;padding:0}body,html{color:#000;background:#fff;height:100%;width:100%;font-family:"Lucida Sans Unicode","Lucida Grande",sans-serif;overflow:hidden}.header{position:absolute;top:0;height:50px;width:100%;background:#0071c5;color:#fff}.content{position:absolute;left:0;right:0;width:75%;top:50px;bottom:40px;margin:0 auto}.content .inner_header{height:30px;background:#ddd}.content .scrollable_right{position:absolute;left:300px;bottom:0;top:30px;right:0;overflow-y:scroll;padding:3px 5px}.content .scrollable_left{overflow-y:scroll;position:absolute;width:285px;top:30px;bottom:0;padding:3px 5px;border-left:thick solid #ddd}.footer{position:absolute;bottom:0;height:40px;width:100%;background:#0071c5;text-align:center;color:#fff}.header .title{position:relative;padding:7px 5px;left:12.5%;color:#fff;font-size:20px;font-weight:bolder;text-shadow:1px 1px #000}.content .title{padding:3px 5px;color:#0071c5;font-size:14px;font-weight:bolder}.footer .title{padding:10px;font-size:12px}.content .scrollable_left .annot_link{font-size:14px;color:#0071c5}.content .scrollable_left .annot_link:visited {color:purple;text-decoration:underline;}.footnote{color: #0071c5;}</style>
+</head>
+<body>
+<div class="header">
+<div class="title">Annotated source listing with compiler optimization reports</div>
+</div>
+<div class="content">
+<div class="inner_header">
+<div class="title">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp
+</div>
+</div><div class="scrollable_left"><h5 style="color:#032640">Routines with optimization reports</h5><a class="annot_link" href="#l10">lectureVilles(int,&nbsp;std::string&nbsp;*&,&nbsp;int&nbsp;*&,&nbsp;float&nbsp;*&,&nbsp;float&nbsp;*&,&nbsp;int&nbsp;&)</a><br/></div><div class="scrollable_right" id="code_layout">
+ <pre style="border-width:0px;"></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.1.163 Build 20171018
+
+Compiler options: -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html -O3
+</pre>
+<pre style="border-width:0px;"><a id="l1">1	#include &lt;iostream&gt;
+</a><a id="l2">2	#include &lt;fstream&gt;
+</a><a id="l3">3	#include &lt;sstream&gt;
+</a><a id="l4">4	#include &lt;string&gt;
+</a><a id="l5">5	
+</a><a id="l6">6	#include "lectureVilles.h"
+</a><a id="l7">7	
+</a><a id="l8">8	using namespace std;
+</a><a id="l9">9	
+</a><a id="l10">10	void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &villesLon, float* &villesLat, int &nbVilles){
+</a><a id="l11">11	
+</a><a id="l12">12	//-----------------------------------------------------------------
+</a><a id="l13">13	//--- LECTURE des villes de 'popMin' habitants ou plus
+</a><a id="l14">14	//-----------------------------------------------------------------
+</a><a id="l15">15	
+</a><a id="l16">16	  cout &lt;&lt; "== Lecture des villes de min. " &lt;&lt; popMin &lt;&lt; " habitants à partir de 'listeVilles.csv' ==" &lt;&lt; endl;
+</a><a id="l17">17	
+</a><a id="l18">18	  ifstream inputFile("listeVilles.csv");
+</a><a id="l19">19	  if (inputFile.is_open()) {
+</a><a id="l20">20	
+</a><a id="l21">21	    // Compte le nombre de villes avec une population supérieure à 'popMin'
+</a><a id="l22">22	    nbVilles = 0;
+</a><a id="l23">23	    string line;
+</a><a id="l24">24	    while ( getline(inputFile,line) ) {
+</a><a id="l25">25	      int label = 0;
+</a><a id="l26">26	      stringstream ss;
+</a><a id="l27">27	      for(int i=0; i&lt;line.size(); i++){
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l27">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(27,27)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l28">28	        if(line[i] == ',')
+</a><a id="l29">29	          label++;
+</a><a id="l30">30	        else{
+</a><a id="l31">31	          if(label==14) ss &lt;&lt; line[i];
+</a><a id="l32">32	        }
+</a><a id="l33">33	      }
+</a><a id="l34">34	      string::size_type sz;
+</a><a id="l35">35	      int my_pop = stoi(ss.str(),&sz);
+</a><a id="l36">36	      if(my_pop &gt;= popMin) nbVilles++;
+</a><a id="l37">37	    }
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at <a class="annot_link" href="basic_ios.h.annot.html#l274">/usr/include/c++/4.7/bits/basic_ios.h(274,22)</a> inlined into <a class="annot_link" href="lectureVilles.cpp.annot.html#l37">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(37,5)</a>
+   remark #15333: loop was not vectorized: exception handling for a call prevents vectorization   [ <a class="annot_link" href="locale_facets.h.annot.html#l871">/usr/include/c++/4.7/bits/locale_facets.h(871,8)</a> ]
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l38">38	
+</a><a id="l39">39	    // Allocation des tableaux
+</a><a id="l40">40	    villesNom = new string[nbVilles];
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l40">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(40,28)</a>
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 6 
+   remark #15477: vector cost: 3.000 
+   remark #15478: estimated potential speedup: 1.960 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l40">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(40,28)</a>
+&lt;Remainder loop for vectorization&gt;
+   remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l41">41	    villesPop = new int[nbVilles];
+</a><a id="l42">42	    villesLon = new float[nbVilles];
+</a><a id="l43">43	    villesLat = new float[nbVilles];
+</a><a id="l44">44	
+</a><a id="l45">45	    // Lecture/Sauvegarde des données
+</a><a id="l46">46	    int index=0;
+</a><a id="l47">47	    inputFile.clear();
+</a><a id="l48">48	    inputFile.seekg(0, ios::beg);
+</a><a id="l49">49	    while ( getline(inputFile,line) ) {
+</a><a id="l50">50	
+</a><a id="l51">51	      int label=0;
+</a><a id="l52">52	      stringstream ss[4];
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at <a class="annot_link" href="basic_ios.h.annot.html#l452">/usr/include/c++/4.7/bits/basic_ios.h(452,7)</a> inlined into <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 3 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 0.800 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 4  
+   LOOP END
+
+   LOOP BEGIN at <a class="annot_link" href="basic_ios.h.annot.html#l452">/usr/include/c++/4.7/bits/basic_ios.h(452,7)</a> inlined into <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 3 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 0.800 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 4  
+   LOOP END
+
+   LOOP BEGIN at <a class="annot_link" href="basic_ios.h.annot.html#l452">/usr/include/c++/4.7/bits/basic_ios.h(452,7)</a> inlined into <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 3 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 0.800 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 4  
+   LOOP END
+
+   LOOP BEGIN at <a class="annot_link" href="basic_ios.h.annot.html#l452">/usr/include/c++/4.7/bits/basic_ios.h(452,7)</a> inlined into <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 3 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 0.800 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 4  
+   LOOP END
+
+   LOOP BEGIN at <a class="annot_link" href="streambuf.annot.html#l461">/usr/include/c++/4.7/streambuf(461,7)</a> inlined into <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 3 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 0.850 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 6  
+   LOOP END
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+   remark #15333: loop was not vectorized: exception handling for a call prevents vectorization   [ <a class="annot_link" href="basic_ios.h.annot.html#l274">/usr/include/c++/4.7/bits/basic_ios.h(274,22)</a> ]
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(52,20)</a>
+   remark #15308: loop was not vectorized: explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l53">53	      for(int i=0; i&lt;line.size(); i++){
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l53">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(53,27)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l54">54	        if(line[i] == ',')
+</a><a id="l55">55	          label++;
+</a><a id="l56">56	        else{
+</a><a id="l57">57	          if(label==3)  ss[0] &lt;&lt; line[i]; // Nom
+</a><a id="l58">58	          if(label==14) ss[1] &lt;&lt; line[i]; // Population 2010
+</a><a id="l59">59	          if(label==19) ss[2] &lt;&lt; line[i]; // Longitude en degrés
+</a><a id="l60">60	          if(label==20) ss[3] &lt;&lt; line[i]; // Latitude en degrés
+</a><a id="l61">61	        }
+</a><a id="l62">62	      }
+</a><a id="l63">63	
+</a><a id="l64">64	      string::size_type sz;
+</a><a id="l65">65	      string my_nom = ss[0].str();
+</a><a id="l66">66	      int    my_pop = stoi(ss[1].str(),&sz);
+</a><a id="l67">67	      float  my_lon = stof(ss[2].str(),&sz);
+</a><a id="l68">68	      float  my_lat = stof(ss[3].str(),&sz);
+</a><a id="l69">69	
+</a><a id="l70">70	      if(my_pop &gt;= popMin){
+</a><a id="l71">71	        villesNom[index] = my_nom;
+</a><a id="l72">72	        villesPop[index] = my_pop;
+</a><a id="l73">73	        villesLon[index] = my_lon;
+</a><a id="l74">74	        villesLat[index] = my_lat;
+</a><a id="l75">75	        index++;
+</a><a id="l76">76	      }
+</a><a id="l77">77	    }
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l77">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(77,5)</a>
+   remark #15333: loop was not vectorized: exception handling for a call prevents vectorization   [ <a class="annot_link" href="basic_ios.h.annot.html#l274">/usr/include/c++/4.7/bits/basic_ios.h(274,22)</a> ]
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l77">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(77,5)</a>
+   remark #15333: loop was not vectorized: exception handling for a call prevents vectorization   [ <a class="annot_link" href="locale_facets.h.annot.html#l871">/usr/include/c++/4.7/bits/locale_facets.h(871,8)</a> ]
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l78">78	
+</a><a id="l79">79	    inputFile.close();
+</a><a id="l80">80	  }
+</a><a id="l81">81	  else
+</a><a id="l82">82	    cout &lt;&lt; "   Impossible d'ouvrir le fichier." &lt;&lt; endl;
+</a><a id="l83">83	
+</a><a id="l84">84	//-----------------------------------------------------------------
+</a><a id="l85">85	//--- ECRITURE des villes de 'popMin' habitants ou plus
+</a><a id="l86">86	//-----------------------------------------------------------------
+</a><a id="l87">87	
+</a><a id="l88">88	  cout &lt;&lt; "== Écriture des villes de min. " &lt;&lt; popMin &lt;&lt; " habitants dans 'resuVilles.dat' ==" &lt;&lt; endl;
+</a><a id="l89">89	
+</a><a id="l90">90	  ofstream fileOut("resuVilles.dat");
+</a><a id="l91">91	  if (fileOut.is_open()) {
+</a><a id="l92">92	    for(int i=0; i&lt;nbVilles; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="lectureVilles.cpp.annot.html#l92">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp(92,5)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l93">93	      fileOut &lt;&lt; villesPop[i] &lt;&lt; " "
+</a><a id="l94">94	              &lt;&lt; villesLon[i] &lt;&lt; " "
+</a><a id="l95">95	              &lt;&lt; villesLat[i] &lt;&lt; "\n";
+</a><a id="l96">96	    fileOut.close();
+</a><a id="l97">97	  }
+</a><a id="l98">98	  else
+</a><a id="l99">99	    cout &lt;&lt; "   Impossible d'ouvrir le fichier." &lt;&lt; endl;
+</a><a id="l100">100	
+</a><a id="l101">101	  return;
+</a><a id="l102">102	}
+</a></pre> </div></div>
+<div class="footer">
+<div class="title">Intel Corporation 2015
+</div>
+</div>
+</body>
+</html>

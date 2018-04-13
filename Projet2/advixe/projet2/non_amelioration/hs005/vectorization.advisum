@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="" 
+                             kind="DATAKIND_SURVEY_EX" >
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="85"
+           routine="prim"
+           is_vectorized="0"
+           self_time="1.080033E-01"
+           total_time="1.080033E-01"
+           trip_counts="4748"
+           func_instance="81"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="29"
+           routine="computeDistance"
+           is_vectorized="0"
+           self_time="2.640613E-01"
+           total_time="2.527979E+00"
+           trip_counts="9495"
+           func_instance="74"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp"
+           line_no="53"
+           routine="lectureVilles"
+           is_vectorized="0"
+           self_time="8.023570E-03"
+           total_time="3.002258E-02"
+           trip_counts="159"
+           func_instance="36"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp"
+           line_no="27"
+           routine="lectureVilles"
+           is_vectorized="0"
+           self_time="1.198238E-02"
+           total_time="1.995322E-02"
+           trip_counts="159"
+           func_instance="35"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="95"
+           routine="prim"
+           is_vectorized="0"
+           self_time="9.198991E-02"
+           total_time="9.198991E-02"
+           trip_counts="9496"
+           func_instance="83"
+           priority="0"/>
+</IntelParallelAdvisorSummary >

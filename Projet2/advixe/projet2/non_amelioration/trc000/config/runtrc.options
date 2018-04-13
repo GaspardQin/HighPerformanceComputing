@@ -1,0 +1,8 @@
+-r
+/home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/advixe/projet2/e000/trc000
+--return-app-exitcode
+--cs-mode=no-count-loops,no-count-flops
+--count-flops
+--cs-file=/home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/advixe/projet2/e000/callstacks.def
+--
+/home/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/a.out

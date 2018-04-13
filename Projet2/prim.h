@@ -15,7 +15,7 @@
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
 
-void computeDistance(float* &villesLon, float* &villesLat, int &nbVilles, float** &distance);
-void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
+void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance);
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
 #endif

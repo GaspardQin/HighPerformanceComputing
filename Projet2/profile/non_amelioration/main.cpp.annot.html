@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Annotated source listing for\/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/main.cpp</title>
+<style>
+*{margin:0;padding:0}body,html{color:#000;background:#fff;height:100%;width:100%;font-family:"Lucida Sans Unicode","Lucida Grande",sans-serif;overflow:hidden}.header{position:absolute;top:0;height:50px;width:100%;background:#0071c5;color:#fff}.content{position:absolute;left:0;right:0;width:75%;top:50px;bottom:40px;margin:0 auto}.content .inner_header{height:30px;background:#ddd}.content .scrollable_right{position:absolute;left:300px;bottom:0;top:30px;right:0;overflow-y:scroll;padding:3px 5px}.content .scrollable_left{overflow-y:scroll;position:absolute;width:285px;top:30px;bottom:0;padding:3px 5px;border-left:thick solid #ddd}.footer{position:absolute;bottom:0;height:40px;width:100%;background:#0071c5;text-align:center;color:#fff}.header .title{position:relative;padding:7px 5px;left:12.5%;color:#fff;font-size:20px;font-weight:bolder;text-shadow:1px 1px #000}.content .title{padding:3px 5px;color:#0071c5;font-size:14px;font-weight:bolder}.footer .title{padding:10px;font-size:12px}.content .scrollable_left .annot_link{font-size:14px;color:#0071c5}.content .scrollable_left .annot_link:visited {color:purple;text-decoration:underline;}.footnote{color: #0071c5;}</style>
+</head>
+<body>
+<div class="header">
+<div class="title">Annotated source listing with compiler optimization reports</div>
+</div>
+<div class="content">
+<div class="inner_header">
+<div class="title">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/main.cpp
+</div>
+</div><div class="scrollable_left"><h5 style="color:#032640">Routines with optimization reports</h5><a class="annot_link" href="#l15">main()</a><br/></div><div class="scrollable_right" id="code_layout">
+ <pre style="border-width:0px;"></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.1.163 Build 20171018
+
+Compiler options: -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html -O3
+</pre>
+<pre style="border-width:0px;"><a id="l1">1	// g++ citiesPlot.py
+</a><a id="l2">2	
+</a><a id="l3">3	#include &lt;iostream&gt;
+</a><a id="l4">4	#include &lt;fstream&gt;
+</a><a id="l5">5	#include &lt;sstream&gt;
+</a><a id="l6">6	#include &lt;string&gt;
+</a><a id="l7">7	#include &lt;chrono&gt;
+</a><a id="l8">8	
+</a><a id="l9">9	using namespace std;
+</a><a id="l10">10	using namespace std::chrono;
+</a><a id="l11">11	
+</a><a id="l12">12	#include "lectureVilles.h"
+</a><a id="l13">13	#include "prim.h"
+</a><a id="l14">14	
+</a><a id="l15">15	int main() {
+</a><a id="l16">16	
+</a><a id="l17">17	//-----------------------------------------------------------------
+</a><a id="l18">18	//--- LECTURE des villes
+</a><a id="l19">19	//-----------------------------------------------------------------
+</a><a id="l20">20	
+</a><a id="l21">21	  int popMin;
+</a><a id="l22">22	  //cout &lt;&lt; "Population minimale ? ";
+</a><a id="l23">23	  //cin &gt;&gt; popMin;
+</a><a id="l24">24	  popMin = 1000;
+</a><a id="l25">25	  string* villesNom; // Nom
+</a><a id="l26">26	  int*    villesPop; // Population
+</a><a id="l27">27	  float*  villesLon; // Longitude
+</a><a id="l28">28	  float*  villesLat; // Latitude
+</a><a id="l29">29	  int     N;         // Nombre de villes
+</a><a id="l30">30	  lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
+</a><a id="l31">31	
+</a><a id="l32">32	  // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
+</a><a id="l33">33	  for(int i=0; i&lt;N; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="main.cpp.annot.html#l33">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/main.cpp(33,3)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l34">34	    cout &lt;&lt; villesNom[i] &lt;&lt; " " &lt;&lt; villesPop[i] &lt;&lt; " " &lt;&lt; villesLon[i] &lt;&lt; " " &lt;&lt; villesLat[i] &lt;&lt; endl;
+</a><a id="l35">35	
+</a><a id="l36">36	//-----------------------------------------------------------------
+</a><a id="l37">37	//--- CALCUL du graphe
+</a><a id="l38">38	//-----------------------------------------------------------------
+</a><a id="l39">39	
+</a><a id="l40">40	  // Début du CHRONO
+</a><a id="l41">41	  high_resolution_clock::time_point timeStart = high_resolution_clock::now();
+</a><a id="l42">42	
+</a><a id="l43">43	
+</a><a id="l44">44	  // [...]
+</a><a id="l45">45	  int * graphe;
+</a><a id="l46">46	  float ** distance;
+</a><a id="l47">47	  prim(villesLon, villesLat, N, graphe, distance);
+</a><a id="l48">48	
+</a><a id="l49">49	
+</a><a id="l50">50	  // Fin du CHRONO
+</a><a id="l51">51	  high_resolution_clock::time_point timeEnd = high_resolution_clock::now();
+</a><a id="l52">52	  duration&lt;double&gt; timeSpan = duration_cast&lt;duration&lt;double&gt;&gt;(timeEnd-timeStart);
+</a><a id="l53">53	  double timeTotal = timeSpan.count();
+</a><a id="l54">54	  cout&lt;&lt; endl;
+</a><a id="l55">55	  cout&lt;&lt; "Total time: " &lt;&lt; timeTotal &lt;&lt; endl;
+</a><a id="l56">56	  #ifdef SHOW_ALL
+</a><a id="l57">57	  showAllDistance(villesLon, villesLat, N, graphe, distance);
+</a><a id="l58">58	  #endif
+</a><a id="l59">59	  // Écriture du graphe (chaque ligne correspond à une arête)
+</a><a id="l60">60	  // !!! Ci-dessous, on écrit le graphe complet pour l'exemple
+</a><a id="l61">61	  // !!! Vous devez modifier cette commande pour écrire le graphe obtenu avec Prim
+</a><a id="l62">62	  ofstream fileOut("resuGraphe.dat");
+</a><a id="l63">63	  //for(int i=0; i&lt;N; i++)
+</a><a id="l64">64	  //  for(int j=0; j&lt;i; j++)
+</a><a id="l65">65	  //    fileOut &lt;&lt; i &lt;&lt; " " &lt;&lt; j &lt;&lt; "\n";
+</a><a id="l66">66	  for(int i =0; i &lt; N; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="main.cpp.annot.html#l66">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/main.cpp(66,3)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l67">67	  {
+</a><a id="l68">68	    fileOut &lt;&lt; graphe[i] &lt;&lt; " "&lt;&lt; i &lt;&lt;" "&lt;&lt; distance[i][graphe[i]]&lt;&lt; "\n";
+</a><a id="l69">69	  }
+</a><a id="l70">70	  fileOut.close();
+</a><a id="l71">71	
+</a><a id="l72">72	//-----------------------------------------------------------------
+</a><a id="l73">73	//--- DESALLOCATION des tableaux
+</a><a id="l74">74	//-----------------------------------------------------------------
+</a><a id="l75">75	
+</a><a id="l76">76	  return 0;
+</a><a id="l77">77	}
+</a></pre> </div></div>
+<div class="footer">
+<div class="title">Intel Corporation 2015
+</div>
+</div>
+</body>
+</html>

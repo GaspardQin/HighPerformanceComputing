@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Annotated source listing for\/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp</title>
+<style>
+*{margin:0;padding:0}body,html{color:#000;background:#fff;height:100%;width:100%;font-family:"Lucida Sans Unicode","Lucida Grande",sans-serif;overflow:hidden}.header{position:absolute;top:0;height:50px;width:100%;background:#0071c5;color:#fff}.content{position:absolute;left:0;right:0;width:75%;top:50px;bottom:40px;margin:0 auto}.content .inner_header{height:30px;background:#ddd}.content .scrollable_right{position:absolute;left:300px;bottom:0;top:30px;right:0;overflow-y:scroll;padding:3px 5px}.content .scrollable_left{overflow-y:scroll;position:absolute;width:285px;top:30px;bottom:0;padding:3px 5px;border-left:thick solid #ddd}.footer{position:absolute;bottom:0;height:40px;width:100%;background:#0071c5;text-align:center;color:#fff}.header .title{position:relative;padding:7px 5px;left:12.5%;color:#fff;font-size:20px;font-weight:bolder;text-shadow:1px 1px #000}.content .title{padding:3px 5px;color:#0071c5;font-size:14px;font-weight:bolder}.footer .title{padding:10px;font-size:12px}.content .scrollable_left .annot_link{font-size:14px;color:#0071c5}.content .scrollable_left .annot_link:visited {color:purple;text-decoration:underline;}.footnote{color: #0071c5;}</style>
+</head>
+<body>
+<div class="header">
+<div class="title">Annotated source listing with compiler optimization reports</div>
+</div>
+<div class="content">
+<div class="inner_header">
+<div class="title">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp
+</div>
+</div><div class="scrollable_left"><h5 style="color:#032640">Routines with optimization reports</h5><a class="annot_link" href="#l15">computeDistance(float&nbsp;*&,&nbsp;float&nbsp;*&,&nbsp;int&nbsp;&,&nbsp;float&nbsp;**&)</a><br/><a class="annot_link" href="#l39">prim(float&nbsp;*&,&nbsp;float&nbsp;*&,&nbsp;int&nbsp;&,&nbsp;int&nbsp;*&,&nbsp;float&nbsp;**&)</a><br/><a class="annot_link" href="#l120">showAllDistance(float&nbsp;*&,&nbsp;float&nbsp;*&,&nbsp;int&nbsp;&,&nbsp;int&nbsp;*&,&nbsp;float&nbsp;**&)</a><br/></div><div class="scrollable_right" id="code_layout">
+ <pre style="border-width:0px;"></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+Intel(R) C++ Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.1.163 Build 20171018
+
+Compiler options: -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html -O3
+</pre>
+<pre style="border-width:0px;"><a id="l1">1	#ifndef PRIME_CPP
+</a><a id="l2">2	#define PRIME_CPP
+</a><a id="l3">3	#include "prim.h"
+</a><a id="l4">4	using namespace std;
+</a><a id="l5">5	const double pi = std::acos(-1);
+</a><a id="l6">6	
+</a><a id="l7">7	float sin_deg(float a){
+</a><a id="l8">8	        return (sin(a/180*pi));
+</a><a id="l9">9	}
+</a><a id="l10">10	float cos_deg(float a){
+</a><a id="l11">11	        return (cos(a/180*pi));
+</a><a id="l12">12	}
+</a><a id="l13">13	
+</a><a id="l14">14	void computeDistance(float* &villesLon, float* &villesLat, int &nbVilles, float** &distance)
+</a><a id="l15">15	{
+</a><a id="l16">16		int i, j;
+</a><a id="l17">17		float dist_temp;
+</a><a id="l18">18	
+</a><a id="l19">19		// inital
+</a><a id="l20">20		distance = new float* [nbVilles];
+</a><a id="l21">21		for(i = 0; i &lt; nbVilles; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l21">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(21,2)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l22">22		{
+</a><a id="l23">23			distance[i] = new float[nbVilles];
+</a><a id="l24">24		}
+</a><a id="l25">25		// compute distance
+</a><a id="l26">26		for(i = 0; i &lt; nbVilles; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l26">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(26,2)</a>
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --&gt; ( 2 1 ) 
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between *distance[i][i] (28:3) and *distance[j][i] (32:4)
+
+   LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l29">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(29,3)</a>
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between *distance[i][j] (31:4) and *distance[j][i] (32:4)
+   LOOP END
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l27">27		{
+</a><a id="l28">28			distance[i][i] = 0;
+</a><a id="l29">29			for( j = i+1; j &lt;  nbVilles; j++){
+</a><a id="l30">30				dist_temp =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
+</a><a id="l31">31				distance[i][j] = dist_temp;
+</a><a id="l32">32				distance[j][i] = dist_temp;
+</a><a id="l33">33			}
+</a><a id="l34">34		}
+</a><a id="l35">35	
+</a><a id="l36">36	}
+</a><a id="l37">37	
+</a><a id="l38">38	void prim(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent,float** &distance)
+</a><a id="l39">39	{
+</a><a id="l40">40		// parent[i] = j means j is the parent node of i
+</a><a id="l41">41		computeDistance(villesLon, villesLat, nbVilles, distance);
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l21">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(21,2)</a> inlined into <a class="annot_link" href="prim.cpp.annot.html#l41">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(41,2)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l26">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(26,2)</a> inlined into <a class="annot_link" href="prim.cpp.annot.html#l41">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(41,2)</a>
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --&gt; ( 2 1 ) 
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between *distance[i][i] (28:3) and *distance[j][i] (32:4)
+
+   LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l29">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(29,3)</a> inlined into <a class="annot_link" href="prim.cpp.annot.html#l41">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(41,2)</a>
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between *distance[i][j] (31:4) and *distance[j][i] (32:4)
+   LOOP END
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l42">42	
+</a><a id="l43">43		// define variables
+</a><a id="l44">44		bool* inS = new bool [nbVilles];
+</a><a id="l45">45		float* min_dist = new float [nbVilles];
+</a><a id="l46">46		parent = new int [nbVilles];
+</a><a id="l47">47		int i, j;
+</a><a id="l48">48		// init Prime
+</a><a id="l49">49		inS[0] = true;
+</a><a id="l50">50		min_dist[0] = 0;
+</a><a id="l51">51		parent[0] = 0;
+</a><a id="l52">52		for(i = 1; i &lt; nbVilles; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(52,2)</a>
+&lt;Peeled loop for vectorization&gt;
+   remark #25015: Estimate of max trip count of loop=15
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(52,2)</a>
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15449: unmasked aligned unit stride stores: 2 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 10 
+   remark #15477: vector cost: 2.120 
+   remark #15478: estimated potential speedup: 3.980 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(52,2)</a>
+&lt;Alternate Alignment Vectorized Loop&gt;
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(52,2)</a>
+&lt;Remainder loop for vectorization&gt;
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l52">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(52,2)</a>
+&lt;Remainder loop for vectorization&gt;
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l53">53		{
+</a><a id="l54">54			inS[i] = false;
+</a><a id="l55">55			min_dist[i] = distance[0][i];
+</a><a id="l56">56			parent[i] = 0;
+</a><a id="l57">57		}
+</a><a id="l58">58	
+</a><a id="l59">59	        #ifdef SHOW_EVERY_STEPS
+</a><a id="l60">60	        // check and create folder "steps"
+</a><a id="l61">61	        int iRet = access("./steps",0);
+</a><a id="l62">62	        if (iRet != 0)
+</a><a id="l63">63	                iRet = mkdir("./steps",S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+</a><a id="l64">64	
+</a><a id="l65">65	        // create files steps files to store data
+</a><a id="l66">66	        string save_name_base = "./steps/resuGraphe_";
+</a><a id="l67">67	        string save_name = save_name_base + "0.dat";
+</a><a id="l68">68	        //cout&lt;&lt;"steps: "&lt;&lt; 0&lt;&lt;endl;
+</a><a id="l69">69	        ofstream fileOut(save_name);
+</a><a id="l70">70	        for(int i =0; i &lt; nbVilles; i++)
+</a><a id="l71">71	        {
+</a><a id="l72">72	        fileOut &lt;&lt; parent[i] &lt;&lt; " "&lt;&lt; i &lt;&lt;" "&lt;&lt; distance[i][parent[i]]&lt;&lt; " " &lt;&lt; int(inS[i]) &lt;&lt;"\n";
+</a><a id="l73">73	        }
+</a><a id="l74">74	        fileOut.close();
+</a><a id="l75">75	        #endif // SHOW_EVERY_STEPS
+</a><a id="l76">76	
+</a><a id="l77">77		//iteration of Prime
+</a><a id="l78">78		int k;
+</a><a id="l79">79		int min_min_dist_index;
+</a><a id="l80">80		float min_min_dist = FLT_MAX;
+</a><a id="l81">81		for(k = 0; k &lt; nbVilles -1 ; k++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l81">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(81,2)</a>
+   remark #15523: loop was not vectorized: loop control variable k was found, but loop iteration count cannot be computed before executing the loop
+
+   LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l85">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(85,3)</a>
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15456: masked unaligned unit stride loads: 2 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 23 
+      remark #15477: vector cost: 46.000 
+      remark #15478: estimated potential speedup: 0.490 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l85">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(85,3)</a>
+   &lt;Remainder&gt;
+   LOOP END
+
+   LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l95">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(95,3)</a>
+      remark #15523: loop was not vectorized: loop control variable j was found, but loop iteration count cannot be computed before executing the loop
+      remark #25478: While Loop Unrolled by 2  
+   LOOP END
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l82">82		{
+</a><a id="l83">83			// find the minimal min_dist outstide of S
+</a><a id="l84">84			min_min_dist = FLT_MAX;
+</a><a id="l85">85			for(i = 0; i &lt; nbVilles; i++)
+</a><a id="l86">86			{
+</a><a id="l87">87					if(inS[i] == false && min_min_dist &gt; min_dist[i])
+</a><a id="l88">88					{
+</a><a id="l89">89						min_min_dist = min_dist[i];
+</a><a id="l90">90						min_min_dist_index = i;
+</a><a id="l91">91					}
+</a><a id="l92">92			}
+</a><a id="l93">93			inS[min_min_dist_index] = true;
+</a><a id="l94">94			//update the min_dist
+</a><a id="l95">95			for(j = 0; j &lt; nbVilles; j++)
+</a><a id="l96">96			{
+</a><a id="l97">97				if(inS[j] == false && min_dist[j] &gt; distance[min_min_dist_index][j])
+</a><a id="l98">98				{
+</a><a id="l99">99					min_dist[j] = distance[min_min_dist_index][j];
+</a><a id="l100">100					parent[j] = min_min_dist_index;
+</a><a id="l101">101				}
+</a><a id="l102">102			}
+</a><a id="l103">103			#ifdef SHOW_EVERY_STEPS
+</a><a id="l104">104	                // create files steps files to store data
+</a><a id="l105">105	
+</a><a id="l106">106	                cout&lt;&lt;"steps: "&lt;&lt; k+1&lt;&lt;endl;
+</a><a id="l107">107	                save_name = save_name_base + to_string(k+1) + ".dat";
+</a><a id="l108">108	                ofstream fileOut(save_name);
+</a><a id="l109">109	                for(int i =0; i &lt; nbVilles; i++)
+</a><a id="l110">110	                {
+</a><a id="l111">111	                        fileOut &lt;&lt; parent[i] &lt;&lt; " "&lt;&lt; i &lt;&lt;" "&lt;&lt; distance[i][parent[i]]&lt;&lt; " " &lt;&lt; int(inS[i]) &lt;&lt;"\n";
+</a><a id="l112">112	                }
+</a><a id="l113">113	                fileOut.close();
+</a><a id="l114">114			#endif
+</a><a id="l115">115	
+</a><a id="l116">116		}
+</a><a id="l117">117	
+</a><a id="l118">118	}
+</a><a id="l119">119	
+</a><a id="l120">120	void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance){
+</a><a id="l121">121		// parent[i] = j means j is the parent node of i
+</a><a id="l122">122	
+</a><a id="l123">123		computeDistance(villesLon, villesLat, nbVilles, distance);
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l21">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(21,2)</a> inlined into <a class="annot_link" href="prim.cpp.annot.html#l123">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(123,2)</a>
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l26">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(26,2)</a> inlined into <a class="annot_link" href="prim.cpp.annot.html#l123">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(123,2)</a>
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --&gt; ( 2 1 ) 
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between *distance[i][i] (28:3) and *distance[j][i] (32:4)
+
+   LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l29">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(29,3)</a> inlined into <a class="annot_link" href="prim.cpp.annot.html#l123">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(123,2)</a>
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+      remark #15346: vector dependence: assumed OUTPUT dependence between *distance[i][j] (31:4) and *distance[j][i] (32:4)
+   LOOP END
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l124">124	
+</a><a id="l125">125		ofstream fileOut("resuGrapheAll.dat");
+</a><a id="l126">126		for(int i =0; i &lt; nbVilles; i++)
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+
+Non-optimizable loops:
+
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l126">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(126,2)</a>
+   remark #15333: loop was not vectorized: exception handling for a call prevents vectorization   [ <a class="annot_link" href="prim.cpp.annot.html#l129">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(129,12)</a> ]
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l127">127		{
+</a><a id="l128">128			for(int j = i + 1; j &lt; nbVilles; j++){
+</a></pre><pre style="display:inline-block;padding:5px;margin-right:3px;font-color:#AEAEAEk;font-size:11px;border-radius:12px;border:1px solid #dddddd; background:#fbfbfb">
+
+LOOP BEGIN at <a class="annot_link" href="prim.cpp.annot.html#l128">/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp(128,3)</a>
+   remark #15523: loop was not vectorized: loop control variable j was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+</pre>
+<pre style="border-width:0px;"><a id="l129">129				fileOut &lt;&lt; i &lt;&lt; " "&lt;&lt; j &lt;&lt;" "&lt;&lt; distance[i][j]&lt;&lt; "\n";
+</a><a id="l130">130			}
+</a><a id="l131">131		}
+</a><a id="l132">132		fileOut.close();
+</a><a id="l133">133	}
+</a><a id="l134">134	
+</a><a id="l135">135	
+</a><a id="l136">136	#endif
+</a></pre> </div></div>
+<div class="footer">
+<div class="title">Intel Corporation 2015
+</div>
+</div>
+</body>
+</html>

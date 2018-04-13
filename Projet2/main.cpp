@@ -19,9 +19,9 @@ int main() {
 //-----------------------------------------------------------------
 
   int popMin;
-  cout << "Population minimale ? ";
-  cin >> popMin;
-
+  //cout << "Population minimale ? ";
+  //cin >> popMin;
+  popMin = 1000;
   string* villesNom; // Nom
   int*    villesPop; // Population
   float*  villesLon; // Longitude

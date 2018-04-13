@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="" 
+                             kind="DATAKIND_SURVEY_EX" >
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="81"
+           routine="prim"
+           is_vectorized="0"
+           self_time="0.000000E+00"
+           total_time="1.999932E-01"
+           trip_counts="9495"
+           func_instance="82"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="29"
+           routine="computeDistance"
+           is_vectorized="0"
+           self_time="2.640613E-01"
+           total_time="2.527979E+00"
+           trip_counts="9495"
+           func_instance="74"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="26"
+           routine="computeDistance"
+           is_vectorized="0"
+           self_time="0.000000E+00"
+           total_time="2.527979E+00"
+           trip_counts="9496"
+           func_instance="75"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/prim.cpp"
+           line_no="85"
+           routine="prim"
+           is_vectorized="0"
+           self_time="1.080033E-01"
+           total_time="1.080033E-01"
+           trip_counts="4748"
+           func_instance="81"
+           priority="0"/>
+  <hotspot filename="/auto/q/qin/Documents/MAE31/TD2/HighPerformanceComputing/Projet2/lectureVilles.cpp"
+           line_no="24"
+           routine="lectureVilles"
+           is_vectorized="0"
+           self_time="0.000000E+00"
+           total_time="1.200000E-01"
+           trip_counts="1"
+           func_instance="33"
+           priority="0"/>
+</IntelParallelAdvisorSummary >
