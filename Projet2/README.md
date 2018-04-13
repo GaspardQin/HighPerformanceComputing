@@ -30,20 +30,26 @@
     ```
     or
     ```
-    python visualisation.py ./resuGraphe.dat ./resuVilles.dat 1 
+    python visualisation.py ./resuGraphe.dat ./resuVilles.dat 1
     ```
-    
+
 ### Compile with icpc
   - find icpc
     ```
      source /usr/ensta/bin/intel.sh
+    ```
+
+    in my machine
+    ```
+    source /opt/intel/parallel_studio_xe_2018.2.046/bin/psxevars.sh 
+    source /opt/intel/vtune_amplifier/amplxe-vars.sh
     ```
   - compile icpc
     ```
     icpc -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -o a.out
     ```
     -g is for debug
-    
+
 ### Bottleneck
   - Version non_amelioration (compiler en o3, minPop = 1000)
     - Problem

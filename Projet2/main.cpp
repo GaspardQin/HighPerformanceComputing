@@ -20,7 +20,7 @@ int main() {
 
   int popMin;
   #ifdef ADVIXE
-  popMin = 1000;
+  popMin = 0;
 
   #else
   cout << "Population minimale ? ";

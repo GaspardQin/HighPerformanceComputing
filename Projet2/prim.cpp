@@ -23,9 +23,11 @@ void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float**
 		distance[i] = new float[i+1];
 	}
 	// compute distance
+  #pragma omp parallel for num_threads(4) schedule(dynamic,4)
 	for(i = 0; i < nbVilles; i++)
 	{
 		distance[i][i] = 0;
+    #pragma ivdep
 		for( j = 0; j <  i; j++){
 			distance[i][j] =  R * acos( sin_deg(villesLat[i]) * sin_deg(villesLat[j]) + cos_deg(villesLon[i]-villesLon[j]) * cos_deg(villesLat[i])*cos_deg(villesLat[j]));
 
