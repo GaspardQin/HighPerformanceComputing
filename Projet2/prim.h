@@ -18,5 +18,4 @@
 void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
 void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance);
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
-float getDistance(int i, int j, float** &distance);
 #endif

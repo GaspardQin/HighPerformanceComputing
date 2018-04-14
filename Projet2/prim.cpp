@@ -14,7 +14,6 @@ float cos_deg(float a){
 void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
 {
 	int i, j;
-	float dist_temp;
 
 	// inital
 	distance = new float* [nbVilles];
@@ -25,7 +24,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
 
 	for(i = 0; i < nbVilles; i++)
 	{
-		distance[i] = new float[i+1];
+		distance[i] = new float[nbVilles];
 
 	}
   #pragma ivdep
@@ -34,25 +33,33 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
     cos_lat[i] = cos_deg(villesLat[i]);
   }
 	// compute distance
-  #pragma omp parallel for num_threads(4) schedule(dynamic,1)
-	for(i = 0; i < nbVilles; i++)
+  int jj,ii; int jj_max, ii_max;
+  #define BLOCK_SIZE 16
+  float distance_temp_block;
+  #pragma omp parallel for num_threads(4) schedule(dynamic,4)
+	for(i = 0; i < nbVilles; i+= BLOCK_SIZE)
 	{
-		distance[i][i] = 0;
-    #pragma ivdep
-		for( j = 0; j <  i; j++){
-			distance[i][j] =  R * acos( sin_lat[i] * sin_lat[j]  + cos_deg(villesLon[i]-villesLon[j]) * cos_lat[i]* cos_lat[j]);
+		for( j = 0; j <= i; j += BLOCK_SIZE){
+      ii_max = min(nbVilles, i + BLOCK_SIZE);
 
-		}
+      for(ii = i; ii < ii_max; ii++){
+        jj_max = min(ii+1, j + BLOCK_SIZE);
+        #pragma simd
+        for(jj = j; jj < jj_max; jj++ ){
+          //cout<<"ii: "<<ii <<" jj:"<<jj<<endl;
+              //distance_temp_block[jj-j] =  R * acos( sin_lat[i] * sin_lat[jj]  + cos_deg(villesLon[i]-villesLon[jj]) * cos_lat[i]* cos_lat[jj]);
+          distance_temp_block =  R * acos( sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj]);
+          //cout<<"ii: "<<ii <<" jj:"<<jj : <<endl;
+
+          distance[ii][jj] = distance_temp_block;
+          distance[jj][ii] = distance_temp_block;
+        }
+      }
+    }
 	}
 
 }
-float getDistance(int i, int j, float** &distance){
-        if(j <= i)
-                return distance[i][j];
-        else
-                return distance[j][i];
 
-}
 void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
 {
 	// parent[i] = j means j is the parent node of i
@@ -70,7 +77,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	for(i = 1; i < nbVilles; i++)
 	{
 		inS[i] = false;
-		min_dist[i] = distance[i][0];
+		min_dist[i] = distance[0][i];
 		parent[i] = 0;
 	}
 
@@ -87,7 +94,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
         ofstream fileOut(save_name);
         for(int i =0; i < nbVilles; i++)
         {
-        fileOut << parent[i] << " "<< i <<" "<< getDistance(i,parent[i],distance)<< " " << int(inS[i]) <<"\n";
+        fileOut << parent[i] << " "<< i <<" "<< distance[i][parent[i]]<< " " << int(inS[i]) <<"\n";
         }
         fileOut.close();
         #endif // SHOW_EVERY_STEPS
@@ -110,11 +117,13 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		}
 		inS[min_min_dist_index] = true;
 		//update the min_dist
+    int dist_temp;
 		for(j = 0; j < nbVilles; j++)
 		{
-			if(inS[j] == false && min_dist[j] > getDistance(min_min_dist_index,j,distance))
+      dist_temp = distance[min_min_dist_index][j];
+			if(inS[j] == false && min_dist[j] > dist_temp)
 			{
-				min_dist[j] = getDistance(min_min_dist_index,j,distance);
+				min_dist[j] = dist_temp;
 				parent[j] = min_min_dist_index;
 			}
 		}
@@ -126,7 +135,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
                 ofstream fileOut(save_name);
                 for(int i =0; i < nbVilles; i++)
                 {
-                        fileOut << parent[i] << " "<< i <<" "<< getDistance(i,parent[i],distance)<< " " << int(inS[i]) <<"\n";
+                        fileOut << parent[i] << " "<< i <<" "<< distance[i][parent[i]]<< " " << int(inS[i]) <<"\n";
                 }
                 fileOut.close();
 		#endif
@@ -144,7 +153,7 @@ void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&
 	for(int i =0; i < nbVilles; i++)
 	{
 		for(int j = i + 1; j < nbVilles; j++){
-			fileOut << i << " "<< j <<" "<< getDistance(i,j,distance)<< "\n";
+			fileOut << i << " "<< j <<" "<< distance[i][j]<< "\n";
 		}
 	}
 	fileOut.close();
