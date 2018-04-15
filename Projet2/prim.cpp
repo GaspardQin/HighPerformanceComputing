@@ -2,13 +2,13 @@
 #define PRIME_CPP
 #include "prim.h"
 using namespace std;
-const double pi = std::acos(-1);
+const float pi = std::acos(-1);
 
 float sin_deg(float a){
-        return (sin(a/180*pi));
+        return (sinf(a/180*pi));
 }
 float cos_deg(float a){
-        return (cos(a/180*pi));
+        return (cosf(a/180*pi));
 }
 
 void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
@@ -17,15 +17,17 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
 
 	// inital
 	distance = new float* [nbVilles];
+  //distance = (float**) malloc(nbVilles * sizeof(float*));
   float* sin_lat = new float[nbVilles];
+  //float* sin_lat = (float *) aligned_alloc(32,nbVilles * sizeof(float));
   float* cos_lat = new float[nbVilles];
-
+  //float* cos_lat = (float *) aligned_alloc(32,nbVilles * sizeof(float));
   //#pragma omp parallel for simd num_threads(4) schedule(dynamic,4)
 
 	for(i = 0; i < nbVilles; i++)
 	{
 		distance[i] = new float[nbVilles];
-
+    //distance[i] = (float*) malloc(nbVilles * sizeof(float));
 	}
   #pragma ivdep
   for(i = 0; i < nbVilles; i++){
@@ -34,7 +36,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
   }
 	// compute distance
   int jj,ii; int jj_max, ii_max;
-  #define BLOCK_SIZE 16
+
   float distance_temp_block;
   #pragma omp parallel for num_threads(4) schedule(dynamic,4)
 	for(i = 0; i < nbVilles; i+= BLOCK_SIZE)
@@ -48,7 +50,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
         for(jj = j; jj < jj_max; jj++ ){
           //cout<<"ii: "<<ii <<" jj:"<<jj<<endl;
               //distance_temp_block[jj-j] =  R * acos( sin_lat[i] * sin_lat[jj]  + cos_deg(villesLon[i]-villesLon[jj]) * cos_lat[i]* cos_lat[jj]);
-          distance_temp_block =  R * acos( sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj]);
+          distance_temp_block =  R * acosf( sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj]);
           //cout<<"ii: "<<ii <<" jj:"<<jj : <<endl;
 
           distance[ii][jj] = distance_temp_block;
@@ -67,8 +69,11 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 
 	// define variables
 	bool* inS = new bool [nbVilles];
+  //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
 	float* min_dist = new float [nbVilles];
-	parent = new int [nbVilles];
+  //float* min_dist = (float*)malloc(nbVilles * sizeof(float));
+  parent = new int[nbVilles];
+	//parent =  (int *)malloc(nbVilles * sizeof(int));
 	int i, j;
 	// init Prime
 	inS[0] = true;
@@ -107,21 +112,25 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	{
 		// find the minimal min_dist outstide of S
 		min_min_dist = FLT_MAX;
+
 		for(i = 0; i < nbVilles; i++)
 		{
-				if(inS[i] == false && min_min_dist > min_dist[i])
+				if(min_dist[i] >0 && min_min_dist > min_dist[i])
 				{
 					min_min_dist = min_dist[i];
 					min_min_dist_index = i;
 				}
 		}
 		inS[min_min_dist_index] = true;
+    min_dist[min_min_dist_index] = -1;
 		//update the min_dist
     int dist_temp;
+
 		for(j = 0; j < nbVilles; j++)
 		{
       dist_temp = distance[min_min_dist_index][j];
-			if(inS[j] == false && min_dist[j] > dist_temp)
+
+			if(min_dist[j] > dist_temp)
 			{
 				min_dist[j] = dist_temp;
 				parent[j] = min_min_dist_index;

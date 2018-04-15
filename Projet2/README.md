@@ -46,10 +46,14 @@
     ```
   - compile icpc
     ```
-    icpc -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -o a.out
+    icpc -g -std=c++11 -qopt-report=5 -qopenmp -qopt-report-phase=loop,vec,par,openmp -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -O3
     ```
     -g is for debug
 
+    to use AVX2 (perhaps AVX512 can be used)
+    ```
+    icpc -g -std=c++11 -qopt-report=5 -qopenmp -qopt-report-phase=loop,vec,par,openmp -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -O3 -axCORE-AVX2
+    ```
 ### Bottleneck
   - Problem (Version non_amelioration (compiler en o3, minPop = 1000))
     - computeDistance() use 86.9% of total time.
@@ -72,4 +76,11 @@
     - need to be aligned access. (it's better to not use triangle matrix)
     - use complete matrix, writing with "bloc operation" (Great speedup)
 
-  - Problem
+  - Improvement (tag: use_avx2)
+    - not use inS[] to improve aligned access performance.
+    - use AVX2 to speed up.
+
+  - Improvement  
+    - use the same datatype in the vectorized ligns (change double to float)
+    - use `_mm_malloc` , `_mm_free` instead of `new []` and `delete []`, the latter is not standard-aligned.
+    [https://software.intel.com/en-us/articles/data-alignment-to-assist-vectorization](https://software.intel.com/en-us/articles/data-alignment-to-assist-vectorization)
