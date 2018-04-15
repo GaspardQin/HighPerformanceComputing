@@ -67,14 +67,16 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 
 	// define variables
 	bool* inS = new bool [nbVilles];
-	float* min_dist = new float [nbVilles];
+	//float* min_dist = new float [nbVilles];
 	parent = new int [nbVilles];
 	int i, j;
 	// init Prime
 	inS[0] = true;
-	min_dist[0] = 0;
+	//min_dist[0] = 0;
 	parent[0] = 0;
-	for(i = 1; i < nbVilles; i++)
+  std::unordered_map<int, float> min_dist(nbVilles);
+
+  for(i = 1; i < nbVilles; i++)
 	{
 		inS[i] = false;
 		min_dist[i] = distance[0][i];
@@ -107,26 +109,25 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	{
 		// find the minimal min_dist outstide of S
 		min_min_dist = FLT_MAX;
-		for(i = 0; i < nbVilles; i++)
-		{
-				if(inS[i] == false && min_min_dist > min_dist[i])
-				{
-					min_min_dist = min_dist[i];
-					min_min_dist_index = i;
-				}
-		}
+    for(auto iter = min_dist.begin(); iter != min_dist.end(); ++iter){
+      if(iter->second < min_min_dist){
+        min_min_dist = iter->second;
+        min_min_dist_index = iter->first;
+      }
+    }
+
 		inS[min_min_dist_index] = true;
+    min_dist.erase(min_min_dist_index);
 		//update the min_dist
     int dist_temp;
-		for(j = 0; j < nbVilles; j++)
-		{
-      dist_temp = distance[min_min_dist_index][j];
-			if(inS[j] == false && min_dist[j] > dist_temp)
-			{
-				min_dist[j] = dist_temp;
-				parent[j] = min_min_dist_index;
-			}
-		}
+    for(auto iter = min_dist.begin(); iter != min_dist.end(); ++iter){
+      dist_temp = distance[min_min_dist_index][iter->first];
+      if(iter->second > dist_temp){
+        iter->second = dist_temp;
+        parent[iter->first] = min_min_dist_index;
+      }
+    }
+
 		#ifdef SHOW_EVERY_STEPS
                 // create files steps files to store data
 

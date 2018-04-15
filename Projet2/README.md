@@ -46,7 +46,7 @@
     ```
   - compile icpc
     ```
-    icpc -g -std=c++11 -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -o a.out
+    icpc -g -std=c++11 -qopenmp -qopt-report=3 -qopt-report-phase=loop,vec,par -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -o a.out
     ```
     -g is for debug
 
@@ -68,7 +68,7 @@
   - Problem
     - Memory Bound at 113, 103, 99 lines' loop is too high. (60.7% cpu time)
     - function 'getDistance' influence the pip mechanism (wrong prediction, Not too much, 0.2s in total)
-  - Solution (tag: compelete_bloc_matrix_write)
+  - Solution (tag: complete_bloc_matrix_write)
     - need to be aligned access. (it's better to not use triangle matrix)
     - use complete matrix, writing with "bloc operation" (Great speedup)
 
