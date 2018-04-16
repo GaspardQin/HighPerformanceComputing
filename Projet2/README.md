@@ -76,7 +76,7 @@
     - need to be aligned access. (it's better to not use triangle matrix)
     - use complete matrix, writing with "bloc operation" (Great speedup)
 
-  - Improvement (tag: use_avx2)
+  - Improvement (tag: use_avx2) v1.4.0
     - not use inS[] to improve aligned access performance.
     - use AVX2 to speed up.
 

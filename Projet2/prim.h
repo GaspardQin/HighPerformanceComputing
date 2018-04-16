@@ -21,7 +21,7 @@
 
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
-#define BLOCK_SIZE 16
+#define BLOCK_SIZE 32
 
 #define ADVIXE
 void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);

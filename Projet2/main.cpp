@@ -69,10 +69,20 @@ int main() {
   //    fileOut << i << " " << j << "\n";
   for(int i =0; i < N; i++)
   {
-    fileOut << graphe[i] << " "<< i <<" "<<distance[i][graphe[i]]<< "\n";
+    fileOut << graphe[i] << " "<< i <<" "<<distance[i][graphe[i]]   << "\n";
   }
   fileOut.close();
+  for(int i = 0; i< N; i++){
+    _mm_free(distance[i]);
+  }
+  _mm_free(distance);
+  _mm_free(graphe);
 
+  _mm_free(popMin);
+  _mm_free(villesNom);
+  _mm_free(villesPop);
+  _mm_free(villesLon);
+  _mm_free(villesLat);
 //-----------------------------------------------------------------
 //--- DESALLOCATION des tableaux
 //-----------------------------------------------------------------

@@ -16,27 +16,29 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
 	int i, j;
 
 	// inital
-	distance = new float* [nbVilles];
-  //distance = (float**) malloc(nbVilles * sizeof(float*));
-  float* sin_lat = new float[nbVilles];
-  //float* sin_lat = (float *) aligned_alloc(32,nbVilles * sizeof(float));
-  float* cos_lat = new float[nbVilles];
-  //float* cos_lat = (float *) aligned_alloc(32,nbVilles * sizeof(float));
+	//distance = new float* [nbVilles];
+  distance = (float**)_mm_malloc(nbVilles * sizeof(float*), VEC_ALIGN);
+  //float* sin_lat = new float[nbVilles];
+  float* sin_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+  //float* cos_lat = new float[nbVilles];
+  float* cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
   //#pragma omp parallel for simd num_threads(4) schedule(dynamic,4)
 
 	for(i = 0; i < nbVilles; i++)
 	{
-		distance[i] = new float[nbVilles];
+    __assume_aligned(distance, VEC_ALIGN);
+		distance[i] = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     //distance[i] = (float*) malloc(nbVilles * sizeof(float));
 	}
   #pragma ivdep
   for(i = 0; i < nbVilles; i++){
+    __assume_aligned(villesLat, VEC_ALIGN);
     sin_lat[i] = sin_deg(villesLat[i]);
     cos_lat[i] = cos_deg(villesLat[i]);
   }
 	// compute distance
   int jj,ii; int jj_max, ii_max;
-
+  float* distance_ii_ptr;
   float distance_temp_block;
   #pragma omp parallel for num_threads(4) schedule(dynamic,4)
 	for(i = 0; i < nbVilles; i+= BLOCK_SIZE)
@@ -45,21 +47,29 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
       ii_max = min(nbVilles, i + BLOCK_SIZE);
 
       for(ii = i; ii < ii_max; ii++){
+        __assume_aligned(distance, VEC_ALIGN);
         jj_max = min(ii+1, j + BLOCK_SIZE);
-        #pragma simd
+        distance_ii_ptr = distance[ii];
+        #pragma ivdep
         for(jj = j; jj < jj_max; jj++ ){
+          __assume_aligned(sin_lat, VEC_ALIGN);
+          __assume_aligned(cos_lat, VEC_ALIGN);
+          __assume_aligned(distance_ii_ptr, VEC_ALIGN);
+          __assume_aligned(villesLon, VEC_ALIGN);
           //cout<<"ii: "<<ii <<" jj:"<<jj<<endl;
               //distance_temp_block[jj-j] =  R * acos( sin_lat[i] * sin_lat[jj]  + cos_deg(villesLon[i]-villesLon[jj]) * cos_lat[i]* cos_lat[jj]);
           distance_temp_block =  R * acosf( sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj]);
           //cout<<"ii: "<<ii <<" jj:"<<jj : <<endl;
 
-          distance[ii][jj] = distance_temp_block;
+          distance_ii_ptr[jj] = distance_temp_block;
           distance[jj][ii] = distance_temp_block;
         }
       }
     }
 	}
 
+  _mm_free(cos_lat);
+  _mm_free(sin_lat);
 }
 
 void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
@@ -68,20 +78,23 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	computeDistance(villesLon, villesLat, nbVilles, distance);
 
 	// define variables
-	bool* inS = new bool [nbVilles];
+	//bool* inS = new bool [nbVilles];
   //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
-	float* min_dist = new float [nbVilles];
+	//float* min_dist = new float [nbVilles];
+  float* min_dist = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
   //float* min_dist = (float*)malloc(nbVilles * sizeof(float));
-  parent = new int[nbVilles];
+  //parent = new int[nbVilles];
+  parent = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
+
 	//parent =  (int *)malloc(nbVilles * sizeof(int));
 	int i, j;
 	// init Prime
-	inS[0] = true;
-	min_dist[0] = 0;
+	//inS[0] = true;
+	min_dist[0] = -1;
 	parent[0] = 0;
 	for(i = 1; i < nbVilles; i++)
 	{
-		inS[i] = false;
+		//inS[i] = false;
 		min_dist[i] = distance[0][i];
 		parent[i] = 0;
 	}
@@ -115,20 +128,23 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 
 		for(i = 0; i < nbVilles; i++)
 		{
+      __assume_aligned(min_dist, VEC_ALIGN);
 				if(min_dist[i] >0 && min_min_dist > min_dist[i])
 				{
 					min_min_dist = min_dist[i];
 					min_min_dist_index = i;
 				}
 		}
-		inS[min_min_dist_index] = true;
+		//inS[min_min_dist_index] = true;
     min_dist[min_min_dist_index] = -1;
 		//update the min_dist
     int dist_temp;
 
+    float* distance_i_ptr =  distance[min_min_dist_index];
 		for(j = 0; j < nbVilles; j++)
 		{
-      dist_temp = distance[min_min_dist_index][j];
+      __assume_aligned(distance_i_ptr, VEC_ALIGN);
+      dist_temp = distance_i_ptr[j];
 
 			if(min_dist[j] > dist_temp)
 			{
@@ -150,7 +166,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		#endif
 
 	}
-
+  _mm_free(min_dist);
 }
 
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance){
