@@ -27,4 +27,19 @@
 void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
 void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance);
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+
+class MinMinDistType{
+public:
+  int index;
+  float distance;
+
+  bool operator< (MinMinDistType a2){
+    if(a2.distance > this->distance)
+      return true;
+    else
+      return false;
+  }
+};
+
+
 #endif

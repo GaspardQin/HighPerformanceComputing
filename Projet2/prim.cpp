@@ -10,7 +10,6 @@ float sin_deg(float a){
 float cos_deg(float a){
         return (cosf(a/180*pi));
 }
-
 void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
 {
 	int i, j;
@@ -153,6 +152,8 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
     float min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
     float min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
     float min_min_dist_index_villes_lon = villesLon[min_min_dist_index];
+
+    //#pragma omp parallel for simd num_threads(4) schedule(dynamic,8) aligned(sin_lat:VEC_ALIGN, villesLon:VEC_ALIGN, cos_lat:VEC_ALIGN, min_dist:VEC_ALIGN,parent:VEC_ALIGN) firstprivate(min_min_dist_index_sin_lat, min_min_dist_index_cos_lat, min_min_dist_index_villes_lon) private(dist_temp)
 		for(j = 0; j < nbVilles; j++)
 		{
       __assume_aligned(sin_lat, VEC_ALIGN);
