@@ -10,7 +10,9 @@ float sin_deg(float a){
 float cos_deg(float a){
         return (cosf(a/180*pi));
 }
-
+__global__ void computeDistanceCUDA(float* villesLon, float* villesLat, float distance[nbVilles][nbVilles]){
+//https://www.quantstart.com/articles/Matrix-Matrix-Multiplication-on-the-GPU-with-Nvidia-CUDA
+}
 void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
 {
 	int i, j;
