@@ -150,14 +150,16 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
     min_dist[min_min_dist_index] = -1;
 		//update the min_dist
     float dist_temp;
-
+    float min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
+    float min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
+    float min_min_dist_index_villes_lon = villesLon[min_min_dist_index];
 		for(j = 0; j < nbVilles; j++)
 		{
       __assume_aligned(sin_lat, VEC_ALIGN);
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
 
-      dist_temp =  R * acosf( sin_lat[min_min_dist_index] * sin_lat[j]  + cos_deg(villesLon[min_min_dist_index]-villesLon[j]) * cos_lat[min_min_dist_index]* cos_lat[j]);
+      dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
 			if(min_dist[j] > dist_temp)
 			{
 
