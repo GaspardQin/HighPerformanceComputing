@@ -71,11 +71,22 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
   _mm_free(cos_lat);
   _mm_free(sin_lat);
 }
+void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, const int nbVilles){
+    sin_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+     cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+    #pragma ivdep
+    for(int i = 0; i < nbVilles; i++){
+      __assume_aligned(villesLat, VEC_ALIGN);
+      sin_lat[i] = sin_deg(villesLat[i]);
+      cos_lat[i] = cos_deg(villesLat[i]);
+    }
+}
 
 void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
 {
 	// parent[i] = j means j is the parent node of i
-	computeDistance(villesLon, villesLat, nbVilles, distance);
+  float * sin_lat, * cos_lat;
+	computeCosSin(sin_lat, cos_lat, villesLat, nbVilles);
 
 	// define variables
 	//bool* inS = new bool [nbVilles];
@@ -140,14 +151,16 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		//update the min_dist
     float dist_temp;
 
-    float* distance_i_ptr =  distance[min_min_dist_index];
 		for(j = 0; j < nbVilles; j++)
 		{
-      __assume_aligned(distance_i_ptr, VEC_ALIGN);
-      dist_temp = distance_i_ptr[j];
+      __assume_aligned(sin_lat, VEC_ALIGN);
+      __assume_aligned(villesLon, VEC_ALIGN);
+      __assume_aligned(cos_lat, VEC_ALIGN);
 
+      dist_temp =  R * acosf( sin_lat[i] * sin_lat[j]  + cos_deg(villesLon[i]-villesLon[j]) * cos_lat[i]* cos_lat[j]);
 			if(min_dist[j] > dist_temp)
 			{
+
 				min_dist[j] = dist_temp;
 				parent[j] = min_min_dist_index;
 			}
