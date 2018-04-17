@@ -73,7 +73,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
 }
 void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, const int nbVilles){
     sin_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-     cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+    cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     #pragma ivdep
     for(int i = 0; i < nbVilles; i++){
       __assume_aligned(villesLat, VEC_ALIGN);
@@ -106,7 +106,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	for(i = 1; i < nbVilles; i++)
 	{
 		//inS[i] = false;
-		min_dist[i] = distance[0][i];
+		min_dist[i] = R * acosf( sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i]-villesLon[0]) * cos_lat[i]* cos_lat[0]);
 		parent[i] = 0;
 	}
 
@@ -157,7 +157,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
 
-      dist_temp =  R * acosf( sin_lat[i] * sin_lat[j]  + cos_deg(villesLon[i]-villesLon[j]) * cos_lat[i]* cos_lat[j]);
+      dist_temp =  R * acosf( sin_lat[min_min_dist_index] * sin_lat[j]  + cos_deg(villesLon[min_min_dist_index]-villesLon[j]) * cos_lat[min_min_dist_index]* cos_lat[j]);
 			if(min_dist[j] > dist_temp)
 			{
 
@@ -180,6 +180,8 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 
 	}
   _mm_free(min_dist);
+  _mm_free(cos_lat);
+  _mm_free(sin_lat);
 }
 
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance){

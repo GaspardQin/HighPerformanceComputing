@@ -69,13 +69,9 @@ int main() {
   //    fileOut << i << " " << j << "\n";
   for(int i =0; i < N; i++)
   {
-    fileOut << graphe[i] << " "<< i <<" "<<distance[i][graphe[i]]   << "\n";
+    fileOut << graphe[i] << " "<< i << "\n";
   }
   fileOut.close();
-  for(int i = 0; i< N; i++){
-    _mm_free(distance[i]);
-  }
-  _mm_free(distance);
   _mm_free(graphe);
 
   delete[] villesNom;
