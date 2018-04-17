@@ -54,6 +54,8 @@
     ```
     icpc -g -std=c++11 -qopt-report=5 -qopenmp -qopt-report-phase=loop,vec,par,openmp -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -O3 -axCORE-AVX2
     ```
+
+    There exists citis with same lon and lat !!!
 ### Bottleneck
   - Problem (Version non_amelioration (compiler en o3, minPop = 1000))
     - computeDistance() use 86.9% of total time.

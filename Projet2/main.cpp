@@ -32,7 +32,9 @@ int main() {
   float*  villesLat; // Latitude
   int     N;         // Nombre de villes
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
+  //cout << "301 " << villesNom[301]<< " lon" << villesLon[301] << " lat " << villesLat[301] << endl;
 
+  //cout << "305 " <<villesNom[305]<< " lon" << villesLon[305] << " lat " << villesLat[305] << endl;
   // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
   for(int i=0; i<N; i++)
     cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
@@ -47,8 +49,8 @@ int main() {
 
   // [...]
   int * graphe;
-  float ** distance;
-  prim(villesLon, villesLat, N, graphe, distance);
+  double distance_total;
+  prim(villesLon, villesLat, N, graphe, distance_total);
 
 
   // Fin du CHRONO
@@ -57,6 +59,7 @@ int main() {
   double timeTotal = timeSpan.count();
   cout<< endl;
   cout<< "Total time: " << timeTotal << endl;
+  cout << "distance total: "<< distance_total << endl;
   #ifdef SHOW_ALL
   showAllDistance(villesLon, villesLat, N, graphe, distance);
   #endif
@@ -71,6 +74,7 @@ int main() {
   {
     fileOut << graphe[i] << " "<< i << "\n";
   }
+
   fileOut.close();
   _mm_free(graphe);
 

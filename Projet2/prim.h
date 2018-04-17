@@ -23,9 +23,9 @@
 //#define SHOW_EVERY_STEPS
 #define BLOCK_SIZE 32
 
-#define ADVIXE
+//#define ADVIXE
 void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
-void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance);
+void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, double &distance_total);
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
 
 class MinMinDistType{

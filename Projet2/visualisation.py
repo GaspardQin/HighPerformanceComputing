@@ -17,8 +17,8 @@ def visualiser(villes, graphe, save_fig_name, mode, isShowWeight):
     bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
 
     for x in range(graphe.shape[0]):
-      if graphe[x,2] == 0.0:
-          continue
+      #if graphe[x,2] == 0.0:
+    #      continue
       arete = [int(graphe[x,0]), int(graphe[x,1])]
 
       #print(villes)

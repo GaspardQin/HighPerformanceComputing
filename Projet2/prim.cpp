@@ -81,12 +81,12 @@ void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, cons
     }
 }
 
-void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
+void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,double & distance_total)
 {
 	// parent[i] = j means j is the parent node of i
   float * sin_lat, * cos_lat;
 	computeCosSin(sin_lat, cos_lat, villesLat, nbVilles);
-
+  distance_total = 0;
 	// define variables
 	//bool* inS = new bool [nbVilles];
   //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
@@ -102,6 +102,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	//inS[0] = true;
 	min_dist[0] = -1;
 	parent[0] = 0;
+
 	for(i = 1; i < nbVilles; i++)
 	{
 		//inS[i] = false;
@@ -131,7 +132,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	int k;
 	int min_min_dist_index;
 	float min_min_dist = FLT_MAX;
-	for(k = 0; k < nbVilles -1 ; k++)
+	for(k = 1; k < nbVilles; k++)
 	{
 		// find the minimal min_dist outstide of S
 		min_min_dist = FLT_MAX;
@@ -139,7 +140,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		for(i = 0; i < nbVilles; i++)
 		{
       __assume_aligned(min_dist, VEC_ALIGN);
-				if(min_dist[i] >0 && min_min_dist > min_dist[i])
+  			if(min_dist[i] >=0 && min_min_dist > min_dist[i])
 				{
 					min_min_dist = min_dist[i];
 					min_min_dist_index = i;
@@ -147,8 +148,10 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		}
 		//inS[min_min_dist_index] = true;
     min_dist[min_min_dist_index] = -1;
-		//update the min_dist
-    float dist_temp;
+    distance_total += min_min_dist;
+
+    //update the min_dist
+
     float min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
     float min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
     float min_min_dist_index_villes_lon = villesLon[min_min_dist_index];
@@ -159,8 +162,9 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
       __assume_aligned(sin_lat, VEC_ALIGN);
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
-
+      float dist_temp;
       dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
+
 			if(min_dist[j] > dist_temp)
 			{
 
@@ -182,6 +186,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		#endif
 
 	}
+
   _mm_free(min_dist);
   _mm_free(cos_lat);
   _mm_free(sin_lat);
