@@ -78,8 +78,8 @@ int main() {
   _mm_free(distance);
   _mm_free(graphe);
 
-
-  delete [] villesNom;
+  delete[] villesNom;
+  //_mm_free(villesNom);
   _mm_free(villesPop);
   _mm_free(villesLon);
   _mm_free(villesLat);

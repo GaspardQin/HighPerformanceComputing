@@ -46,6 +46,7 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
     //villesLat = new float[nbVilles];
     villesLat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     // Lecture/Sauvegarde des données
+
     int index=0;
     inputFile.clear();
     inputFile.seekg(0, ios::beg);

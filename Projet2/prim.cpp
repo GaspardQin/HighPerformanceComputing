@@ -138,7 +138,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		//inS[min_min_dist_index] = true;
     min_dist[min_min_dist_index] = -1;
 		//update the min_dist
-    int dist_temp;
+    float dist_temp;
 
     float* distance_i_ptr =  distance[min_min_dist_index];
 		for(j = 0; j < nbVilles; j++)
