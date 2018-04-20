@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &villesLon, float* &villesLat, int &nbVilles){
+void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &villesLon, float* &villesLat, int* &villesDeparte, int* &beginDeparte,int &nbVilles){
 
 //-----------------------------------------------------------------
 //--- LECTURE des villes de 'popMin' habitants ou plus
@@ -45,19 +45,24 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
     villesLon = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     //villesLat = new float[nbVilles];
     villesLat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+    villesDeparte = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
+    beginDeparte = (int*) _mm_malloc((NB_DEPART+1) * sizeof(int),VEC_ALIGN); //start at index 0
     // Lecture/Sauvegarde des données
 
     int index=0;
     inputFile.clear();
     inputFile.seekg(0, ios::beg);
+    int departe_curr = 0;
+    int departe_count = 0; //to solve the problem that there does not exist departement 20
     while ( getline(inputFile,line) ) {
 
       int label=0;
-      stringstream ss[4];
+      stringstream ss[5];
       for(int i=0; i<line.size(); i++){
         if(line[i] == ',')
           label++;
         else{
+          if(label==1) ss[4] << line[i];
           if(label==3)  ss[0] << line[i]; // Nom
           if(label==14) ss[1] << line[i]; // Population 2010
           if(label==19) ss[2] << line[i]; // Longitude en degrés
@@ -70,16 +75,26 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
       int    my_pop = stoi(ss[1].str(),&sz);
       float  my_lon = stof(ss[2].str(),&sz);
       float  my_lat = stof(ss[3].str(),&sz);
+      int    my_dep = stoi(ss[4].str(),&sz);
 
       if(my_pop >= popMin){
         villesNom[index] = my_nom;
         villesPop[index] = my_pop;
         villesLon[index] = my_lon;
         villesLat[index] = my_lat;
+        villesDeparte[index] = my_dep;
+        if(my_dep > departe_curr){
+          beginDeparte[departe_count] = index;
+          cout << "beginDeparte[" << departe_count << "] : " << index << "\n"<<endl;
+          departe_curr = my_dep;
+          departe_count++;
+        }
         index++;
       }
     }
-
+    beginDeparte[departe_count] = nbVilles;
+    cout << "last beginDeparte[" << departe_count << "] : " << nbVilles+1 << "\n"<<endl;
+    cout<<" max departe_curr : "<<departe_curr<<endl;
     inputFile.close();
   }
   else

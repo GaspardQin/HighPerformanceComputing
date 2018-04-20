@@ -8,13 +8,23 @@ def visualiser(villes, graphe, save_fig_name, mode, isShowWeight):
     fig = pyplot.figure()
     ax = fig.add_subplot(111)
 
+    factor = np.zeros((3,3))
+    factor[0,0] = 0.8
+    factor[1,1] = 1.0
+    factor[2,2] = 1.0
+    colors = np.dot(np.random.rand(96,3), factor)
     if mode == 'showResult':
         ax.scatter(villes[:,1], villes[:,2], s=villes[:,0]/1000, c=villes[:,0], alpha=0.5);
     else:
         #print(graphe, villes)
-        colors = np.array( [ 'b', 'r'])
-        ax.scatter(villes[:,1], villes[:,2], s=villes[:,0]/1000, c=colors[graphe[:,3].astype(int)], alpha=0.5);
+
+        #ax.scatter(villes[:,1], villes[:,2], s=villes[:,0]/1000, c=colors[graphe[:,3].astype(int)], alpha=0.5);
+        ax.scatter(villes[:,1], villes[:,2], s=villes[:,0]/1000, alpha=0.5);
     bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
+
+    #print("graphe_shape: ",len(graphe.shape))
+    if len(graphe.shape) == 1:
+        return
 
     for x in range(graphe.shape[0]):
       #if graphe[x,2] == 0.0:
@@ -22,7 +32,14 @@ def visualiser(villes, graphe, save_fig_name, mode, isShowWeight):
       arete = [int(graphe[x,0]), int(graphe[x,1])]
 
       #print(villes)
-      ax.plot(villes[arete,1], villes[arete,2], 'b')
+
+      if graphe.shape[1] == 3:
+          if graphe[x,2] == 0: #departement
+            ax.plot(villes[arete,1], villes[arete,2], c='r')
+          else:
+            ax.plot(villes[arete,1], villes[arete,2], c=colors[int(graphe[x,2])])
+      else:
+          ax.plot(villes[arete,1], villes[arete,2], 'b')
       #print(weight)
      # print(villes[arete,1], villes[arete,2])
       if isShowWeight == 1:
@@ -54,6 +71,7 @@ def animation(resuGraphe_folder, resuVilles_path,isShowWeight):
     villes = loadtxt(resuVilles_path, dtype=float, delimiter=" ")
     for root, dirs, files in os.walk(resuGraphe_folder):
         for name in files:
+            print("processing "+ name)
             graphe = loadtxt(resuGraphe_folder + '/' + name, dtype=float)
             save_name = save_path + '/' + name.split('.')[0] + 'png'
             visualiser(villes, graphe, save_name, 'animation',isShowWeight)
