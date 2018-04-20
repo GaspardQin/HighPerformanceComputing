@@ -50,6 +50,7 @@ int main() {
   // [...]
   int * graphe;
   double distance_total;
+
   prim(villesLon, villesLat, N, graphe, distance_total);
 
 
@@ -59,7 +60,8 @@ int main() {
   double timeTotal = timeSpan.count();
   cout<< endl;
   cout<< "Total time: " << timeTotal << endl;
-  cout << "distance total: "<< distance_total << endl;
+    cout.precision(5);
+  cout << "distance total: "<<fixed<< distance_total << endl;
   #ifdef SHOW_ALL
   showAllDistance(villesLon, villesLat, N, graphe, distance);
   #endif

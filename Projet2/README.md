@@ -50,7 +50,7 @@
     ```
     -g is for debug
 
-    to use AVX2 (perhaps AVX512 can be used)
+    to use AVX2
     ```
     icpc -g -std=c++11 -qopt-report=5 -qopenmp -qopt-report-phase=loop,vec,par,openmp -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -O3 -axCORE-AVX2
     ```
