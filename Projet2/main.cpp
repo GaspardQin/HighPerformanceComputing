@@ -38,8 +38,9 @@ int main() {
 
   //cout << "305 " <<villesNom[305]<< " lon" << villesLon[305] << " lat " << villesLat[305] << endl;
   // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
-  for(int i=0; i<N; i++)
-    cout << villesNom[i] << " " <<villesDeparte[i]<<" "<< villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
+
+  //for(int i=0; i<N; i++)
+  //  cout << villesNom[i] << " " <<villesDeparte[i]<<" "<< villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
 
 //-----------------------------------------------------------------
 //--- CALCUL du graphe

@@ -43,6 +43,8 @@
     ```
     source /opt/intel/parallel_studio_xe_2018.2.046/bin/psxevars.sh
     source /opt/intel/vtune_amplifier/amplxe-vars.sh
+    source /opt/intel/parallel_studio_xe_2018.2.046/compilers_and_libraries_2018/linux/bin/compilervars.sh intel64
+
     ```
   - compile icpc
     ```
@@ -52,7 +54,7 @@
 
     to use AVX2
     ```
-    icpc -g -std=c++11 -qopt-report=5 -qopenmp -qopt-report-phase=loop,vec,par,openmp -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -O3 -axCORE-AVX2
+    icpc -g -std=c++11 -qopt-report=5 -qopenmp -qopt-report-phase=loop,vec,par,openmp -qopt-report-annotate=html main.cpp lectureVilles.cpp prim.cpp -O3 -xCORE-AVX2
     ```
 
     There exists citis with same lon and lat !!!

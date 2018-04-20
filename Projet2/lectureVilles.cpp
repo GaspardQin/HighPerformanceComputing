@@ -85,7 +85,7 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
         villesDeparte[index] = my_dep;
         if(my_dep > departe_curr){
           beginDeparte[departe_count] = index;
-          cout << "beginDeparte[" << departe_count << "] : " << index << "\n"<<endl;
+          //cout << "beginDeparte[" << departe_count << "] : " << index << "\n"<<endl;
           departe_curr = my_dep;
           departe_count++;
         }
@@ -93,8 +93,8 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
       }
     }
     beginDeparte[departe_count] = nbVilles;
-    cout << "last beginDeparte[" << departe_count << "] : " << nbVilles+1 << "\n"<<endl;
-    cout<<" max departe_curr : "<<departe_curr<<endl;
+    //cout << "last beginDeparte[" << departe_count << "] : " << nbVilles+1 << "\n"<<endl;
+    //cout<<" max departe_curr : "<<departe_curr<<endl;
     inputFile.close();
   }
   else

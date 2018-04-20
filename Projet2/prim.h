@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <string>
 #include <stdlib.h>
+#include <malloc.h>
 //#if defined(__MIC__)
 #define VEC_ALIGN 32
 //#else
@@ -21,14 +22,12 @@
 
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
-#define SHOW_EVERY_DEPARTEMENT
+//#define SHOW_EVERY_DEPARTEMENT
 #define BLOCK_SIZE 32
 #define NB_DEPART 95
-  #define ADVIXE
-void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
+#define ADVIXE
 void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, double &distance_total, int start_index);
 void primeDepartement(float* &villesLon, float* &villesLat, int &nbVilles, int * &villesPop, int *&parent,
   int* &beginDeparte,  int* &rootDepartement , float *&maxVillesLon,float *&maxVillesLat, int *&maxVillesParent, double & distance_total);
-void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
 
 #endif
