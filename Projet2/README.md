@@ -142,7 +142,7 @@
   - Use `double` solved this problem, but it is double slow. Considering to compare the cost of all using double and the cost of only using double in this formula and the transfom cost from double to float.
 
   - Result
-
+    (need to be retested, because i used `acosf` before)
     - `icpc -g -std=c++11 main.cpp lectureVilles.cpp prim.cpp`
     ```
     Total time: 232.908
@@ -159,4 +159,5 @@
     Almost the same with mode `-g`, the fma use an approx, however thanks to double precision, this approx is safe and only have `8*10^(-10)` difference.
   
 
-### Improvement
+  - Test using `float` instead of `double` when not compute `acos(...)`, but it costs when tranform `float` to `double`.
+

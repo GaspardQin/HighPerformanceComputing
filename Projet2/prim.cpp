@@ -3,15 +3,15 @@
 #include "prim.h"
 using namespace std;
 const double pi = std::acos(-1);
-
-double sin_deg(double a){
-        return (sin(a/180*pi));
+const double deg_to_rad = std::acos(-1)/180.0;
+inline double sin_deg(float a){
+        return (sin(a * deg_to_rad));
 }
-double cos_deg(double a){
-        return (cos(a/180*pi));
+inline double cos_deg(float a){
+        return (cos(a * deg_to_rad));
 }
 
-void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, const int nbVilles){
+void computeCosSin(double* &sin_lat, double* &cos_lat,const float* villesLat, const int nbVilles){
     sin_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
     cos_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
     #pragma ivdep
@@ -22,7 +22,7 @@ void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, c
     }
 }
 
-void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&parent,double & distance_total)
+void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float & distance_total)
 {
 	// parent[i] = j means j is the parent node of i
   double * sin_lat, * cos_lat;
@@ -32,7 +32,7 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
 	//bool* inS = new bool [nbVilles];
   //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
 	//double* min_dist = new double [nbVilles];
-  double* min_dist = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+  float* min_dist = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
   //double* min_dist = (double*)malloc(nbVilles * sizeof(double));
   //parent = new int[nbVilles];
   parent = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
@@ -72,7 +72,7 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
 	//iteration of Prime
 	int k;
 	int min_min_dist_index;
-	double min_min_dist = FLT_MAX;
+	float min_min_dist = FLT_MAX;
 	for(k = 1; k < nbVilles; k++)
 	{
 		// find the minimal min_dist outstide of S
@@ -106,7 +106,7 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
       double dist_temp;
-      dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
+      dist_temp =  R * acos( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
       #ifdef DEBUG_LOG
       log_stream << "dist between "<< min_min_dist_index << " and "<< j <<" : "<< dist_temp<<endl;
 			#endif

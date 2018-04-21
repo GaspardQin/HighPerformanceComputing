@@ -44,8 +44,8 @@ int main(int argc, char** argv) {
   #endif
   string* villesNom; // Nom
   int*    villesPop; // Population
-  double*  villesLon; // Longitude
-  double*  villesLat; // Latitude
+  float*  villesLon; // Longitude
+  float*  villesLat; // Latitude
   int     N;         // Nombre de villes
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
   //cout << "301 " << villesNom[301]<< " lon" << villesLon[301] << " lat " << villesLat[301] << endl;
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 
   // [...]
   int * graphe;
-  double distance_total;
+  float distance_total;
 
   prim(villesLon, villesLat, N, graphe, distance_total);
 

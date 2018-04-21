@@ -30,7 +30,7 @@
   extern std::ofstream log_stream;
 #endif
 
-void prim(double* &villesLon, double* &villesLat,const int nbVilles, int *&parent, double &distance_total);
+void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float &distance_total);
 
 class MinMinDistType{
 public:

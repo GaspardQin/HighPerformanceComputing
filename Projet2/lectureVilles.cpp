@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void lectureVilles(int popMin, string* &villesNom, int* &villesPop, double* &villesLon, double* &villesLat, int &nbVilles){
+void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &villesLon, float* &villesLat, int &nbVilles){
 
 //-----------------------------------------------------------------
 //--- LECTURE des villes de 'popMin' habitants ou plus
@@ -42,9 +42,9 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, double* &vil
     //villesPop = new int[nbVilles];
     villesPop = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
     //villesLon = new double[nbVilles];
-    villesLon = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+    villesLon = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     //villesLat = new double[nbVilles];
-    villesLat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+    villesLat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     // Lecture/Sauvegarde des données
 
     int index=0;
