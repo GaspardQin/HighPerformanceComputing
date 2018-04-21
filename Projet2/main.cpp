@@ -11,16 +11,32 @@ using namespace std::chrono;
 
 #include "lectureVilles.h"
 #include "prim.h"
-
-int main() {
+std::ofstream log_stream;
+int main(int argc, char** argv) {
 
 //-----------------------------------------------------------------
 //--- LECTURE des villes
-//-----------------------------------------------------------------
-
+//-------------------t
+#ifdef DEBUG_LOG
+    if(argc != 2){
+      cout << "wrong input!"<<endl;
+      cout << "You should input log file name as an argument"<<endl;
+      return 1;
+    } 
+    else{  
+      log_stream.open(argv[1]);
+      if(log_stream.is_open()){
+        cout << "successfully created log file : "<<argv[1]<<endl;
+      }
+      else{
+        cout << "failed to create log file : "<<argv[1]<<endl;
+        return 1;
+      }
+    }
+#endif
   int popMin;
   #ifdef ADVIXE
-  popMin = 0;
+  popMin = 0;//10000;//3000;
 
   #else
   cout << "Population minimale ? ";
@@ -88,6 +104,8 @@ int main() {
 //-----------------------------------------------------------------
 //--- DESALLOCATION des tableaux
 //-----------------------------------------------------------------
-
+  #ifdef DEBUG_LOG
+  log_stream.close();
+  #endif
   return 0;
 }

@@ -136,3 +136,27 @@
     ```
 
     Need to compare log of each Version!!!!
+### Discovery
+  - I found that `acos(sin*cos ...)` is sensitive to the precision, especially the `acos`, use "double" rather than "float" gives a better precision. In addition, the vectorization operation use the `fma` instruction, who uses a estimation of the value, so it gives a more bad precision, which is not enough for our application.
+
+  - Use `double` solved this problem, but it is double slow. Considering to compare the cost of all using double and the cost of only using double in this formula and the transfom cost from double to float.
+
+  - Result
+
+    - `icpc -g -std=c++11 main.cpp lectureVilles.cpp prim.cpp`
+    ```
+    Total time: 232.908
+    distance total: 91863.15784
+    ```
+    we can see that using double gives a result slightly different of using float, about 3%.
+
+
+    - ` icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp -xcore-avx2`
+    ```
+    Total time: 9.70212
+    distance total: 91863.15792
+    ```
+    Almost the same with mode `-g`, the fma use an approx, however thanks to double precision, this approx is safe and only have `8*10^(-10)` difference.
+  
+
+### Improvement

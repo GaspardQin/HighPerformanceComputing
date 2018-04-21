@@ -21,12 +21,16 @@
 
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
+//#define DEBUG_LOG
 #define BLOCK_SIZE 32
 
-//  #define ADVIXE
-void computeDistance(double* &villesLon, double* &villesLat, int nbVilles, double** &distance);
+ #define ADVIXE
+
+#ifdef  DEBUG_LOG
+  extern std::ofstream log_stream;
+#endif
+
 void prim(double* &villesLon, double* &villesLat,const int nbVilles, int *&parent, double &distance_total);
-void showAllDistance(double* &villesLon, double* &villesLat, int &nbVilles, int *&parent, double** &distance);
 
 class MinMinDistType{
 public:

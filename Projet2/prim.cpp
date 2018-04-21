@@ -5,71 +5,12 @@ using namespace std;
 const double pi = std::acos(-1);
 
 double sin_deg(double a){
-        return (sinf(a/180*pi));
+        return (sin(a/180*pi));
 }
 double cos_deg(double a){
-        return (cosf(a/180*pi));
+        return (cos(a/180*pi));
 }
-void computeDistance(double* &villesLon, double* &villesLat, const int nbVilles, double** &distance)
-{
-	int i, j;
 
-	// inital
-	//distance = new double* [nbVilles];
-  distance = (double**)_mm_malloc(nbVilles * sizeof(double*), VEC_ALIGN);
-  //double* sin_lat = new double[nbVilles];
-  double* sin_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
-  //double* cos_lat = new double[nbVilles];
-  double* cos_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
-  //#pragma omp parallel for simd num_threads(4) schedule(dynamic,4)
-
-	for(i = 0; i < nbVilles; i++)
-	{
-    __assume_aligned(distance, VEC_ALIGN);
-		distance[i] = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
-    //distance[i] = (double*) malloc(nbVilles * sizeof(double));
-	}
-  #pragma ivdep
-  for(i = 0; i < nbVilles; i++){
-    __assume_aligned(villesLat, VEC_ALIGN);
-    sin_lat[i] = sin_deg(villesLat[i]);
-    cos_lat[i] = cos_deg(villesLat[i]);
-  }
-	// compute distance
-  int jj,ii; int jj_max, ii_max;
-  double* distance_ii_ptr;
-  double distance_temp_block;
-  //#pragma omp parallel for num_threads(4) schedule(dynamic,4)
-	for(i = 0; i < nbVilles; i+= BLOCK_SIZE)
-	{
-		for( j = 0; j <= i; j += BLOCK_SIZE){
-      ii_max = min(nbVilles, i + BLOCK_SIZE);
-
-      for(ii = i; ii < ii_max; ii++){
-        __assume_aligned(distance, VEC_ALIGN);
-        jj_max = min(ii+1, j + BLOCK_SIZE);
-        distance_ii_ptr = distance[ii];
-        #pragma ivdep
-        for(jj = j; jj < jj_max; jj++ ){
-          __assume_aligned(sin_lat, VEC_ALIGN);
-          __assume_aligned(cos_lat, VEC_ALIGN);
-          __assume_aligned(distance_ii_ptr, VEC_ALIGN);
-          __assume_aligned(villesLon, VEC_ALIGN);
-          //cout<<"ii: "<<ii <<" jj:"<<jj<<endl;
-              //distance_temp_block[jj-j] =  R * acos( sin_lat[i] * sin_lat[jj]  + cos_deg(villesLon[i]-villesLon[jj]) * cos_lat[i]* cos_lat[jj]);
-          distance_temp_block =  R * acosf( sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj]);
-          //cout<<"ii: "<<ii <<" jj:"<<jj : <<endl;
-
-          distance_ii_ptr[jj] = distance_temp_block;
-          distance[jj][ii] = distance_temp_block;
-        }
-      }
-    }
-	}
-
-  _mm_free(cos_lat);
-  _mm_free(sin_lat);
-}
 void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, const int nbVilles){
     sin_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
     cos_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
@@ -106,7 +47,7 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
 	for(i = 1; i < nbVilles; i++)
 	{
 		//inS[i] = false;
-		min_dist[i] = R * acosf( sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i]-villesLon[0]) * cos_lat[i]* cos_lat[0]);
+		min_dist[i] = R * acos( sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i]-villesLon[0]) * cos_lat[i]* cos_lat[0]);
 		parent[i] = 0;
 	}
 
@@ -149,7 +90,9 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
 		//inS[min_min_dist_index] = true;
     min_dist[min_min_dist_index] = -1;
     distance_total += min_min_dist;
-
+    #ifdef DEBUG_LOG
+    log_stream<< "loop: "<< k<< " , min_min_dist: "<< min_min_dist << " , distance_total: "<<distance_total<<endl;
+    #endif
     //update the min_dist
 
     double min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
@@ -164,10 +107,11 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
       __assume_aligned(cos_lat, VEC_ALIGN);
       double dist_temp;
       dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
-
-			if(min_dist[j] > dist_temp)
+      #ifdef DEBUG_LOG
+      log_stream << "dist between "<< min_min_dist_index << " and "<< j <<" : "<< dist_temp<<endl;
+			#endif
+      if(min_dist[j] > dist_temp)
 			{
-
 				min_dist[j] = dist_temp;
 				parent[j] = min_min_dist_index;
 			}
@@ -192,20 +136,6 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
   _mm_free(sin_lat);
 }
 
-void showAllDistance(double* &villesLon, double* &villesLat, int &nbVilles, int *&parent, double** &distance){
-	// parent[i] = j means j is the parent node of i
-
-	computeDistance(villesLon, villesLat, nbVilles, distance);
-
-	ofstream fileOut("resuGrapheAll.dat");
-	for(int i =0; i < nbVilles; i++)
-	{
-		for(int j = i + 1; j < nbVilles; j++){
-			fileOut << i << " "<< j <<" "<< distance[i][j]<< "\n";
-		}
-	}
-	fileOut.close();
-}
 
 
 #endif
