@@ -2,32 +2,32 @@
 #define PRIME_CPP
 #include "prim.h"
 using namespace std;
-const float pi = std::acos(-1);
+const double pi = std::acos(-1);
 
-float sin_deg(float a){
+double sin_deg(double a){
         return (sinf(a/180*pi));
 }
-float cos_deg(float a){
+double cos_deg(double a){
         return (cosf(a/180*pi));
 }
-void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
+void computeDistance(double* &villesLon, double* &villesLat, const int nbVilles, double** &distance)
 {
 	int i, j;
 
 	// inital
-	//distance = new float* [nbVilles];
-  distance = (float**)_mm_malloc(nbVilles * sizeof(float*), VEC_ALIGN);
-  //float* sin_lat = new float[nbVilles];
-  float* sin_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-  //float* cos_lat = new float[nbVilles];
-  float* cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+	//distance = new double* [nbVilles];
+  distance = (double**)_mm_malloc(nbVilles * sizeof(double*), VEC_ALIGN);
+  //double* sin_lat = new double[nbVilles];
+  double* sin_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+  //double* cos_lat = new double[nbVilles];
+  double* cos_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
   //#pragma omp parallel for simd num_threads(4) schedule(dynamic,4)
 
 	for(i = 0; i < nbVilles; i++)
 	{
     __assume_aligned(distance, VEC_ALIGN);
-		distance[i] = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-    //distance[i] = (float*) malloc(nbVilles * sizeof(float));
+		distance[i] = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+    //distance[i] = (double*) malloc(nbVilles * sizeof(double));
 	}
   #pragma ivdep
   for(i = 0; i < nbVilles; i++){
@@ -37,9 +37,9 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
   }
 	// compute distance
   int jj,ii; int jj_max, ii_max;
-  float* distance_ii_ptr;
-  float distance_temp_block;
-  #pragma omp parallel for num_threads(4) schedule(dynamic,4)
+  double* distance_ii_ptr;
+  double distance_temp_block;
+  //#pragma omp parallel for num_threads(4) schedule(dynamic,4)
 	for(i = 0; i < nbVilles; i+= BLOCK_SIZE)
 	{
 		for( j = 0; j <= i; j += BLOCK_SIZE){
@@ -70,9 +70,9 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
   _mm_free(cos_lat);
   _mm_free(sin_lat);
 }
-void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, const int nbVilles){
-    sin_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-    cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, const int nbVilles){
+    sin_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+    cos_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
     #pragma ivdep
     for(int i = 0; i < nbVilles; i++){
       __assume_aligned(villesLat, VEC_ALIGN);
@@ -81,18 +81,18 @@ void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, cons
     }
 }
 
-void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,double & distance_total)
+void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&parent,double & distance_total)
 {
 	// parent[i] = j means j is the parent node of i
-  float * sin_lat, * cos_lat;
+  double * sin_lat, * cos_lat;
 	computeCosSin(sin_lat, cos_lat, villesLat, nbVilles);
   distance_total = 0;
 	// define variables
 	//bool* inS = new bool [nbVilles];
   //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
-	//float* min_dist = new float [nbVilles];
-  float* min_dist = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-  //float* min_dist = (float*)malloc(nbVilles * sizeof(float));
+	//double* min_dist = new double [nbVilles];
+  double* min_dist = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+  //double* min_dist = (double*)malloc(nbVilles * sizeof(double));
   //parent = new int[nbVilles];
   parent = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
 
@@ -131,7 +131,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	//iteration of Prime
 	int k;
 	int min_min_dist_index;
-	float min_min_dist = FLT_MAX;
+	double min_min_dist = FLT_MAX;
 	for(k = 1; k < nbVilles; k++)
 	{
 		// find the minimal min_dist outstide of S
@@ -152,9 +152,9 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 
     //update the min_dist
 
-    float min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
-    float min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
-    float min_min_dist_index_villes_lon = villesLon[min_min_dist_index];
+    double min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
+    double min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
+    double min_min_dist_index_villes_lon = villesLon[min_min_dist_index];
 
     //#pragma omp parallel for simd num_threads(4) schedule(dynamic,8) aligned(sin_lat:VEC_ALIGN, villesLon:VEC_ALIGN, cos_lat:VEC_ALIGN, min_dist:VEC_ALIGN,parent:VEC_ALIGN) firstprivate(min_min_dist_index_sin_lat, min_min_dist_index_cos_lat, min_min_dist_index_villes_lon) private(dist_temp)
 		for(j = 0; j < nbVilles; j++)
@@ -162,7 +162,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
       __assume_aligned(sin_lat, VEC_ALIGN);
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
-      float dist_temp;
+      double dist_temp;
       dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
 
 			if(min_dist[j] > dist_temp)
@@ -192,7 +192,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
   _mm_free(sin_lat);
 }
 
-void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance){
+void showAllDistance(double* &villesLon, double* &villesLat, int &nbVilles, int *&parent, double** &distance){
 	// parent[i] = j means j is the parent node of i
 
 	computeDistance(villesLon, villesLat, nbVilles, distance);

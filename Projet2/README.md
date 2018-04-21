@@ -91,3 +91,48 @@
   - branch computedistance_realtime
     - do not save the distance matrix, save Memory
     - difficult to parallelize, but enough quick
+### Compilation results (n=0, precision: double)
+  - `-g -qopenmp` : (in fact, openmp is not used)
+    ```
+    Total time: 224.372
+    distance total: 94273.20546
+    ```
+  - `icpc -g -std=c++11 main.cpp lectureVilles.cpp prim.cpp`
+    ```
+    Total time: 227.495
+    distance total: 94273.20546
+    ```
+  - `icpc -O1 -std=c++11 main.cpp lectureVilles.cpp prim.cpp`
+    ```
+    Total time: 214.476
+    distance total: 94273.20546
+    ```
+  - `icpc -O2 -std=c++11 main.cpp lectureVilles.cpp prim.cpp`
+    ```
+    Total time: 55.3914
+    distance total: 128566.44698
+    ```
+  - `icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp`
+    ```
+    Total time: 55.2005
+    distance total: 128566.44698
+    ```
+  - `icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp -xAVX`
+    ```
+    Total time: 10.8954
+    distance total: 128451.57718
+    ```
+  - `icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp -xcore-avx2`
+    ```
+    Total time: 9.68159
+    distance total: 128566.44698
+    ```
+
+  [https://software.intel.com/en-us/forums/intel-fortran-compiler-for-linux-and-mac-os-x/topic/269487](https://software.intel.com/en-us/forums/intel-fortran-compiler-for-linux-and-mac-os-x/topic/269487)
+  - `icpc -std=c++11 main.cpp lectureVilles.cpp prim.cpp -O2 -nolib-inline`
+    ```
+    Total time: 208.766
+    distance total: 94273.20546
+    ```
+
+    Need to compare log of each Version!!!!

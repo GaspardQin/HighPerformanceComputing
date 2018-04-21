@@ -13,7 +13,7 @@
 #include <string>
 #include <stdlib.h>
 //#if defined(__MIC__)
-#define VEC_ALIGN 32  
+#define VEC_ALIGN 32
 //#else
 //#define VEC_ALIGN 32
 //#endif
@@ -24,14 +24,14 @@
 #define BLOCK_SIZE 32
 
 //  #define ADVIXE
-void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
-void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, double &distance_total);
-void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+void computeDistance(double* &villesLon, double* &villesLat, int nbVilles, double** &distance);
+void prim(double* &villesLon, double* &villesLat,const int nbVilles, int *&parent, double &distance_total);
+void showAllDistance(double* &villesLon, double* &villesLat, int &nbVilles, int *&parent, double** &distance);
 
 class MinMinDistType{
 public:
   int index;
-  float distance;
+  double distance;
 
   bool operator< (MinMinDistType a2){
     if(a2.distance > this->distance)

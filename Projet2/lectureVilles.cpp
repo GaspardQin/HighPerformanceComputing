@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &villesLon, float* &villesLat, int &nbVilles){
+void lectureVilles(int popMin, string* &villesNom, int* &villesPop, double* &villesLon, double* &villesLat, int &nbVilles){
 
 //-----------------------------------------------------------------
 //--- LECTURE des villes de 'popMin' habitants ou plus
@@ -41,10 +41,10 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
     //villesNom = (string*)_mm_malloc(nbVilles * sizeof(string),VEC_ALIGN);
     //villesPop = new int[nbVilles];
     villesPop = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
-    //villesLon = new float[nbVilles];
-    villesLon = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-    //villesLat = new float[nbVilles];
-    villesLat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+    //villesLon = new double[nbVilles];
+    villesLon = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+    //villesLat = new double[nbVilles];
+    villesLat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
     // Lecture/Sauvegarde des données
 
     int index=0;
@@ -68,8 +68,8 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
       string::size_type sz;
       string my_nom = ss[0].str();
       int    my_pop = stoi(ss[1].str(),&sz);
-      float  my_lon = stof(ss[2].str(),&sz);
-      float  my_lat = stof(ss[3].str(),&sz);
+      double  my_lon = stof(ss[2].str(),&sz);
+      double  my_lat = stof(ss[3].str(),&sz);
 
       if(my_pop >= popMin){
         villesNom[index] = my_nom;

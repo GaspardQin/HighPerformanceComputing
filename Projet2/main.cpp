@@ -28,16 +28,16 @@ int main() {
   #endif
   string* villesNom; // Nom
   int*    villesPop; // Population
-  float*  villesLon; // Longitude
-  float*  villesLat; // Latitude
+  double*  villesLon; // Longitude
+  double*  villesLat; // Latitude
   int     N;         // Nombre de villes
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
   //cout << "301 " << villesNom[301]<< " lon" << villesLon[301] << " lat " << villesLat[301] << endl;
 
   //cout << "305 " <<villesNom[305]<< " lon" << villesLon[305] << " lat " << villesLat[305] << endl;
   // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
-  for(int i=0; i<N; i++)
-    cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
+  //for(int i=0; i<N; i++)
+  //  cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
 
 //-----------------------------------------------------------------
 //--- CALCUL du graphe
