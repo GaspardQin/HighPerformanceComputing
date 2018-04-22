@@ -148,6 +148,10 @@
     Total time: 232.908
     distance total: 91863.15784
     ```
+    use `cos` instead of `cosf`, the accumulate error of distance_total estimation:
+    ```
+
+    ```
     we can see that using double gives a result slightly different of using float, about 3%.
 
 
@@ -156,7 +160,54 @@
     Total time: 9.70212
     distance total: 91863.15792
     ```
+
+    use `acos` instead of `cos`, the accumulate error of distance_total estimation:
+    ```
+    Total time: 109.861
+    distance total: 98129.03265
+
+    ```
+
+
     Almost the same with mode `-g`, the fma use an approx, however thanks to double precision, this approx is safe and only have `8*10^(-10)` difference.
   
+    - Solve the problem of nan by adding  min(..., 1.0), perhaps lower but much worthy than add if operation.
+    - Always have slightly difference with FMA,  (1e-8, i think much more than float precision), but definitly enough.
+    - add debug tools "simple log"
 
+
+
+
+    Result after having changed `acosf` to `acos`
+    - `icpc -g -std=c++11 main.cpp lectureVilles.cpp prim.cpp `
+    ```
+    Total time: 242.315
+    distance total: 96674.05856
+    ```
+
+    - `icpc -O2 -std=c++11 main.cpp lectureVilles.cpp prim.cpp `
+    ```
+    Total time: 108.691
+    distance total: 96674.04872
+    ```
+
+    - `icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp `
+    ```
+    Total time: 109.814
+    distance total: 96674.04872
+    ```
+
+    - `icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp -xAVX`
+    ```
+    Total time: 18.9076
+    distance total: 96674.04872
+    ```
+
+    - `icpc -O3 -std=c++11 main.cpp lectureVilles.cpp prim.cpp -xcore-AVX2`
+    ```
+    Total time: 16.8313
+    distance total: 96674.04872
+    ```
+
+    Conclustion: cannot use float instead of double.
 ### Improvement

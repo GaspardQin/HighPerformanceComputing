@@ -3,12 +3,12 @@
 #include "prim.h"
 using namespace std;
 const double pi = std::acos(-1);
-
+const double deg_to_rad_fac = pi/180;
 double sin_deg(double a){
-        return (sin(a/180*pi));
+        return (sin(a*deg_to_rad_fac));
 }
 double cos_deg(double a){
-        return (cos(a/180*pi));
+        return (cos(a*deg_to_rad_fac));
 }
 
 void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, const int nbVilles){
@@ -17,6 +17,8 @@ void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, c
     #pragma ivdep
     for(int i = 0; i < nbVilles; i++){
       __assume_aligned(villesLat, VEC_ALIGN);
+      __assume_aligned(sin_lat, VEC_ALIGN);
+      __assume_aligned(cos_lat, VEC_ALIGN);
       sin_lat[i] = sin_deg(villesLat[i]);
       cos_lat[i] = cos_deg(villesLat[i]);
     }
@@ -31,7 +33,7 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
 	// define variables
 	//bool* inS = new bool [nbVilles];
   //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
-	//double* min_dist = new double [nbVilles];
+	//double* min_dist = new double [nbVilles];min_min_dist_index_villes_lon
   double* min_dist = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
   //double* min_dist = (double*)malloc(nbVilles * sizeof(double));
   //parent = new int[nbVilles];
@@ -47,7 +49,9 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
 	for(i = 1; i < nbVilles; i++)
 	{
 		//inS[i] = false;
-		min_dist[i] = R * acos( sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i]-villesLon[0]) * cos_lat[i]* cos_lat[0]);
+    __assume_aligned(villesLon, VEC_ALIGN);
+
+		min_dist[i] = R * acos( min(sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i]-villesLon[0]) * cos_lat[i]* cos_lat[0], 1.0));
 		parent[i] = 0;
 	}
 
@@ -106,10 +110,14 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
       double dist_temp;
-      dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]);
+      dist_temp =  R * acos( min(
+        (min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j])
+        ,1.0));
       #ifdef DEBUG_LOG
-      log_stream << "dist between "<< min_min_dist_index << " and "<< j <<" : "<< dist_temp<<endl;
-			#endif
+
+      log_stream << "dist between "<< min_min_dist_index << " and "<< j <<" : "<< std::setprecision(9)<< dist_temp<<endl;
+      log_stream << "        before acos: "<< min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]<< endl;
+      #endif
       if(min_dist[j] > dist_temp)
 			{
 				min_dist[j] = dist_temp;

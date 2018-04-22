@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 #endif
   int popMin;
   #ifdef ADVIXE
-  popMin = 0;//10000;//3000;
+  popMin =0;//10000;//3000;
 
   #else
   cout << "Population minimale ? ";
@@ -47,6 +47,8 @@ int main(int argc, char** argv) {
   double*  villesLon; // Longitude
   double*  villesLat; // Latitude
   int     N;         // Nombre de villes
+
+  cout << "test: " << acos(1)<<endl;
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
   //cout << "301 " << villesNom[301]<< " lon" << villesLon[301] << " lat " << villesLat[301] << endl;
 

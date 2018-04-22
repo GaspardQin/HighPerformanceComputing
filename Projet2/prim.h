@@ -6,7 +6,7 @@
 #include <float.h>
 #include <fstream>
 #include <sstream>
-
+#include <iomanip> 
 #include <stdarg.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -21,11 +21,11 @@
 
 //#define SHOW_ALL
 //#define SHOW_EVERY_STEPS
-//#define DEBUG_LOG
+
 #define BLOCK_SIZE 32
 
- #define ADVIXE
-
+#define ADVIXE
+//#define DEBUG_LOG
 #ifdef  DEBUG_LOG
   extern std::ofstream log_stream;
 #endif
