@@ -26,8 +26,8 @@
 #define BLOCK_SIZE 32
 #define NB_DEPART 95
 #define ADVIXE
-void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, double &distance_total, int start_index);
-void primeDepartement(float* &villesLon, float* &villesLat, int &nbVilles, int * &villesPop, int *&parent,
-  int* &beginDeparte,  int* &rootDepartement , float *&maxVillesLon,float *&maxVillesLat, int *&maxVillesParent, double & distance_total);
+void prim(double* &villesLon, double* &villesLat,const int nbVilles, int *&parent, double &distance_total, int start_index);
+void primeDepartement(double* &villesLon, double* &villesLat, int &nbVilles, int * &villesPop, int *&parent,
+  int* &beginDeparte,  int* &rootDepartement , double *&maxVillesLon,double *&maxVillesLat, int *&maxVillesParent, double & distance_total);
 
 #endif

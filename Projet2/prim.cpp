@@ -2,17 +2,20 @@
 #define PRIME_CPP
 #include "prim.h"
 using namespace std;
-const float pi = std::acos(-1);
+const double pi = std::acos(-1);
+const double deg_to_rad_fac = pi / 180.0;
 
-float sin_deg(float a){
-        return (sinf(a/180*pi));
+
+
+inline double sin_deg(double a){
+        return (sinf(a * deg_to_rad_fac));
 }
-float cos_deg(float a){
-        return (cosf(a/180*pi));
+inline double cos_deg(double a){
+        return (cosf(a * deg_to_rad_fac));
 }
-void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, const int nbVilles, int start_index){
-    sin_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-    cos_lat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+void computeCosSin(double* &sin_lat, double* &cos_lat,const double* villesLat, const int nbVilles, int start_index){
+    sin_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+    cos_lat = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
     //#pragma ivdep
     for(int i = 0; i < nbVilles; i++){
       __assume_aligned(villesLat, VEC_ALIGN);
@@ -21,18 +24,18 @@ void computeCosSin(float* &sin_lat, float* &cos_lat,const float* villesLat, cons
     }
 }
 
-void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,double & distance_total, int start_index)
+void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&parent,double & distance_total, int start_index)
 {
 	// parent[i] = j means j is the parent node of i
-  float * sin_lat, * cos_lat;
+  double * sin_lat, * cos_lat;
 	computeCosSin(sin_lat, cos_lat, villesLat, nbVilles, start_index);
   distance_total = 0;
 	// define variables
 	//bool* inS = new bool [nbVilles];
   //bool* inS = (bool *)malloc(nbVilles * sizeof(bool));
-	//float* min_dist = new float [nbVilles];
-  float* min_dist = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-  //float* min_dist = (float*)malloc(nbVilles * sizeof(float));
+	//double* min_dist = new double [nbVilles];
+  double* min_dist = (double*)_mm_malloc(nbVilles * sizeof(double),VEC_ALIGN);
+  //double* min_dist = (double*)malloc(nbVilles * sizeof(double));
   //parent = new int[nbVilles];
 
 
@@ -46,7 +49,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	for(i = 1; i < nbVilles; i++)
 	{
 		//inS[i] = false;
-		min_dist[i] = R * acosf( sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i+start_index]-villesLon[start_index]) * cos_lat[i]* cos_lat[0]);
+		min_dist[i] = R * acos( min(sin_lat[i] * sin_lat[0]  + cos_deg(villesLon[i+start_index]-villesLon[start_index]) * cos_lat[i]* cos_lat[0],1.0));
 		parent[i+start_index] = start_index;
 	}
 
@@ -71,7 +74,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 	//iteration of Prime
 	int k;
 	int min_min_dist_index;
-	float min_min_dist = FLT_MAX;
+	double min_min_dist = FLT_MAX;
 	for(k = 1; k < nbVilles; k++)
 	{
 		// find the minimal min_dist outstide of S
@@ -92,9 +95,9 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 
     //update the min_dist
 
-    float min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
-    float min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
-    float min_min_dist_index_villes_lon = villesLon[min_min_dist_index+start_index];
+    double min_min_dist_index_sin_lat = sin_lat[min_min_dist_index];
+    double min_min_dist_index_cos_lat = cos_lat[min_min_dist_index];
+    double min_min_dist_index_villes_lon = villesLon[min_min_dist_index+start_index];
 
     //#pragma omp parallel for simd num_threads(4) schedule(dynamic,8) aligned(sin_lat:VEC_ALIGN, villesLon:VEC_ALIGN, cos_lat:VEC_ALIGN, min_dist:VEC_ALIGN,parent:VEC_ALIGN) firstprivate(min_min_dist_index_sin_lat, min_min_dist_index_cos_lat, min_min_dist_index_villes_lon) private(dist_temp)
 		for(j = 0; j < nbVilles; j++)
@@ -102,8 +105,8 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
       //__assume_aligned(sin_lat, VEC_ALIGN);
       //__assume_aligned(villesLon, VEC_ALIGN);
       //__assume_aligned(cos_lat, VEC_ALIGN);
-      float dist_temp;
-      dist_temp =  R * acosf( min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j+start_index]) * min_min_dist_index_cos_lat* cos_lat[j]);
+      double dist_temp;
+      dist_temp =  R * acos( min(min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j+start_index]) * min_min_dist_index_cos_lat* cos_lat[j],1.0));
 
 			if(min_dist[j] > dist_temp)
 			{
@@ -132,11 +135,11 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
   _mm_free(sin_lat);
 }
 
-void primeDepartement(float* &villesLon, float* &villesLat, int &nbVilles, int * &villesPop, int *&parent,
-  int* &beginDeparte,  int* &rootDepartement , float *&maxVillesLon,float *&maxVillesLat, int *&maxVillesParent, double & distance_total){
+void primeDepartement(double* &villesLon, double* &villesLat, int &nbVilles, int * &villesPop, int *&parent,
+  int* &beginDeparte,  int* &rootDepartement , double *&maxVillesLon,double *&maxVillesLat, int *&maxVillesParent, double & distance_total){
   rootDepartement = (int*)_mm_malloc(NB_DEPART * sizeof(int),VEC_ALIGN); //begin at index 0
-  maxVillesLon = (float*)_mm_malloc(NB_DEPART * sizeof(int),VEC_ALIGN);
-  maxVillesLat = (float*)_mm_malloc(NB_DEPART * sizeof(int),VEC_ALIGN);
+  maxVillesLon = (double*)_mm_malloc(NB_DEPART * sizeof(double),VEC_ALIGN);
+  maxVillesLat = (double*)_mm_malloc(NB_DEPART * sizeof(double),VEC_ALIGN);
 
   int depart;
   double distance_depart_total= 0;
@@ -151,7 +154,7 @@ void primeDepartement(float* &villesLon, float* &villesLat, int &nbVilles, int *
     int max_pop =0;
     int max_index = 0;
     int i;
-    for( i= index; i < end_depart_index; i++){
+    for( i= index; i <= end_depart_index; i++){
       //cout << "i, end_depart_index: "<< i << " , "<< end_depart_index<<endl;
       //cout << "villesPop :" << villesPop[i] << " max_pop: "<<max_pop<<endl;
       if(villesPop[i] > max_pop){
@@ -163,11 +166,12 @@ void primeDepartement(float* &villesLon, float* &villesLat, int &nbVilles, int *
     rootDepartement[depart] = max_index;
     maxVillesLon[depart] = villesLon[max_index];
     maxVillesLat[depart] = villesLat[max_index];
+    //cout<< "depart: " << depart <<" ,read_index: "<<max_index<< " ,read_lon: "<< villesLon[max_index] << endl;
     //cout << "max_index: "<<max_index<<endl;
     //cout<< "call prim: index:"<<index<<" nbVillesDepart: " <<nbVillesDepart <<endl;
     prim(villesLon, villesLat, nbVillesDepart, parent,distance_depart, index);
     distance_depart_total += distance_depart;
-
+    cout << "depart: "<<depart<< " ,distance_depart: "<< distance_depart << " ,total: "<< distance_depart_total<<endl;
 
     #ifdef SHOW_EVERY_DEPARTEMENT
                 // create files steps files to store data

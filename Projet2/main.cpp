@@ -28,8 +28,8 @@ int main() {
   #endif
   string* villesNom; // Nom
   int*    villesPop; // Population
-  float*  villesLon; // Longitude
-  float*  villesLat; // Latitude
+  double*  villesLon; // Longitude
+  double*  villesLat; // Latitude
   int     N;         // Nombre de villes
   int*    villesDeparte;
   int*    beginDeparte;
@@ -57,8 +57,8 @@ int main() {
   //prim(villesLon, villesLat, N, graphe, distance_total);
 
   int *rootDepartement;
-  float* maxVillesLat;
-  float* maxVillesLon;
+  double* maxVillesLat;
+  double* maxVillesLon;
   int* maxVillesGraphe;
   primeDepartement(villesLon,villesLat, N, villesPop, graphe_in_depart,
     beginDeparte,  rootDepartement , maxVillesLon, maxVillesLat, graphe_between_depart, distance_total);
