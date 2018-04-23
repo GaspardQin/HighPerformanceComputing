@@ -28,8 +28,8 @@ int main() {
   #endif
   string* villesNom; // Nom
   int*    villesPop; // Population
-  float*  villesLon; // Longitude
-  float*  villesLat; // Latitude
+  double*  villesLon; // Longitude
+  double*  villesLat; // Latitude
   int     N;         // Nombre de villes
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
 
@@ -47,8 +47,8 @@ int main() {
 
   // [...]
   int * graphe;
-  float ** distance;
-  float distance_total;
+  double ** distance;
+  double distance_total;
   prim(villesLon, villesLat, N, graphe, distance,distance_total);
 
 

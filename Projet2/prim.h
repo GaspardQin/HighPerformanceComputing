@@ -24,7 +24,7 @@
 #define BLOCK_SIZE 32
 
 //#define ADVIXE
-void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
-void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance, float& distance_total);
-void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+void computeDistance(double* &villesLon, double* &villesLat, int nbVilles, double** &distance);
+void prim(double* &villesLon, double* &villesLat,const int nbVilles, int *&parent, double** &distance, double& distance_total);
+void showAllDistance(double* &villesLon, double* &villesLat, int &nbVilles, int *&parent, double** &distance);
 #endif

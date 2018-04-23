@@ -84,3 +84,10 @@
     - use the same datatype in the vectorized ligns (change double to float)
     - use `_mm_malloc` , `_mm_free` instead of `new []` and `delete []`, the latter is not standard-aligned.
     [https://software.intel.com/en-us/articles/data-alignment-to-assist-vectorization](https://software.intel.com/en-us/articles/data-alignment-to-assist-vectorization)
+
+
+
+  - fixed bugs (eg, inline, std::min, > to >=...) v1.5.0 (correct float and precompute version)
+
+  - double and precompute version v1.6.0, average compute time: 7.89s
+    
