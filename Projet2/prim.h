@@ -12,6 +12,10 @@
 #include <sys/stat.h>
 #include <string>
 #include <stdlib.h>
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
+#include <thrust/extrema.h>
+
 #if defined(__MIC__)
 #define VEC_ALIGN 64
 #else
@@ -25,6 +29,30 @@
 
 #define ADVIXE
 void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
-void prim(float* &villesLon, float* &villesLat,const int nbVilles, int *&parent, float** &distance);
+void prim(thrust::host_vector<POS> &villesPosVecHost,const int nbVilles, double &distance_total);
 void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+
+class POS{
+  public:
+    double lat;
+    double lon;
+    double min_dist;
+    int parent;
+    int index;
+    bool is_in;
+    POS(){
+      lat=0;
+      lon=0;
+      min_dist = -1;
+      parent = -1;
+      index = 0;
+      is_in = false;
+    }
+    POS(double lat_, double lon_, int index_): lat(lat_), lon(lon_), index(index_)
+    {
+      min_dist = -1;
+      parent = -1;
+    };
+};
+
 #endif

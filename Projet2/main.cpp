@@ -41,14 +41,23 @@ int main() {
 //--- CALCUL du graphe
 //-----------------------------------------------------------------
 
+  thrust::host_vector<POS> villesPosVecHost(nbVilles);
+  for(int i=0; i< N; i++){
+    villesPosVecHost[i].lat = villesLat[i];
+    villesPosVecHost[i].lon = villesLon[i];
+    villesPosVecHost[i].index = i;
+  }
+
+
   // Début du CHRONO
   high_resolution_clock::time_point timeStart = high_resolution_clock::now();
 
 
   // [...]
-  int * graphe;
-  float ** distance;
-  prim(villesLon, villesLat, N, graphe, distance);
+  double distance_total;
+
+
+  prim(villesPosVecHost, N,distance_total);
 
 
   // Fin du CHRONO
@@ -69,7 +78,7 @@ int main() {
   //    fileOut << i << " " << j << "\n";
   for(int i =0; i < N; i++)
   {
-    fileOut << graphe[i] << " "<< i <<" "<<distance[i][graphe[i]]   << "\n";
+    fileOut << villesPosVecHost[i]->parent << " "<< i <<"\n";
   }
   fileOut.close();
   for(int i = 0; i< N; i++){
