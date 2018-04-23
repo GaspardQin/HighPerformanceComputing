@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 #include <chrono>
-
+#include <iomanip>
 using namespace std;
 using namespace std::chrono;
 
@@ -34,8 +34,8 @@ int main() {
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
 
   // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
-  for(int i=0; i<N; i++)
-    cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
+ // for(int i=0; i<N; i++)
+ //   cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
 
 //-----------------------------------------------------------------
 //--- CALCUL du graphe
@@ -48,7 +48,8 @@ int main() {
   // [...]
   int * graphe;
   float ** distance;
-  prim(villesLon, villesLat, N, graphe, distance);
+  float distance_total;
+  prim(villesLon, villesLat, N, graphe, distance,distance_total);
 
 
   // Fin du CHRONO
@@ -57,6 +58,7 @@ int main() {
   double timeTotal = timeSpan.count();
   cout<< endl;
   cout<< "Total time: " << timeTotal << endl;
+  cout<< "Distance total: "<< setprecision(8) << distance_total << endl;
   #ifdef SHOW_ALL
   showAllDistance(villesLon, villesLat, N, graphe, distance);
   #endif

@@ -3,12 +3,12 @@
 #include "prim.h"
 using namespace std;
 const float pi = std::acos(-1);
-
-float sin_deg(float a){
-        return (sinf(a/180*pi));
+const float deg_to_rad_fac = pi/180.0;
+inline float sin_deg(float a){
+        return (sinf(a * deg_to_rad_fac));
 }
-float cos_deg(float a){
-        return (cosf(a/180*pi));
+inline float cos_deg(float a){
+        return (cosf(a * deg_to_rad_fac));
 }
 
 void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, float** &distance)
@@ -40,6 +40,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
   int jj,ii; int jj_max, ii_max;
   float* distance_ii_ptr;
   float distance_temp_block;
+  const float f_1 = 1.0;
   #pragma omp parallel for num_threads(4) schedule(dynamic,4)
 	for(i = 0; i < nbVilles; i+= BLOCK_SIZE)
 	{
@@ -58,7 +59,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
           __assume_aligned(villesLon, VEC_ALIGN);
           //cout<<"ii: "<<ii <<" jj:"<<jj<<endl;
               //distance_temp_block[jj-j] =  R * acos( sin_lat[i] * sin_lat[jj]  + cos_deg(villesLon[i]-villesLon[jj]) * cos_lat[i]* cos_lat[jj]);
-          distance_temp_block =  R * acosf( sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj]);
+          distance_temp_block =  R * acosf( min(sin_lat[ii] * sin_lat[jj]  + cos_deg(villesLon[ii]-villesLon[jj]) * cos_lat[ii]* cos_lat[jj], f_1 ));
           //cout<<"ii: "<<ii <<" jj:"<<jj : <<endl;
 
           distance_ii_ptr[jj] = distance_temp_block;
@@ -72,7 +73,7 @@ void computeDistance(float* &villesLon, float* &villesLat, const int nbVilles, f
   _mm_free(sin_lat);
 }
 
-void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance)
+void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent,float** &distance, float &distance_total)
 {
 	// parent[i] = j means j is the parent node of i
 	computeDistance(villesLon, villesLat, nbVilles, distance);
@@ -85,7 +86,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
   //float* min_dist = (float*)malloc(nbVilles * sizeof(float));
   //parent = new int[nbVilles];
   parent = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
-
+  distance_total = 0.0;
 	//parent =  (int *)malloc(nbVilles * sizeof(int));
 	int i, j;
 	// init Prime
@@ -129,7 +130,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		for(i = 0; i < nbVilles; i++)
 		{
       __assume_aligned(min_dist, VEC_ALIGN);
-				if(min_dist[i] >0 && min_min_dist > min_dist[i])
+				if(min_dist[i] >=0 && min_min_dist > min_dist[i])
 				{
 					min_min_dist = min_dist[i];
 					min_min_dist_index = i;
@@ -137,6 +138,7 @@ void prim(float* &villesLon, float* &villesLat, const int nbVilles, int *&parent
 		}
 		//inS[min_min_dist_index] = true;
     min_dist[min_min_dist_index] = -1;
+    distance_total += min_min_dist;
 		//update the min_dist
     float dist_temp;
 
