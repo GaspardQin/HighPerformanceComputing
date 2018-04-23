@@ -110,19 +110,21 @@ void prim(double* &villesLon, double* &villesLat, const int nbVilles, int *&pare
       __assume_aligned(villesLon, VEC_ALIGN);
       __assume_aligned(cos_lat, VEC_ALIGN);
       double dist_temp;
-      dist_temp =  R * acos( min(
-        (min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j])
-        ,1.0));
-      #ifdef DEBUG_LOG
+      if(min_dist[j] >= 0.0){
+        dist_temp =  R * acos( min(
+          (min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j])
+          ,1.0));
+        #ifdef DEBUG_LOG
 
-      log_stream << "dist between "<< min_min_dist_index << " and "<< j <<" : "<< std::setprecision(9)<< dist_temp<<endl;
-      log_stream << "        before acos: "<< min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]<< endl;
-      #endif
-      if(min_dist[j] > dist_temp)
-			{
-				min_dist[j] = dist_temp;
-				parent[j] = min_min_dist_index;
-			}
+        log_stream << "dist between "<< min_min_dist_index << " and "<< j <<" : "<< std::setprecision(9)<< dist_temp<<endl;
+        log_stream << "        before acos: "<< min_min_dist_index_sin_lat * sin_lat[j]  + cos_deg(min_min_dist_index_villes_lon-villesLon[j]) * min_min_dist_index_cos_lat* cos_lat[j]<< endl;
+        #endif
+        if(min_dist[j] > dist_temp)
+        {
+          min_dist[j] = dist_temp;
+          parent[j] = min_min_dist_index;
+        }
+      }
 		}
 		#ifdef SHOW_EVERY_STEPS
                 // create files steps files to store data
