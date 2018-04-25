@@ -34,14 +34,14 @@ int main() {
   lectureVilles(popMin, villesNom, villesPop, villesLon, villesLat, N);
 
   // ... juste pour vérifier !  (Vous pouvez retirer cette ligne.)
-  for(int i=0; i<N; i++)
-    cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
+ // for(int i=0; i<N; i++)
+ //   cout << villesNom[i] << " " << villesPop[i] << " " << villesLon[i] << " " << villesLat[i] << endl;
 
 //-----------------------------------------------------------------
 //--- CALCUL du graphe
 //-----------------------------------------------------------------
 
-  thrust::host_vector<POS> villesPosVecHost(nbVilles);
+  thrust::host_vector<POS> villesPosVecHost(N);
   for(int i=0; i< N; i++){
     villesPosVecHost[i].lat = villesLat[i];
     villesPosVecHost[i].lon = villesLon[i];
@@ -66,9 +66,7 @@ int main() {
   double timeTotal = timeSpan.count();
   cout<< endl;
   cout<< "Total time: " << timeTotal << endl;
-  #ifdef SHOW_ALL
-  showAllDistance(villesLon, villesLat, N, graphe, distance);
-  #endif
+  cout<< "distance total: " << distance_total << endl;
   // Écriture du graphe (chaque ligne correspond à une arête)
   // !!! Ci-dessous, on écrit le graphe complet pour l'exemple
   // !!! Vous devez modifier cette commande pour écrire le graphe obtenu avec Prim
@@ -78,20 +76,20 @@ int main() {
   //    fileOut << i << " " << j << "\n";
   for(int i =0; i < N; i++)
   {
-    fileOut << villesPosVecHost[i]->parent << " "<< i <<"\n";
+    fileOut << villesPosVecHost[i].parent << " "<< i <<"\n";
   }
   fileOut.close();
-  for(int i = 0; i< N; i++){
-    _mm_free(distance[i]);
-  }
-  _mm_free(distance);
-  _mm_free(graphe);
 
-  _mm_free(popMin);
-  _mm_free(villesNom);
-  _mm_free(villesPop);
-  _mm_free(villesLon);
-  _mm_free(villesLat);
+
+  //_mm_free(villesNom);
+  //_mm_free(villesPop);
+  //_mm_free(villesLon);
+  //_mm_free(villesLat);
+  delete[] villesNom;
+  delete[] villesPop;
+  delete[] villesLon;
+  delete[] villesLat;
+
 //-----------------------------------------------------------------
 //--- DESALLOCATION des tableaux
 //-----------------------------------------------------------------

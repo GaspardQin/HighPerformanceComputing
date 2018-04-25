@@ -37,14 +37,14 @@ void lectureVilles(int popMin, string* &villesNom, int* &villesPop, float* &vill
     }
 
     // Allocation des tableaux
-    //villesNom = new string[nbVilles];
-    villesNom = (string*)_mm_malloc(nbVilles * sizeof(string),VEC_ALIGN);
-    //villesPop = new int[nbVilles];
-    villesPop = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
-    //villesLon = new float[nbVilles];
-    villesLon = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
-    //villesLat = new float[nbVilles];
-    villesLat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+    villesNom = new string[nbVilles];
+    //villesNom = (string*)_mm_malloc(nbVilles * sizeof(string),VEC_ALIGN);
+    villesPop = new int[nbVilles];
+    //villesPop = (int*)_mm_malloc(nbVilles * sizeof(int),VEC_ALIGN);
+    villesLon = new float[nbVilles];
+    //villesLon = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
+    villesLat = new float[nbVilles];
+    //villesLat = (float*)_mm_malloc(nbVilles * sizeof(float),VEC_ALIGN);
     // Lecture/Sauvegarde des données
     int index=0;
     inputFile.clear();

@@ -1,6 +1,6 @@
 #ifndef PRIME_H
 #define PRIME_H
-#define R 6378
+#define R_EARTH 6378
 #include <cmath>
 #include <iostream>
 #include <float.h>
@@ -15,7 +15,7 @@
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/extrema.h>
-
+#include <thrust/complex.h>
 #if defined(__MIC__)
 #define VEC_ALIGN 64
 #else
@@ -28,9 +28,7 @@
 #define BLOCK_SIZE 32
 
 #define ADVIXE
-void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
-void prim(thrust::host_vector<POS> &villesPosVecHost,const int nbVilles, double &distance_total);
-void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+
 
 class POS{
   public:
@@ -53,6 +51,12 @@ class POS{
       min_dist = -1;
       parent = -1;
     };
-};
+};  
+
+void computeDistance(float* &villesLon, float* &villesLat, int nbVilles, float** &distance);
+void prim(thrust::host_vector<POS> &villesPosVecHost,const int nbVilles, double &distance_total);
+void showAllDistance(float* &villesLon, float* &villesLat, int &nbVilles, int *&parent, float** &distance);
+
+
 
 #endif
