@@ -84,3 +84,8 @@
     - use the same datatype in the vectorized ligns (change double to float)
     - use `_mm_malloc` , `_mm_free` instead of `new []` and `delete []`, the latter is not standard-aligned.
     [https://software.intel.com/en-us/articles/data-alignment-to-assist-vectorization](https://software.intel.com/en-us/articles/data-alignment-to-assist-vectorization)
+
+
+  ##Performance
+    - if not pre calculat sin_lat, cos_lat, using  s , result 96674.5
+    - if calculat sin_lat, cos_lat, using 3.939s , result 96674.5

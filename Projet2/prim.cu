@@ -34,25 +34,30 @@ __device__ __host__ inline double cos_deg(double a){
 }
 
 
-__device__ inline float getDistance(double lat1, double lon1, double lat2, double lon2){
-  return  float(R_EARTH * acos(fmin(sin_deg(lat1) * sin_deg(lat2) 
-             + cos_deg(lon1 - lon2) * cos_deg(lat1)* cos_deg(lat2),1.0)));
+__device__ inline float getDistance(double sin_lat1,double cos_lat1, double lon1, double sin_lat2, double cos_lat2, double lon2){
+  return  float(R_EARTH * acos(fmin(sin_lat1 * sin_lat2 
+             + cos_deg(lon1 - lon2) * cos_lat1* cos_lat2,1.0)));
 }
-__global__ void compute_dist_functor(float * lat, float* lon, float * min_dist,const int compare_index, const int maxN)
+
+__global__ void compute_sincoslat_functor(float * lat, double * sin_lat, double* cos_lat,const int maxN)
 {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   if(i < maxN){
-    min_dist[i] = getDistance(lat[i], lon[i], lat[compare_index],lon[compare_index]);
+    double temp = lat[i] * deg_to_rad_fac;
+    sincos(temp, &(sin_lat[i]), &(cos_lat[i]) );
   }
 };
 
-__global__ void init_dist_functor(float * lat, float* lon, float * min_dist,int* parent, float* distance_total_dev, const int compare_index, const int maxN)
+
+
+
+__global__ void init_dist_functor(double * sin_lat, double* cos_lat, float* lon, float * min_dist,int* parent, float* distance_total_dev, const int compare_index, const int maxN)
 {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   
   if(i < maxN){
     if(i == compare_index)  min_dist[i] = FLT_MAX;
-    else min_dist[i] = getDistance(lat[i], lon[i], lat[compare_index],lon[compare_index]);
+    else min_dist[i] = getDistance(sin_lat[i], cos_lat[i], lon[i], sin_lat[compare_index], cos_lat[compare_index],lon[compare_index]);
     
     parent[i] = compare_index;
 
@@ -62,7 +67,7 @@ __global__ void init_dist_functor(float * lat, float* lon, float * min_dist,int*
   }
 };
 
-__global__ void  update_min_dist_functor(float* min_dist, float* lat, float*  lon, int* parent,int* new_in_index, const int maxN)
+__global__ void  update_min_dist_functor(float* min_dist, double* sin_lat, double* cos_lat, float*  lon, int* parent,int* new_in_index, const int maxN)
 {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   if(i < maxN)
@@ -71,7 +76,7 @@ __global__ void  update_min_dist_functor(float* min_dist, float* lat, float*  lo
       return;
     }
     else{
-      float temp = getDistance(lat[i], lon[i],lat[(*new_in_index)], lon[(*new_in_index)]);
+      float temp = getDistance(sin_lat[i], cos_lat[i], lon[i],sin_lat[(*new_in_index)],cos_lat[(*new_in_index)], lon[(*new_in_index)]);
       if(temp < min_dist[i]){
         
         min_dist[i] = temp;
@@ -192,7 +197,10 @@ void prim(float *lat_host, float* lon_host, int* parent_host,
   float* min_min_dist_dev = NULL;
   int* min_min_index_dev_block = NULL;
   float* min_min_dist_dev_block = NULL;
-  
+  double* sin_lat_dev = NULL;
+  double* cos_lat_dev = NULL;
+
+
   const int memory_size_float =  nbVilles * sizeof(float);
   const int memory_size_int =  nbVilles * sizeof(int);
   cudaMalloc((void **)&distance_total_dev, sizeof(float));
@@ -200,6 +208,8 @@ void prim(float *lat_host, float* lon_host, int* parent_host,
   cudaMalloc((void **)&min_min_dist_dev, sizeof(float));
   cudaMalloc((void **)&min_min_index_dev_block, block_size_*sizeof(int));
   cudaMalloc((void **)&min_min_dist_dev_block, block_size_*sizeof(float));
+  cudaMalloc((void **)&sin_lat_dev, nbVilles*sizeof(double));
+  cudaMalloc((void **)&cos_lat_dev, nbVilles*sizeof(double));
 
 
   cudaError_t err_lat = cudaMalloc((void **)&lat_dev, memory_size_float);
@@ -261,7 +271,8 @@ void prim(float *lat_host, float* lon_host, int* parent_host,
 		parent[i] = 0;
 	}
   */
-  init_dist_functor<<<blocksPerGrid, threadsPerBlock>>>(lat_dev, lon_dev, min_dist_dev, parent_dev,distance_total_dev, 0, nbVilles);
+  compute_sincoslat_functor<<<blocksPerGrid, threadsPerBlock>>>(lat_dev, sin_lat_dev, cos_lat_dev,nbVilles);
+  init_dist_functor<<<blocksPerGrid, threadsPerBlock>>>(sin_lat_dev,cos_lat_dev, lon_dev, min_dist_dev, parent_dev,distance_total_dev, 0, nbVilles);
 
   cudaDeviceSynchronize();
   ////cout<< "init: ==================="<<endl;
@@ -361,8 +372,7 @@ void prim(float *lat_host, float* lon_host, int* parent_host,
     //cudaMemcpy(distance_total, distance_total_dev, sizeof(float), cudaMemcpyDeviceToHost);
     ////cout << "min_dist: "<< min_min_dist_host << "index: "<< min_min_index_host << " distance_total: "<< *distance_total<<endl;
 
-
-    update_min_dist_functor<<<blocksPerGrid, threadsPerBlock>>>(min_dist_dev, lat_dev, lon_dev, parent_dev ,min_min_index_dev, nbVilles);
+    update_min_dist_functor<<<blocksPerGrid, threadsPerBlock>>>(min_dist_dev, sin_lat_dev, cos_lat_dev, lon_dev, parent_dev ,min_min_index_dev, nbVilles);
     cudaDeviceSynchronize();
     err = cudaGetLastError();
     if (err != cudaSuccess )
