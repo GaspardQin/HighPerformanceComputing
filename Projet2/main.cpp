@@ -55,8 +55,8 @@ int main() {
 
   // Fin du CHRONO
   high_resolution_clock::time_point timeEnd = high_resolution_clock::now();
-  duration<double> timeSpan = duration_cast<duration<double>>(timeEnd-timeStart);
-  double timeTotal = timeSpan.count();
+  duration<float> timeSpan = duration_cast<duration<float>>(timeEnd-timeStart);
+  float timeTotal = timeSpan.count();
   cout<< endl;
   cout<< "Total time: " << timeTotal << endl;
   cout<< "distance total: " << distance_total << endl;
