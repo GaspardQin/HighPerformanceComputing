@@ -72,7 +72,7 @@ __global__ void  update_min_dist_functor(float* min_dist, double* sin_lat, doubl
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   if(i < maxN)
   {  
-    if(min_dist[i] >= FLT_MAX-10){
+    if(min_dist[i] >= FLT_MAX){
       return;
     }
     else{
@@ -112,17 +112,27 @@ __global__ void reduce_find_min_block(float *min_dist, int * min_min_index_block
 
   while(nTotalThreads > 1)
   {
-    int halfPoint = (nTotalThreads >> 1); // divide by two
-    if (tid < halfPoint)
+    int quaterPoint = (nTotalThreads >> 2); // divide by two
+    if (tid < quaterPoint)
     {
-      int thread2 = tid + halfPoint;
+      int thread2 = tid + quaterPoint;
+      if(min[thread2] < min[tid] ){
+        min[tid] = min[thread2];
+        min_index[tid] = min_index[thread2];
+      }
+      thread2 = tid + 2* quaterPoint;
+      if(min[thread2] < min[tid] ){
+        min[tid] = min[thread2];
+        min_index[tid] = min_index[thread2];
+      }
+      thread2 = tid + 3* quaterPoint;
       if(min[thread2] < min[tid] ){
         min[tid] = min[thread2];
         min_index[tid] = min_index[thread2];
       }
     }
     __syncthreads();
-    nTotalThreads = halfPoint;
+    nTotalThreads = quaterPoint;
   }
 
   if(tid == 0){
@@ -156,17 +166,27 @@ __global__ void reduce_find_min(float* min_dist,int * min_min_index_block, float
 
     while(nTotalThreads > 1)
     {
-      int halfPoint = (nTotalThreads >> 1); // divide by two
-      if (i < halfPoint)
+      int quaterPoint = (nTotalThreads >> 2); // divide by two
+      if (i < quaterPoint)
       {
-        int thread2 = i + halfPoint;
+        int thread2 = i + quaterPoint;
+        if(min[thread2] < min[i]){
+          min[i] = min[thread2];
+          min_index[i] = min_index[thread2];
+        }
+        thread2 = i + 2 * quaterPoint;
+        if(min[thread2] < min[i]){
+          min[i] = min[thread2];
+          min_index[i] = min_index[thread2];
+        }
+        thread2 = i + 3 * quaterPoint;
         if(min[thread2] < min[i]){
           min[i] = min[thread2];
           min_index[i] = min_index[thread2];
         }
       }
       __syncthreads();
-      nTotalThreads = halfPoint;
+      nTotalThreads = quaterPoint;
     }
     if(i == 0){
     
@@ -186,7 +206,7 @@ void prim(float *lat_host, float* lon_host, int* parent_host,
   dim3 threadsPerBlock(256); 
   const int block_size_ =  (nbVilles + threadsPerBlock.x - 1) / threadsPerBlock.x;
   dim3 blocksPerGrid(block_size_);  
-
+  
   // Allocate the device input vector 
   float *lat_dev = NULL;
   float *lon_dev = NULL;
@@ -329,7 +349,7 @@ void prim(float *lat_host, float* lon_host, int* parent_host,
     
     //debug_print(min_dist_host, nbVilles );
     //cout<< "<<<<<<<<<<" <<endl;
-    reduce_find_min_block<<<blocksPerGrid, threadsPerBlock>>>(min_dist_dev, min_min_index_dev_block, min_min_dist_dev_block, nbVilles);
+    reduce_find_min_block<<<blocksPerGrid,threadsPerBlock >>>(min_dist_dev, min_min_index_dev_block, min_min_dist_dev_block, nbVilles);
     cudaDeviceSynchronize();
     if (err != cudaSuccess )
     {
